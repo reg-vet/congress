@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANIMALSTEM 2026 — III Международный конгресс регенеративной ветеринарной медицины</title>
+<meta name="description" content="III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. 2–3 октября 2026, Санкт-Петербург, СПбГУВМ. Доклады, мастер-классы, общение.">
+
+<!-- Favicon (лошадка) -->
+<link rel="icon" type="image/png" href="Логотипы/лошадка без подписи.png">
+<link rel="apple-touch-icon" href="Логотипы/лошадка без подписи.png">
+
+<!-- Open Graph / превью для мессенджеров и соцсетей -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ANIMALSTEM 2026">
+<meta property="og:title" content="ANIMALSTEM 2026 — Международный конгресс регенеративной ветеринарной медицины">
+<meta property="og:description" content="2–3 октября 2026 · Санкт-Петербург, СПбГУВМ. Доклады, мастер-классы, общение. Регистрация бесплатная.">
+<meta property="og:url" content="https://reg-vet.github.io/congress/">
+<meta property="og:image" content="https://reg-vet.github.io/congress/Логотипы/og-banner.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ANIMALSTEM 2026 — конгресс регенеративной ветеринарной медицины">
+<meta name="twitter:description" content="2–3 октября 2026 · Санкт-Петербург, СПбГУВМ. Регистрация бесплатная.">
+<meta name="twitter:image" content="https://reg-vet.github.io/congress/Логотипы/og-banner.jpg">
+
+<!-- Микроразметка мероприятия для поисковиков -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "ANIMALSTEM 2026 — III Международный конгресс регенеративной ветеринарной медицины",
+  "startDate": "2026-10-02",
+  "endDate": "2026-10-03",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "description": "III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. Доклады, мастер-классы и общение. Регистрация бесплатная.",
+  "image": "https://reg-vet.github.io/congress/Логотипы/og-banner.jpg",
+  "url": "https://reg-vet.github.io/congress/",
+  "location": {
+    "@type": "Place",
+    "name": "СПбГУВМ — Санкт-Петербургский государственный университет ветеринарной медицины",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Черниговская, д. 5",
+      "addressLocality": "Санкт-Петербург",
+      "postalCode": "196084",
+      "addressCountry": "RU"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "Стэм Реновацио",
+    "url": "https://reg-vet.github.io/congress/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB",
+    "availability": "https://schema.org/InStock",
+    "url": "https://forms.gle/otXBaPaP1AdRS91cA"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* brand palette — StemCells / ANIMALSTEM */
+    --ink:      #150826;   /* deep aubergine canvas */
+    --ink-2:    #1f0d38;
+    --ink-3:    #2b1350;
+    --violet:   #4a1d6e;
+    --purple:   #7b2d8e;
+    --magenta:  #c2258f;
+    --pink:     #e84b9c;
+    --pink-2:   #ff77b8;
+
+    --paper:    #fbf6fd;   /* light section bg */
+    --paper-2:  #f4e9f8;
+    --card:     #ffffff;
+
+    --text-light:  #f6ecfa;
+    --muted-light: #c6a9db;
+    --text-dark:   #291338;
+    --muted-dark:  #6a5479;
+
+    --border-light: rgba(255,255,255,0.10);
+    --border-dark:  rgba(90,30,120,0.12);
+
+    --grad: linear-gradient(90deg, #7b2d8e 0%, #c2258f 55%, #e84b9c 100%);
+    --grad-br: linear-gradient(135deg, #4a1d6e 0%, #c2258f 60%, #ff77b8 100%);
+
+    --max: 1120px;
+    --display: 'Unbounded', 'Onest', system-ui, sans-serif;
+    --body: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--body);
+    background: var(--paper);
+    color: var(--text-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .grad-text {
+    background: linear-gradient(90deg, #d24a9e, #ff8ac4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 60;
+    background: #180a2c;
+    border-bottom: 1px solid var(--border-light);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand img { height: 40px; width: auto; }
+  .brand-txt { color: var(--text-light); line-height: 1.05; }
+  .brand-txt .b1 { font-family: var(--display); font-weight: 700; font-size: 1.02rem; letter-spacing: 0.02em; }
+  .brand-txt .b2 { font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted-light); }
+  .nav-links { display: flex; gap: 30px; font-size: 0.92rem; }
+  .nav-links a { color: var(--muted-light); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-toggle {
+    display: none; width: 44px; height: 44px; padding: 0; border: 0; cursor: pointer;
+    background: transparent; border-radius: 10px;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text-light); border-radius: 2px; transition: transform .22s, opacity .18s; }
+  nav.open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+  nav.open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    font-family: var(--body); font-weight: 600; line-height: 1; white-space: nowrap;
+    text-decoration: none; cursor: pointer; border: 0;
+    border-radius: 999px; transition: transform .16s, box-shadow .22s, filter .2s;
+  }
+  .btn-grad { background: var(--grad); color: #fff; box-shadow: 0 10px 30px rgba(226,60,150,0.35); }
+  .btn-grad:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 16px 40px rgba(226,60,150,0.45); }
+  nav .btn-grad { padding: 15px 34px; font-size: 0.92rem; letter-spacing: 0.01em; }
+
+  /* ---------- HERO ---------- */
+  header.hero {
+    position: relative;
+    background:
+      radial-gradient(1100px 620px at 78% 8%, rgba(232,75,156,0.30), transparent 60%),
+      radial-gradient(900px 640px at 8% 92%, rgba(75,29,110,0.55), transparent 62%),
+      linear-gradient(180deg, #1a0a30 0%, var(--ink) 70%, #12071f 100%);
+    color: var(--text-light);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #cells { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-inner {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 40px;
+    align-items: center;
+    padding: 64px 0 40px;
+  }
+  .hero-eyebrow { color: var(--pink-2); margin-bottom: 22px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hero-eyebrow .dot-rule { width: 46px; height: 2px; background: var(--grad); border-radius: 2px; display: inline-block; }
+  h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 4.6vw, 3.55rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin: 0 0 22px;
+  }
+  .hero-sub { font-size: 1.12rem; color: var(--muted-light); max-width: 500px; margin: 0 0 18px; }
+  .hero-tagline {
+    display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
+    font-family: var(--display); font-weight: 500; font-size: 0.8rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-light);
+    margin-bottom: 30px;
+  }
+  .hero-tagline span { display: inline-flex; align-items: center; gap: 10px; }
+  .hero-tagline i { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); display: inline-block; }
+
+  .hero-meta { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .meta-row { display: flex; align-items: baseline; gap: 14px; font-size: 0.98rem; }
+  .meta-row .k {
+    font-family: var(--display); font-weight: 500; font-size: 0.64rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted-light); min-width: 92px; flex-shrink: 0;
+  }
+  .meta-row .v { color: var(--text-light); }
+  .meta-row .v b { font-weight: 600; }
+
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .hero-cta .btn-grad { padding: 16px 30px; font-size: 1.03rem; }
+  .btn-ghost {
+    padding: 15px 26px; font-size: 0.98rem; color: var(--text-light);
+    border: 1px solid rgba(255,255,255,0.28); background: rgba(255,255,255,0.03);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.09); transform: translateY(-2px); }
+  .hero-note { margin-top: 14px; font-size: 0.85rem; color: var(--muted-light); }
+
+  /* horse */
+  .hero-art { position: relative; display: flex; justify-content: center; align-items: center; }
+  .hero-art .glow {
+    position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,75,156,0.42), transparent 66%);
+    filter: blur(18px); z-index: 0;
+  }
+  .hero-art img {
+    position: relative; z-index: 1; width: 100%; max-width: 480px; height: auto;
+    filter: drop-shadow(0 26px 60px rgba(232,75,156,0.42));
+    animation: float 7s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+
+  /* partner strip in hero */
+  .hero-partners {
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--border-light);
+    padding: 26px 0 40px;
+    display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+  }
+  .hp-label {
+    font-family: var(--display); font-weight: 500; font-size: 0.62rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted-light); max-width: 150px; line-height: 1.5;
+  }
+  .hp-logos { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .chip {
+    background: #fff; border-radius: 12px; height: 58px; padding: 0 20px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+  }
+  .chip img { max-height: 34px; max-width: 130px; width: auto; object-fit: contain; }
+  a.chip, a.plogo { text-decoration: none; color: inherit; }
+  .chip.add {
+    background: transparent; border: 1.5px dashed rgba(255,255,255,0.28);
+    box-shadow: none; color: var(--muted-light); font-size: 0.82rem; gap: 7px;
+    min-width: 128px; transition: border-color .2s, color .2s;
+  }
+  .chip.add:hover { border-color: var(--pink); color: var(--pink-2); }
+
+  /* ---------- SECTIONS (light) ---------- */
+  section { padding: 92px 0; }
+  .sec-head { max-width: 640px; margin-bottom: 52px; }
+  .sec-head .eyebrow { color: var(--magenta); display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .sec-head .eyebrow::before { content: ""; width: 30px; height: 2px; background: var(--grad); border-radius: 2px; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3.1vw, 2.3rem); line-height: 1.12; letter-spacing: -0.01em; margin: 0 0 16px; color: var(--text-dark); }
+  .sec-head p { color: var(--muted-dark); font-size: 1.05rem; margin: 0; }
+
+  /* format cards (Обучение / Мастер-классы / Общение) */
+  #format { background: var(--paper); }
+  .format-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .fmt-card {
+    position: relative; background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 20px; padding: 34px 30px; overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .fmt-card::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: var(--grad); }
+  .fmt-card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(123,45,142,0.16); }
+  .fmt-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.18rem; margin: 0 0 10px; color: var(--text-dark); }
+  .fmt-card p { margin: 0; color: var(--muted-dark); font-size: 0.96rem; }
+
+  /* topics — cell-dot bullets */
+  #topics { background: linear-gradient(180deg, var(--paper-2), var(--paper)); }
+  .topics-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .topic {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 16px; padding: 22px 24px;
+    transition: transform .18s, box-shadow .18s;
+  }
+  .topic:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(123,45,142,0.12); }
+  .cell {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; margin-top: 2px;
+    background: var(--grad-br);
+    box-shadow: 0 0 0 5px rgba(226,60,150,0.10);
+    position: relative;
+  }
+  .cell::after {
+    content: ""; position: absolute; right: -9px; bottom: -3px;
+    width: 9px; height: 9px; border-radius: 50%; background: var(--pink);
+    box-shadow: -4px 8px 0 -2px var(--pink-2), -11px 12px 0 -4px var(--magenta);
+  }
+  .topic p { margin: 0; font-size: 0.98rem; color: var(--text-dark); }
+
+  /* program */
+  #program { background: var(--paper); }
+  .days { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .day {
+    background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 22px; padding: 34px 32px;
+  }
+  .day-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: 0.68rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: #fff; background: var(--grad); padding: 7px 15px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .day h3 { font-family: var(--display); font-weight: 600; font-size: 1.32rem; margin: 0 0 18px; color: var(--text-dark); }
+  .day ul { list-style: none; margin: 0; padding: 0; }
+  .day li { position: relative; padding-left: 26px; margin-bottom: 14px; color: var(--muted-dark); font-size: 0.97rem; }
+  .day li::before { content: ""; position: absolute; left: 0; top: 9px; width: 10px; height: 10px; border-radius: 50%; background: var(--grad-br); }
+  .day li b { color: var(--text-dark); font-weight: 600; }
+  .prog-note { margin-top: 24px; font-size: 0.9rem; color: var(--muted-dark); font-style: italic; }
+
+  /* partners full */
+  #partners { background: linear-gradient(180deg, var(--paper), var(--paper-2)); }
+  .partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .plogo {
+    background: var(--card); border: 1px solid var(--border-dark); border-radius: 16px;
+    height: 108px; display: flex; align-items: center; justify-content: center; padding: 22px;
+    transition: transform .18s, box-shadow .18s;
+  }
+  .plogo:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(123,45,142,0.12); }
+  .plogo img { max-height: 58px; max-width: 100%; object-fit: contain; }
+  .plogo.add {
+    background: transparent; border: 1.5px dashed rgba(123,45,142,0.32);
+    flex-direction: column; gap: 6px; color: var(--muted-dark); font-size: 0.85rem;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .plogo.add:hover { border-color: var(--magenta); color: var(--magenta); background: rgba(226,60,150,0.04); }
+  .plogo.add .plus { font-family: var(--display); font-weight: 600; font-size: 1.5rem; color: var(--magenta); line-height: 1; }
+  .partners-hint { margin-top: 22px; font-size: 0.88rem; color: var(--muted-dark); }
+
+  /* venue */
+  #venue { background: var(--paper-2); }
+  .venue-box {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 24px; overflow: hidden;
+  }
+  .venue-info { padding: 44px 42px; }
+  .venue-info h3 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; margin: 0 0 6px; color: var(--text-dark); }
+  .venue-info .addr { color: var(--muted-dark); font-size: 1.02rem; margin: 0 0 20px; }
+  .venue-info .org { color: var(--muted-dark); font-size: 0.95rem; margin: 0 0 28px; }
+  .venue-info .org b { color: var(--text-dark); }
+  .venue-side {
+    background: var(--grad-br); color: #fff;
+    padding: 44px 42px; display: flex; flex-direction: column; justify-content: center; gap: 18px;
+  }
+  .venue-side .map-pin { font-size: 2.4rem; }
+  .venue-side h4 { font-family: var(--display); font-weight: 600; font-size: 1.1rem; margin: 0; }
+  .venue-side a {
+    align-self: flex-start; margin-top: 6px; color: var(--magenta); background: #fff;
+    font-weight: 600; text-decoration: none; padding: 12px 22px; border-radius: 999px;
+    transition: transform .16s; font-size: 0.94rem;
+  }
+  .venue-side a:hover { transform: translateY(-2px); }
+  .venue-map { margin-top: 18px; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-dark); line-height: 0; }
+  .venue-map iframe { display: block; width: 100%; border: 0; }
+
+  /* ---------- CTA band (dark) ---------- */
+  .cta-band {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #2a1150 0%, #7b2d8e 55%, #c2258f 100%);
+    color: #fff; text-align: center; padding: 96px 0;
+  }
+  .cta-band h2 { color: #fff; margin-bottom: 16px; }
+  .cta-band p { color: rgba(255,255,255,0.86); max-width: 540px; margin: 0 auto 34px; font-size: 1.06rem; }
+  .cta-band .btn { background: #fff; color: var(--magenta); padding: 18px 40px; font-size: 1.08rem; box-shadow: 0 14px 40px rgba(0,0,0,0.28); }
+  .cta-band .btn:hover { transform: translateY(-3px); }
+
+  /* ---------- FOOTER (dark) ---------- */
+  footer {
+    background: var(--ink); color: var(--muted-light); padding: 62px 0 40px;
+  }
+  .foot-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border-light); }
+  .foot-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .foot-brand img { height: 52px; }
+  .foot-brand .ft { color: var(--text-light); font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
+  .foot-col p { margin: 0 0 6px; font-size: 0.94rem; }
+  .foot-col h5 { font-family: var(--display); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink-2); margin: 0 0 14px; }
+  .foot-col a { color: var(--muted-light); text-decoration: none; }
+  .foot-col a:hover { color: #fff; }
+  .foot-bottom { padding-top: 26px; font-size: 0.84rem; color: var(--muted-light); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; padding: 44px 0 30px; }
+    .hero-art { order: -1; margin-bottom: 8px; }
+    .hero-art img { max-width: 300px; }
+    .format-grid, .topics-grid, .days, .venue-box { grid-template-columns: 1fr; }
+    .partners-grid { grid-template-columns: repeat(2,1fr); }
+    .foot-top { grid-template-columns: 1fr; gap: 28px; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; position: absolute; top: 70px; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: #180a2c; border-bottom: 1px solid var(--border-light);
+      padding: 8px 28px 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+    nav.open .nav-links { display: flex; }
+    .nav-links a { padding: 14px 0; font-size: 1rem; border-bottom: 1px solid var(--border-light); }
+    .nav-links a:last-child { border-bottom: 0; }
+    section { padding: 64px 0; }
+    .venue-side { order: -1; }
+  }
+  @media (max-width: 600px) {
+    .brand-txt { display: none; }
+    nav .btn-grad { padding: 12px 22px; font-size: 0.88rem; }
+    .nav-right { gap: 8px; }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 0 18px; }
+    .meta-row { flex-direction: column; gap: 2px; }
+    .meta-row .k { min-width: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-art img { animation: none; }
+    * { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="Логотипы/лошадка без подписи.png" alt="ANIMALSTEM">
+      <span class="brand-txt">
+        <span class="b1">ANIMALSTEM</span><br>
+        <span class="b2">2026</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#format">Формат</a>
+      <a href="#topics">Темы</a>
+      <a href="#program">Программа</a>
+      <a href="#partners">Партнёры</a>
+      <a href="#venue">Место</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener">Регистрация</a>
+      <button class="nav-toggle" type="button" aria-label="Меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="cells"></canvas>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="hero-eyebrow eyebrow">
+          <span class="dot-rule"></span> III Международный конгресс · 2026
+        </div>
+        <h1>Регенеративная <span class="grad-text">ветеринарная</span> медицина</h1>
+        <p class="hero-sub">
+          Конгресс ANIMALSTEM объединяет ветеринарных врачей, учёных и индустрию
+          вокруг клеточных технологий — от фундаментальных исследований до практики в клинике.
+        </p>
+        <div class="hero-tagline">
+          <span><i></i> Обучение</span>
+          <span><i></i> Мастер-классы</span>
+          <span><i></i> Общение</span>
+        </div>
+
+        <div class="hero-meta">
+          <div class="meta-row"><span class="k">Даты</span><span class="v"><b>2–3 октября 2026</b> · два дня</span></div>
+          <div class="meta-row"><span class="k">Место</span><span class="v"><b>Санкт-Петербург</b>, СПбГУВМ · ул. Черниговская, д. 5</span></div>
+          <div class="meta-row"><span class="k">Формат</span><span class="v">2 дня · пленарные доклады, отраслевые сессии и мастер-классы</span></div>
+        </div>
+
+        <div class="hero-cta">
+          <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener">Зарегистрироваться</a>
+          <a class="btn btn-ghost" href="#program">Смотреть программу</a>
+        </div>
+        <div class="hero-note">Регистрация бесплатная · количество мест ограничено</div>
+      </div>
+
+      <div class="hero-art">
+        <img src="Логотипы/hero-horse.png" width="960" height="960" loading="eager" alt="Символ конгресса ANIMALSTEM — лошадь из стволовых клеток">
+      </div>
+    </div>
+
+    <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
+    <div class="hero-partners">
+      <div class="hp-label">Организаторы и партнёры</div>
+      <div class="hp-logos" id="heroLogos"></div>
+    </div>
+  </div>
+</header>
+
+<section id="format">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">О конгрессе</span>
+      <h2>Три причины приехать</h2>
+      <p>Программа собрана вокруг трёх опор — учиться у практиков, освоить методики руками и найти коллег.</p>
+    </div>
+    <div class="format-grid">
+      <div class="fmt-card">
+        <h3>Обучение</h3>
+        <p>Пленарные доклады о развитии регенеративной медицины — от учёных, вузов и грантовых проектов.</p>
+      </div>
+      <div class="fmt-card">
+        <h3>Мастер-классы</h3>
+        <p>Практические занятия по отбору проб, гистологии и клиническим методикам с ведущими специалистами.</p>
+      </div>
+      <div class="fmt-card">
+        <h3>Общение</h3>
+        <p>Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="topics">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Темы конгресса</span>
+      <h2>Что обсудим</h2>
+      <p>Ключевые направления программы — регенеративные технологии в ветеринарии и медицине человека.</p>
+    </div>
+    <div class="topics-grid">
+      <div class="topic"><span class="cell"></span><p>Применение мезенхимальных стромальных клеток (МСК) в ветеринарии и медицине</p></div>
+      <div class="topic"><span class="cell"></span><p>Регенеративная терапия в лечении и реабилитации лошадей</p></div>
+      <div class="topic"><span class="cell"></span><p>Клинический опыт регенеративной терапии у мелких домашних животных</p></div>
+      <div class="topic"><span class="cell"></span><p>Регенеративные технологии в животноводстве и лечении крупного рогатого скота</p></div>
+      <div class="topic"><span class="cell"></span><p>Современные подходы к лечению заболеваний копыт у сельскохозяйственных животных</p></div>
+      <div class="topic"><span class="cell"></span><p>Клиническое применение методов регенеративной медицины в медицине человека</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="program">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Программа</span>
+      <h2>Два дня конгресса</h2>
+      <p>Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
+    </div>
+    <div class="days">
+      <div class="day">
+        <span class="day-tag">День 1 · Пленарное заседание</span>
+        <h3>Наука и практика</h3>
+        <ul>
+          <li><b>Приветственное слово</b> организаторов и представителей СПбГУВМ</li>
+          <li>Перспективы и направления развития регенеративной медицины</li>
+          <li>Применение МСК в ветеринарии и медицине человека</li>
+          <li>Клинический опыт регенеративной терапии у лошадей и мелких домашних животных</li>
+        </ul>
+      </div>
+      <div class="day">
+        <span class="day-tag">День 2 · Отрасль и мастер-классы</span>
+        <h3>От теории к рукам</h3>
+        <ul>
+          <li>Отраслевые доклады партнёров о применении регенеративных препаратов</li>
+          <li>Регенеративные подходы в животноводстве и коневодстве</li>
+          <li>Мастер-классы по отбору проб и гистологическим исследованиям</li>
+          <li>Практические занятия от ведущих клиницистов</li>
+        </ul>
+      </div>
+    </div>
+    <p class="prog-note">Подробная программа с точным расписанием и составом спикеров будет опубликована позднее.</p>
+  </div>
+</section>
+
+<section id="partners">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Партнёры и организаторы</span>
+      <h2>При поддержке</h2>
+      <p>Конгресс проходит при участии профильных вузов, ассоциаций и компаний отрасли.</p>
+    </div>
+    <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
+    <div class="partners-grid" id="partnersGrid"></div>
+    <p class="partners-hint">Хотите стать партнёром конгресса? Напишите на <a href="mailto:isk@elayamed.ru">isk@elayamed.ru</a></p>
+  </div>
+</section>
+
+<section id="venue">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Место проведения</span>
+      <h2>СПбГУВМ, Санкт-Петербург</h2>
+      <p>Санкт-Петербургский государственный университет ветеринарной медицины.</p>
+    </div>
+    <div class="venue-box">
+      <div class="venue-info">
+        <h3>СПбГУВМ</h3>
+        <p class="addr">196084, Санкт-Петербург, ул. Черниговская, д. 5</p>
+        <p class="org">Организатор конгресса — компания <b>«Стэм Реновацио»</b></p>
+      </div>
+      <div class="venue-side">
+        <span class="map-pin">📍</span>
+        <h4>Как добраться</h4>
+        <a href="https://yandex.ru/maps/?text=Санкт-Петербург, улица Черниговская, 5" target="_blank" rel="noopener">Открыть на карте →</a>
+      </div>
+    </div>
+    <div class="venue-map">
+      <iframe
+        src="https://yandex.ru/map-widget/v1/?text=Санкт-Петербург%2C%20улица%20Черниговская%2C%205&z=16"
+        width="100%" height="380" frameborder="0" allowfullscreen loading="lazy"
+        title="Карта: СПбГУВМ, ул. Черниговская, д. 5, Санкт-Петербург"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Присоединяйтесь к ANIMALSTEM 2026</h2>
+    <p>Заполните короткую форму регистрации, чтобы забронировать место и получать обновления о программе.</p>
+    <a class="btn reg-link" href="#" target="_blank" rel="noopener">Зарегистрироваться →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-col">
+        <div class="foot-brand">
+          <img src="Логотипы/лошадка-Photoroom.png-Photoroom.png" alt="ANIMALSTEM StemCells">
+          <span class="ft">ANIMALSTEM 2026</span>
+        </div>
+        <p>III Международный конгресс регенеративной ветеринарной медицины.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Контакты</h5>
+        <p><a href="https://reg-vet.github.io/congress/" target="_blank" rel="noopener">reg-vet.github.io/congress</a></p>
+        <p><a href="mailto:isk@elayamed.ru">isk@elayamed.ru</a></p>
+        <p><a href="tel:+79205759893">+7 (920) 575-98-93</a></p>
+      </div>
+      <div class="foot-col">
+        <h5>Место</h5>
+        <p>Санкт-Петербург</p>
+        <p>СПбГУВМ, ул. Черниговская, д. 5</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ANIMALSTEM · Стэм Реновацио</span>
+      <span>Регенеративная ветеринарная медицина</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ======================================================================
+   ССЫЛКА НА РЕГИСТРАЦИЮ  —  вставьте сюда адрес вашей Google-формы.
+   Он подставится сразу во все кнопки «Регистрация» / «Зарегистрироваться».
+   ====================================================================== */
+var REG_URL = 'https://forms.gle/otXBaPaP1AdRS91cA';
+
+(function applyRegUrl() {
+  if (!REG_URL || REG_URL.indexOf('PASTE_') === 0) return; // ссылка ещё не задана
+  document.querySelectorAll('.reg-link').forEach(function (a) {
+    a.href = REG_URL;
+  });
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ЛОГОТИПЫ ПАРТНЁРОВ  —  редактируется только этот список
+   ----------------------------------------------------------------------
+   Чтобы добавить компанию:
+     1) положите файл логотипа в папку «Логотипы»;
+     2) допишите строку в список ниже.
+
+   Каждая строка:  { file: 'имя-файла.png', name: 'Название', url: 'https://сайт', hero: true }
+     • file — точное имя файла в папке «Логотипы»
+     • name — название компании (для подписи и доступности)
+     • url  — ссылка на сайт партнёра; оставьте ''  если ссылки нет
+     • hero — необязательно; true = показать логотип ещё и в шапке страницы
+   ====================================================================== */
+var PARTNERS = [
+  { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                         url: '', hero: true },
+  { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'StemCells',                        url: '', hero: true },
+  { file: 'РАКО АПК-Photoroom.png-Photoroom.png',           name: 'РАКО АПК',                          url: '', hero: true },
+  { file: 'Ассоциация вет врачей-Photoroom.png-Photoroom.png', name: 'Ассоциация ветеринарных врачей', url: '' },
+  { file: 'авком-Photoroom.png-Photoroom.png',              name: 'АВКоМ',                            url: '' },
+  { file: 'конная ассоциация-Photoroom.png-Photoroom.png',  name: 'Конная ассоциация',                url: '' },
+  { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' },
+  { file: 'альфавет.png',                                   name: 'Альфавет',                         url: '' },
+  { file: 'logo_avz_white.png',                             name: 'АВЗ',                              url: '' }
+];
+
+(function renderPartners() {
+  function logo(p, cls) {
+    var img = document.createElement('img');
+    img.src = 'Логотипы/' + p.file;
+    img.alt = p.name;
+    img.loading = 'lazy';
+    var box = document.createElement(p.url ? 'a' : 'div');
+    box.className = cls;
+    if (p.url) { box.href = p.url; box.target = '_blank'; box.rel = 'noopener'; box.title = p.name; }
+    box.appendChild(img);
+    return box;
+  }
+  var grid = document.getElementById('partnersGrid');
+  var strip = document.getElementById('heroLogos');
+  PARTNERS.forEach(function (p) {
+    if (grid) grid.appendChild(logo(p, 'plogo'));
+    if (strip && p.hero) strip.appendChild(logo(p, 'chip'));
+  });
+})();
+</script>
+
+<script>
+/* мобильное меню */
+(function () {
+  var nav = document.querySelector('nav');
+  var toggle = nav && nav.querySelector('.nav-toggle');
+  if (!toggle) return;
+  function close() { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+  toggle.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', close);
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var canvas = document.getElementById('cells');
+  if (!canvas) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ctx = canvas.getContext('2d');
+  var hero = canvas.parentElement;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W, H, cells = [];
+  var colors = ['rgba(232,75,156,', 'rgba(255,119,184,', 'rgba(194,37,143,', 'rgba(155,90,200,'];
+
+  function resize() {
+    W = hero.offsetWidth; H = hero.offsetHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    build();
+  }
+  function build() {
+    var n = Math.min(64, Math.round(W / 22));
+    cells = [];
+    for (var i = 0; i < n; i++) {
+      cells.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 2.6 + 0.8,
+        c: colors[(Math.random() * colors.length) | 0],
+        a: Math.random() * 0.5 + 0.12,
+        vy: Math.random() * 0.25 + 0.05,
+        vx: (Math.random() - 0.5) * 0.18,
+        sw: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  var running = false, visible = true;
+  function draw() {
+    if (!visible) { running = false; return; }
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < cells.length; i++) {
+      var p = cells[i];
+      p.sw += 0.01;
+      p.y -= p.vy;
+      p.x += p.vx + Math.sin(p.sw) * 0.15;
+      if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+      if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+      var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+      g.addColorStop(0, p.c + p.a + ')');
+      g.addColorStop(1, p.c + '0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  function start() { if (!running && !reduce) { running = true; requestAnimationFrame(draw); } }
+  function still() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < cells.length; i++) {
+      var p = cells[i];
+      ctx.fillStyle = p.c + p.a + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  if (reduce) {
+    still();
+  } else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting;
+      if (visible) start();
+    }, { threshold: 0 }).observe(hero);
+    start();
+  } else {
+    start();
+  }
+})();
+</script>
+
+</body>
+</html>
