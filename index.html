@@ -270,10 +270,9 @@
   h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3.1vw, 2.3rem); line-height: 1.12; letter-spacing: -0.01em; margin: 0 0 16px; color: var(--text-dark); }
   .sec-head p { color: var(--muted-dark); font-size: 1.05rem; margin: 0; }
 
-  /* format cards (Обучение / Общение) */
+  /* format cards (Наука / Клинический опыт / Общение) */
   #format { background: var(--paper); }
   .format-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
-  .format-grid-2 { grid-template-columns: repeat(2,1fr); max-width: 760px; }
   .fmt-card {
     position: relative; background: var(--card); border: 1px solid var(--border-dark);
     border-radius: 20px; padding: 34px 30px; overflow: hidden;
@@ -479,7 +478,8 @@
           вокруг клеточных технологий — от фундаментальных исследований до практики в клинике.
         </p>
         <div class="hero-tagline">
-          <span><i></i> Обучение</span>
+          <span><i></i> Наука</span>
+          <span><i></i> Клинический опыт</span>
           <span><i></i> Общение</span>
         </div>
 
@@ -514,16 +514,20 @@
     <div class="sec-head">
       <span class="eyebrow">О конгрессе</span>
       <h2>Три причины приехать</h2>
-      <p>Программа собрана вокруг двух опор — учиться у практиков и найти коллег.</p>
+      <p>Один насыщенный день — наука, клинический опыт и профессиональные связи.</p>
     </div>
-    <div class="format-grid format-grid-2">
+    <div class="format-grid">
       <div class="fmt-card">
-        <h3>Обучение</h3>
-        <p>Пленарные доклады о развитии регенеративной медицины — от учёных, вузов и грантовых проектов.</p>
+        <h3>Наука</h3>
+        <p>Пленарные доклады о развитии регенеративной медицины — от учёных, вузов и грантовых проектов. Актуальные исследования из первых рук.</p>
+      </div>
+      <div class="fmt-card">
+        <h3>Клинический опыт</h3>
+        <p>Разбор реальных случаев применения регенеративной терапии у лошадей, мелких домашних животных и КРС — методики, которые работают в клинике уже сегодня.</p>
       </div>
       <div class="fmt-card">
         <h3>Общение</h3>
-        <p>Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями.</p>
+        <p>Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями — контакты и партнёрства, которые сложно найти онлайн.</p>
       </div>
     </div>
   </div>
@@ -581,7 +585,7 @@
     </div>
     <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
     <div class="partners-grid" id="partnersGrid"></div>
-    <p class="partners-hint">Хотите стать партнёром конгресса? Напишите на <a href="mailto:isk@elayamed.ru">isk@elayamed.ru</a></p>
+    <p class="partners-hint">Хотите стать партнёром конгресса? Напишите на <a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
   </div>
 </section>
 
@@ -633,7 +637,6 @@
       </div>
       <div class="foot-col">
         <h5>Контакты</h5>
-        <p><a href="https://reg-vet.github.io/congress/" target="_blank" rel="noopener">reg-vet.github.io/congress</a></p>
         <p><a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
         <p><a href="tel:+79213946834">8-921-394-68-34</a></p>
       </div>
@@ -683,7 +686,7 @@ var PARTNERS = [
   { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                         url: '', hero: true },
   { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'StemCells',                        url: '', hero: true },
   { file: 'РАКО АПК-Photoroom.png-Photoroom.png',           name: 'РАКО АПК',                          url: '', hero: true },
-  { file: 'Ассоциация вет врачей-Photoroom.png-Photoroom.png', name: 'Ассоциация ветеринарных врачей', url: '' },
+  { file: 'vet-association.png',                            name: 'Ассоциация ветеринарных врачей',    url: '' },
   { file: 'авком-Photoroom.png-Photoroom.png',              name: 'АВКоМ',                            url: '' },
   { file: 'конная ассоциация-Photoroom.png-Photoroom.png',  name: 'Конная ассоциация',                url: '' },
   { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' },
