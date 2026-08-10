@@ -160,6 +160,22 @@
     text-decoration: none; cursor: pointer; border: 0;
     border-radius: 999px; transition: transform .16s, box-shadow .22s, filter .2s;
   }
+  /* language switch RU / EN */
+  .lang-switch {
+    display: inline-flex; align-items: center; gap: 2px; flex-shrink: 0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 999px; padding: 3px;
+  }
+  .lang-opt {
+    font-family: var(--display); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.08em;
+    color: var(--muted-light); background: transparent; border: 0; cursor: pointer;
+    padding: 7px 11px; border-radius: 999px; line-height: 1;
+    transition: color .18s, background .18s;
+  }
+  .lang-opt:hover { color: #fff; }
+  .lang-opt.is-active { background: var(--grad); color: #fff; }
+
   .btn-grad { background: var(--grad); color: #fff; box-shadow: 0 10px 30px rgba(226,60,150,0.35); }
   .btn-grad:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 16px 40px rgba(226,60,150,0.45); }
   nav .btn-grad { padding: 15px 34px; font-size: 0.92rem; letter-spacing: 0.01em; }
@@ -424,6 +440,7 @@
     .brand-txt { display: none; }
     nav .btn-grad { padding: 12px 22px; font-size: 0.88rem; }
     .nav-right { gap: 8px; }
+    .lang-opt { padding: 6px 8px; font-size: 0.64rem; letter-spacing: 0.04em; }
   }
   @media (max-width: 520px) {
     .wrap { padding: 0 18px; }
@@ -449,15 +466,19 @@
       </span>
     </a>
     <div class="nav-links">
-      <a href="#format">Формат</a>
-      <a href="#topics">Темы</a>
-      <a href="#program">Программа</a>
-      <a href="#partners">Партнёры</a>
-      <a href="#venue">Место</a>
+      <a href="#format" data-en="Format">Формат</a>
+      <a href="#topics" data-en="Topics">Темы</a>
+      <a href="#program" data-en="Programme">Программа</a>
+      <a href="#partners" data-en="Partners">Партнёры</a>
+      <a href="#venue" data-en="Venue">Место</a>
     </div>
     <div class="nav-right">
-      <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener">Регистрация</a>
-      <button class="nav-toggle" type="button" aria-label="Меню" aria-expanded="false">
+      <div class="lang-switch" role="group" aria-label="Язык / Language">
+        <button type="button" class="lang-opt is-active" data-lang="ru">RU</button>
+        <button type="button" class="lang-opt" data-lang="en">EN</button>
+      </div>
+      <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener" data-en="Register">Регистрация</a>
+      <button class="nav-toggle" type="button" aria-label="Меню" data-en-aria="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -470,30 +491,30 @@
     <div class="hero-inner">
       <div class="hero-copy">
         <div class="hero-eyebrow eyebrow">
-          <span class="dot-rule"></span> III Международный конгресс · 2026
+          <span class="dot-rule"></span> <span data-en="III International Congress · 2026">III Международный конгресс · 2026</span>
         </div>
-        <h1>Регенеративная <span class="grad-text">ветеринарная</span> медицина</h1>
-        <p class="hero-sub">
+        <h1 data-en="Regenerative <span class=&quot;grad-text&quot;>veterinary</span> medicine">Регенеративная <span class="grad-text">ветеринарная</span> медицина</h1>
+        <p class="hero-sub" data-en="The ANIMALSTEM congress brings together veterinary practitioners, researchers and industry around cell technologies, from fundamental research to everyday clinical practice.">
           Конгресс ANIMALSTEM объединяет ветеринарных врачей, учёных и индустрию
           вокруг клеточных технологий — от фундаментальных исследований до практики в клинике.
         </p>
         <div class="hero-tagline">
-          <span><i></i> Наука</span>
-          <span><i></i> Клинический опыт</span>
-          <span><i></i> Общение</span>
+          <span data-en="<i></i> Science"><i></i> Наука</span>
+          <span data-en="<i></i> Clinical experience"><i></i> Клинический опыт</span>
+          <span data-en="<i></i> Networking"><i></i> Общение</span>
         </div>
 
         <div class="hero-meta">
-          <div class="meta-row"><span class="k">Дата</span><span class="v"><b>2 октября 2026</b> · один день</span></div>
-          <div class="meta-row"><span class="k">Место</span><span class="v"><b>Санкт-Петербург</b>, СПбГУВМ · ул. Черниговская, д. 5</span></div>
-          <div class="meta-row"><span class="k">Формат</span><span class="v">1 день · пленарные доклады и отраслевые сессии</span></div>
+          <div class="meta-row"><span class="k" data-en="Date">Дата</span><span class="v" data-en="<b>2 October 2026</b> · one day"><b>2 октября 2026</b> · один день</span></div>
+          <div class="meta-row"><span class="k" data-en="Venue">Место</span><span class="v" data-en="<b>St. Petersburg</b>, SPbGUVM · 5 Chernigovskaya st."><b>Санкт-Петербург</b>, СПбГУВМ · ул. Черниговская, д. 5</span></div>
+          <div class="meta-row"><span class="k" data-en="Format">Формат</span><span class="v" data-en="One day · plenary lectures and industry sessions">1 день · пленарные доклады и отраслевые сессии</span></div>
         </div>
 
         <div class="hero-cta">
-          <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener">Зарегистрироваться</a>
-          <a class="btn btn-ghost" href="#program">Смотреть программу</a>
+          <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener" data-en="Register">Зарегистрироваться</a>
+          <a class="btn btn-ghost" href="#program" data-en="View programme">Смотреть программу</a>
         </div>
-        <div class="hero-note">Регистрация бесплатная · количество мест ограничено</div>
+        <div class="hero-note" data-en="Registration is free · places are limited">Регистрация бесплатная · количество мест ограничено</div>
       </div>
 
       <div class="hero-art">
@@ -503,7 +524,7 @@
 
     <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
     <div class="hero-partners">
-      <div class="hp-label">Организаторы и партнёры</div>
+      <div class="hp-label" data-en="Organizers and partners">Организаторы и партнёры</div>
       <div class="hp-logos" id="heroLogos"></div>
     </div>
   </div>
@@ -512,22 +533,22 @@
 <section id="format">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">О конгрессе</span>
-      <h2>Три причины приехать</h2>
-      <p>Один насыщенный день — наука, клинический опыт и профессиональные связи.</p>
+      <span class="eyebrow" data-en="About the congress">О конгрессе</span>
+      <h2 data-en="Three reasons to attend">Три причины приехать</h2>
+      <p data-en="One intensive day: science, clinical experience and professional connections.">Один насыщенный день — наука, клинический опыт и профессиональные связи.</p>
     </div>
     <div class="format-grid">
       <div class="fmt-card">
-        <h3>Наука</h3>
-        <p>Пленарные доклады о развитии регенеративной медицины — от учёных, вузов и грантовых проектов. Актуальные исследования из первых рук.</p>
+        <h3 data-en="Science">Наука</h3>
+        <p data-en="Plenary lectures on the development of regenerative medicine from researchers, universities and grant-funded projects. Current studies first-hand.">Пленарные доклады о развитии регенеративной медицины — от учёных, вузов и грантовых проектов. Актуальные исследования из первых рук.</p>
       </div>
       <div class="fmt-card">
-        <h3>Клинический опыт</h3>
-        <p>Разбор реальных случаев применения регенеративной терапии у лошадей, мелких домашних животных и КРС — методики, которые работают в клинике уже сегодня.</p>
+        <h3 data-en="Clinical experience">Клинический опыт</h3>
+        <p data-en="Real cases of regenerative therapy in horses, small companion animals and cattle: methods that already work in the clinic today.">Разбор реальных случаев применения регенеративной терапии у лошадей, мелких домашних животных и КРС — методики, которые работают в клинике уже сегодня.</p>
       </div>
       <div class="fmt-card">
-        <h3>Общение</h3>
-        <p>Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями — контакты и партнёрства, которые сложно найти онлайн.</p>
+        <h3 data-en="Networking">Общение</h3>
+        <p data-en="Industry sessions from partners and networking with clinicians, researchers and manufacturers: contacts and partnerships that are hard to find online.">Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями — контакты и партнёрства, которые сложно найти онлайн.</p>
       </div>
     </div>
   </div>
@@ -536,17 +557,17 @@
 <section id="topics">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Темы конгресса</span>
-      <h2>Что обсудим</h2>
-      <p>Ключевые направления программы — регенеративные технологии в ветеринарии и медицине человека.</p>
+      <span class="eyebrow" data-en="Congress topics">Темы конгресса</span>
+      <h2 data-en="What we will discuss">Что обсудим</h2>
+      <p data-en="Key areas of the programme: regenerative technologies in veterinary and human medicine.">Ключевые направления программы — регенеративные технологии в ветеринарии и медицине человека.</p>
     </div>
     <div class="topics-grid">
-      <div class="topic"><span class="cell"></span><p>Применение мезенхимальных стромальных клеток (МСК) в ветеринарии и медицине</p></div>
-      <div class="topic"><span class="cell"></span><p>Регенеративная терапия в лечении и реабилитации лошадей</p></div>
-      <div class="topic"><span class="cell"></span><p>Клинический опыт регенеративной терапии у мелких домашних животных</p></div>
-      <div class="topic"><span class="cell"></span><p>Регенеративные технологии в животноводстве и лечении крупного рогатого скота</p></div>
-      <div class="topic"><span class="cell"></span><p>Современные подходы к лечению заболеваний копыт у сельскохозяйственных животных</p></div>
-      <div class="topic"><span class="cell"></span><p>Клиническое применение методов регенеративной медицины в медицине человека</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Applications of mesenchymal stromal cells (MSCs) in veterinary and human medicine">Применение мезенхимальных стромальных клеток (МСК) в ветеринарии и медицине</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Regenerative therapy in the treatment and rehabilitation of horses">Регенеративная терапия в лечении и реабилитации лошадей</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Clinical experience of regenerative therapy in small companion animals">Клинический опыт регенеративной терапии у мелких домашних животных</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Regenerative technologies in livestock farming and cattle treatment">Регенеративные технологии в животноводстве и лечении крупного рогатого скота</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Current approaches to treating hoof disease in farm animals">Современные подходы к лечению заболеваний копыт у сельскохозяйственных животных</p></div>
+      <div class="topic"><span class="cell"></span><p data-en="Clinical use of regenerative medicine methods in human medicine">Клиническое применение методов регенеративной медицины в медицине человека</p></div>
     </div>
   </div>
 </section>
@@ -554,58 +575,58 @@
 <section id="program">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Программа</span>
-      <h2>Один день конгресса</h2>
-      <p>Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
+      <span class="eyebrow" data-en="Programme">Программа</span>
+      <h2 data-en="One day of the congress">Один день конгресса</h2>
+      <p data-en="The final list of speakers and topics is being confirmed. The general structure of the programme is below.">Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
     </div>
     <div class="days days-1">
       <div class="day">
-        <span class="day-tag">2 октября · Пленарное заседание</span>
-        <h3>Наука и практика</h3>
+        <span class="day-tag" data-en="2 October · Plenary session">2 октября · Пленарное заседание</span>
+        <h3 data-en="Science and practice">Наука и практика</h3>
         <ul>
-          <li><b>Приветственное слово</b> организаторов и представителей СПбГУВМ</li>
-          <li>Перспективы и направления развития регенеративной медицины</li>
-          <li>Применение МСК в ветеринарии и медицине человека</li>
-          <li>Клинический опыт регенеративной терапии у лошадей и мелких домашних животных</li>
-          <li>Отраслевые доклады партнёров о применении регенеративных препаратов</li>
-          <li>Регенеративные подходы в животноводстве и коневодстве</li>
+          <li data-en="<b>Opening remarks</b> by the organizers and representatives of SPbGUVM"><b>Приветственное слово</b> организаторов и представителей СПбГУВМ</li>
+          <li data-en="Prospects and directions in the development of regenerative medicine">Перспективы и направления развития регенеративной медицины</li>
+          <li data-en="Applications of MSCs in veterinary and human medicine">Применение МСК в ветеринарии и медицине человека</li>
+          <li data-en="Clinical experience of regenerative therapy in horses and small companion animals">Клинический опыт регенеративной терапии у лошадей и мелких домашних животных</li>
+          <li data-en="Industry presentations from partners on the use of regenerative preparations">Отраслевые доклады партнёров о применении регенеративных препаратов</li>
+          <li data-en="Regenerative approaches in livestock farming and horse breeding">Регенеративные подходы в животноводстве и коневодстве</li>
         </ul>
       </div>
     </div>
-    <p class="prog-note">Подробная программа с точным расписанием и составом спикеров будет опубликована позднее.</p>
+    <p class="prog-note" data-en="A detailed programme with the exact schedule and list of speakers will be published later.">Подробная программа с точным расписанием и составом спикеров будет опубликована позднее.</p>
   </div>
 </section>
 
 <section id="partners">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Партнёры и организаторы</span>
-      <h2>При поддержке</h2>
-      <p>Конгресс проходит при участии профильных вузов, ассоциаций и компаний отрасли.</p>
+      <span class="eyebrow" data-en="Partners and organizers">Партнёры и организаторы</span>
+      <h2 data-en="With the support of">При поддержке</h2>
+      <p data-en="The congress is held with the participation of specialized universities, professional associations and industry companies.">Конгресс проходит при участии профильных вузов, ассоциаций и компаний отрасли.</p>
     </div>
     <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
     <div class="partners-grid" id="partnersGrid"></div>
-    <p class="partners-hint">Хотите стать партнёром конгресса? Напишите на <a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
+    <p class="partners-hint" data-en="Would you like to become a partner of the congress? Write to <a href='mailto:conf@reg-vet.ru'>conf@reg-vet.ru</a>">Хотите стать партнёром конгресса? Напишите на <a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
   </div>
 </section>
 
 <section id="venue">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">Место проведения</span>
-      <h2>СПбГУВМ, Санкт-Петербург</h2>
-      <p>Санкт-Петербургский государственный университет ветеринарной медицины.</p>
+      <span class="eyebrow" data-en="Venue">Место проведения</span>
+      <h2 data-en="SPbGUVM, St. Petersburg">СПбГУВМ, Санкт-Петербург</h2>
+      <p data-en="Saint Petersburg State University of Veterinary Medicine.">Санкт-Петербургский государственный университет ветеринарной медицины.</p>
     </div>
     <div class="venue-box">
       <div class="venue-info">
-        <h3>СПбГУВМ</h3>
-        <p class="addr">196084, Санкт-Петербург, ул. Черниговская, д. 5</p>
-        <p class="org">Организаторы конгресса — <b>Евразийская Ассоциация регенеративной ветеринарной медицины</b>, <b>Ветакадемия СПб</b>, <b>«Стэм Реновацио»</b>, <b>«Элайя-Мед»</b></p>
+        <h3 data-en="SPbGUVM">СПбГУВМ</h3>
+        <p class="addr" data-en="5 Chernigovskaya st., St. Petersburg, 196084, Russia">196084, Санкт-Петербург, ул. Черниговская, д. 5</p>
+        <p class="org" data-en="Congress organizers: <b>Eurasian Association of Regenerative Veterinary Medicine</b>, <b>Veterinary Academy of St. Petersburg</b>, <b>Stem Renovatio</b>, <b>Elaya-Med</b>">Организаторы конгресса — <b>Евразийская Ассоциация регенеративной ветеринарной медицины</b>, <b>Ветакадемия СПб</b>, <b>«Стэм Реновацио»</b>, <b>«Элайя-Мед»</b></p>
       </div>
       <div class="venue-side">
         <span class="map-pin">📍</span>
-        <h4>Как добраться</h4>
-        <a href="https://yandex.ru/maps/?text=Санкт-Петербург, улица Черниговская, 5" target="_blank" rel="noopener">Открыть на карте →</a>
+        <h4 data-en="How to get there">Как добраться</h4>
+        <a href="https://yandex.ru/maps/?text=Санкт-Петербург, улица Черниговская, 5" target="_blank" rel="noopener" data-en="Open in maps →">Открыть на карте →</a>
       </div>
     </div>
     <div class="venue-map">
@@ -619,9 +640,9 @@
 
 <section class="cta-band">
   <div class="wrap">
-    <h2>Присоединяйтесь к ANIMALSTEM 2026</h2>
-    <p>Заполните короткую форму регистрации, чтобы забронировать место и получать обновления о программе.</p>
-    <a class="btn reg-link" href="#" target="_blank" rel="noopener">Зарегистрироваться →</a>
+    <h2 data-en="Join ANIMALSTEM 2026">Присоединяйтесь к ANIMALSTEM 2026</h2>
+    <p data-en="Fill in the short registration form to reserve your place and receive updates about the programme.">Заполните короткую форму регистрации, чтобы забронировать место и получать обновления о программе.</p>
+    <a class="btn reg-link" href="#" target="_blank" rel="noopener" data-en="Register →">Зарегистрироваться →</a>
   </div>
 </section>
 
@@ -633,22 +654,22 @@
           <img src="Логотипы/лошадка-Photoroom.png-Photoroom.png" alt="ANIMALSTEM StemCells">
           <span class="ft">ANIMALSTEM 2026</span>
         </div>
-        <p>III Международный конгресс регенеративной ветеринарной медицины.</p>
+        <p data-en="III International Congress of Regenerative Veterinary Medicine.">III Международный конгресс регенеративной ветеринарной медицины.</p>
       </div>
       <div class="foot-col">
-        <h5>Контакты</h5>
+        <h5 data-en="Contacts">Контакты</h5>
         <p><a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
         <p><a href="tel:+79213946834">8-921-394-68-34</a></p>
       </div>
       <div class="foot-col">
-        <h5>Место</h5>
-        <p>Санкт-Петербург</p>
-        <p>СПбГУВМ, ул. Черниговская, д. 5</p>
+        <h5 data-en="Venue">Место</h5>
+        <p data-en="St. Petersburg">Санкт-Петербург</p>
+        <p data-en="SPbGUVM, 5 Chernigovskaya st.">СПбГУВМ, ул. Черниговская, д. 5</p>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 ANIMALSTEM · Стэм Реновацио</span>
-      <span>Регенеративная ветеринарная медицина</span>
+      <span data-en="© 2026 ANIMALSTEM · Stem Renovatio">© 2026 ANIMALSTEM · Стэм Реновацио</span>
+      <span data-en="Regenerative veterinary medicine">Регенеративная ветеринарная медицина</span>
     </div>
   </div>
 </footer>
@@ -712,6 +733,69 @@ var PARTNERS = [
     if (grid) grid.appendChild(logo(p, 'plogo'));
     if (strip && p.hero) strip.appendChild(logo(p, 'chip'));
   });
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА  RU / EN
+   ----------------------------------------------------------------------
+   Как это работает: русский текст лежит прямо в HTML, английский - в
+   атрибуте data-en у того же элемента. Чтобы поправить перевод, найдите
+   нужный элемент и отредактируйте его data-en. Чтобы перевести новый
+   блок, просто допишите ему data-en="English text".
+
+   Внутри data-en можно использовать теги (<b>, <i>, <a>). Если нужны
+   кавычки внутри - берите одинарные: data-en="<a href='mailto:...'>...</a>"
+
+   Язык по умолчанию - русский. Выбор пользователя запоминается в браузере.
+   ====================================================================== */
+var PAGE_META = {
+  ru: {
+    title: 'ANIMALSTEM 2026 — III Международный конгресс регенеративной ветеринарной медицины',
+    desc:  'III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. 2 октября 2026, Санкт-Петербург, СПбГУВМ. Доклады, общение.'
+  },
+  en: {
+    title: 'ANIMALSTEM 2026 - III International Congress of Regenerative Veterinary Medicine',
+    desc:  'III International Congress of Regenerative Veterinary Medicine ANIMALSTEM 2026. 2 October 2026, St. Petersburg, SPbGUVM. Lectures and networking.'
+  }
+};
+
+(function languageSwitch() {
+  var STORE_KEY = 'animalstem-lang';
+  var nodes = [], attrNodes = [];
+
+  document.querySelectorAll('[data-en]').forEach(function (el) {
+    nodes.push({ el: el, ru: el.innerHTML, en: el.getAttribute('data-en') });
+  });
+  document.querySelectorAll('[data-en-aria]').forEach(function (el) {
+    attrNodes.push({ el: el, ru: el.getAttribute('aria-label'), en: el.getAttribute('data-en-aria') });
+  });
+
+  function apply(lang) {
+    var isEn = (lang === 'en');
+    nodes.forEach(function (n) { n.el.innerHTML = isEn ? n.en : n.ru; });
+    attrNodes.forEach(function (n) { n.el.setAttribute('aria-label', isEn ? n.en : n.ru); });
+
+    document.documentElement.lang = lang;
+    document.title = PAGE_META[lang].title;
+    var d = document.querySelector('meta[name="description"]');
+    if (d) d.setAttribute('content', PAGE_META[lang].desc);
+
+    document.querySelectorAll('.lang-opt').forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-lang') === lang);
+    });
+
+    try { localStorage.setItem(STORE_KEY, lang); } catch (e) {}
+  }
+
+  document.querySelectorAll('.lang-opt').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
+  if (saved === 'en') apply('en');
 })();
 </script>
 
