@@ -356,6 +356,8 @@
   /* плитка под светлый логотип, рассчитанный на темный фон */
   .plogo.plogo-dark { background: var(--ink-2); border-color: rgba(255,255,255,0.14); }
   .plogo.plogo-dark:hover { box-shadow: 0 16px 38px rgba(31,13,56,0.28); }
+  /* у SVG есть собственный размер, поэтому задаем высоту явно - иначе он мельче соседей */
+  .plogo img[src$=".svg"] { height: 56px; width: auto; max-width: 100%; }
   .plogo.add {
     background: transparent; border: 1.5px dashed rgba(123,45,142,0.32);
     flex-direction: column; gap: 6px; color: var(--muted-dark); font-size: 0.85rem;
