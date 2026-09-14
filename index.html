@@ -101,6 +101,8 @@
   }
 
   * { box-sizing: border-box; }
+  /* display:grid/flex у элемента перебивает атрибут hidden - возвращаем ожидаемое поведение */
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
@@ -1035,6 +1037,13 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       box.hidden = false;
       var fb = document.getElementById('scheduleFallback');
       if (fb) fb.hidden = true;
+
+      // подпись под расписанием меняем: программа уже опубликована, но еще дополняется
+      var note = document.querySelector('.prog-note');
+      if (note) {
+        note.textContent = 'Программа дополняется по мере подтверждения докладов. Актуальная версия всегда на этой странице.';
+        note.setAttribute('data-en', 'The programme is updated as talks are confirmed. This page always shows the current version.');
+      }
     })
     .catch(function (e) {
       // таблица недоступна - молча оставляем запасной блок
