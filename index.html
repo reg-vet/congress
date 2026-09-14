@@ -350,6 +350,36 @@
   .day li b { color: var(--text-dark); font-weight: 600; }
   .prog-note { margin-top: 24px; font-size: 0.9rem; color: var(--muted-dark); font-style: italic; }
 
+  /* ---------- расписание из таблицы ---------- */
+  .sched { display: grid; gap: 10px; }
+  .sched-row {
+    display: grid; grid-template-columns: 116px 1fr; gap: 20px;
+    background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 16px; padding: 18px 22px;
+    transition: transform .16s, box-shadow .16s;
+  }
+  .sched-row:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(123,45,142,0.10); }
+  .sched-time {
+    font-family: var(--display); font-weight: 600; font-size: 0.86rem;
+    color: var(--magenta); white-space: nowrap; padding-top: 2px;
+  }
+  .sched-name { font-weight: 600; color: var(--text-dark); font-size: 1rem; }
+  .sched-reg { color: var(--muted-dark); font-size: 0.85rem; margin-top: 2px; }
+  .sched-topic { color: var(--text-dark); font-size: 0.97rem; margin-top: 7px; }
+  .sched-row.is-break {
+    background: var(--paper-2); border-style: dashed; justify-items: start;
+  }
+  .sched-row.is-break .sched-name { color: var(--muted-dark); font-weight: 600; }
+  .sched-badge {
+    display: inline-block; margin-left: 8px; padding: 3px 9px; border-radius: 999px;
+    font-family: var(--display); font-weight: 600; font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(226,60,150,0.12); color: var(--magenta); vertical-align: middle;
+  }
+  @media (max-width: 600px) {
+    .sched-row { grid-template-columns: 1fr; gap: 6px; padding: 16px 18px; }
+  }
+
   /* partners full */
   #partners { background: linear-gradient(180deg, var(--paper), var(--paper-2)); }
   .partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
@@ -652,7 +682,11 @@
       <h2 data-en="One day of the congress">Один день конгресса</h2>
       <p data-en="The final list of speakers and topics is being confirmed. The general structure of the programme is below.">Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
     </div>
-    <div class="days days-1">
+    <!-- Расписание из Google-таблицы. Пока таблица не подключена или недоступна,
+         показывается запасной блок ниже. -->
+    <div class="sched" id="schedule" hidden></div>
+
+    <div class="days days-1" id="scheduleFallback">
       <div class="day">
         <span class="day-tag" data-en="15 October · Plenary session">15 октября · Пленарное заседание</span>
         <h3 data-en="Science and practice">Наука и практика</h3>
@@ -908,6 +942,99 @@ var PAGE_META = {
   var saved = null;
   try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
   if (saved === 'en') apply('en');
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ПРОГРАММА ИЗ GOOGLE-ТАБЛИЦЫ
+   ----------------------------------------------------------------------
+   1) Откройте таблицу с программой.
+   2) Файл -> Поделиться -> Опубликовать в интернете.
+   3) Выберите лист «Программа» и формат «CSV», нажмите «Опубликовать».
+   4) Скопируйте выданную ссылку и вставьте ее ниже в PROGRAM_CSV.
+
+   На сайт попадают только строки, где в столбце «Публиковать» стоит «да».
+   Если таблица не подключена или недоступна, показывается запасной
+   блок из index.html - страница не ломается никогда.
+   ====================================================================== */
+var PROGRAM_CSV = '';   // <- сюда ссылку вида https://docs.google.com/spreadsheets/d/e/.../pub?gid=0&single=true&output=csv
+
+(function renderProgram() {
+  if (!PROGRAM_CSV) return;
+
+  // разбор CSV с учетом кавычек и переносов строк внутри ячеек
+  function parseCSV(text) {
+    var rows = [], row = [], cur = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (q) {
+        if (ch === '"' && text[i+1] === '"') { cur += '"'; i++; }
+        else if (ch === '"') q = false;
+        else cur += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n') { row.push(cur); rows.push(row); row = []; cur = ''; }
+      else if (ch !== '\r') cur += ch;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+    });
+  }
+
+  fetch(PROGRAM_CSV, { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (text) {
+      var rows = parseCSV(text);
+      // ищем строку заголовков
+      var head = -1;
+      for (var i = 0; i < rows.length && head < 0; i++) {
+        if (rows[i].some(function (c) { return c.trim() === 'Время'; })) head = i;
+      }
+      if (head < 0) throw new Error('нет строки заголовков');
+      var cols = rows[head].map(function (c) { return c.trim(); });
+      var idx = function (n) { return cols.indexOf(n); };
+      var iTime = idx('Время'), iKind = idx('Тип'), iName = idx('Спикер'),
+          iReg  = idx('Регалии'), iTopic = idx('Тема'), iPub = idx('Публиковать');
+
+      var html = '', shown = 0;
+      for (var j = head + 1; j < rows.length; j++) {
+        var r = rows[j];
+        var get = function (k) { return k >= 0 && r[k] ? r[k].trim() : ''; };
+        if (get(iPub).toLowerCase() !== 'да') continue;
+        if (get(iTime).indexOf('ПРИМЕР') === 0) continue;
+        var name = get(iName), reg = get(iReg), topic = get(iTopic), kind = get(iKind);
+        if (!name && !topic) continue;
+        var isBreak = kind === 'перерыв';
+        html += '<div class="sched-row' + (isBreak ? ' is-break' : '') + '">' +
+                  '<div class="sched-time">' + esc(get(iTime)) + '</div>' +
+                  '<div>' +
+                    (name ? '<div class="sched-name">' + esc(name) +
+                      (kind === 'спонсор' ? '<span class="sched-badge">партнер</span>' : '') +
+                    '</div>' : '') +
+                    (reg ? '<div class="sched-reg">' + esc(reg) + '</div>' : '') +
+                    (topic ? '<div class="sched-topic">' + esc(topic) + '</div>' : '') +
+                  '</div>' +
+                '</div>';
+        shown++;
+      }
+      if (!shown) throw new Error('нет строк со значением «да»');
+
+      var box = document.getElementById('schedule');
+      box.innerHTML = html;
+      box.hidden = false;
+      var fb = document.getElementById('scheduleFallback');
+      if (fb) fb.hidden = true;
+    })
+    .catch(function (e) {
+      // таблица недоступна - молча оставляем запасной блок
+      if (window.console) console.warn('Программа из таблицы не загрузилась:', e.message);
+    });
 })();
 </script>
 
