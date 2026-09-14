@@ -400,6 +400,57 @@
   .cta-band .btn { background: #fff; color: var(--magenta); padding: 18px 40px; font-size: 1.08rem; box-shadow: 0 14px 40px rgba(0,0,0,0.28); }
   .cta-band .btn:hover { transform: translateY(-3px); }
 
+  /* ---------- СОЦСЕТИ ---------- */
+  .social { display: flex; flex-wrap: wrap; gap: 10px; }
+  .soc {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 11px 18px; border-radius: 999px; text-decoration: none;
+    font-size: 0.88rem; font-weight: 600; line-height: 1;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06); color: var(--text-light);
+    transition: background .18s, border-color .18s, transform .16s;
+  }
+  .soc:hover { background: rgba(255,255,255,0.13); border-color: var(--pink); transform: translateY(-2px); }
+  .soc .tag {
+    font-family: var(--display); font-weight: 700; font-size: 0.62rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--pink-2);
+  }
+  .cta-band .soc { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.12); color: #fff; }
+  .cta-band .soc .tag { color: #ffd9ec; }
+  .cta-band .social { justify-content: center; margin-top: 26px; }
+  .cta-social-note { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin: 30px 0 0; }
+
+  /* ---------- МОДАЛКА «ПОДПИШИТЕСЬ» ---------- */
+  .sub-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 22px; }
+  .sub-modal[hidden] { display: none; }
+  .sub-backdrop { position: absolute; inset: 0; background: rgba(15,5,28,0.72); backdrop-filter: blur(3px); }
+  .sub-card {
+    position: relative; z-index: 1; max-width: 480px; width: 100%;
+    background: linear-gradient(160deg, #24103f 0%, #1a0a30 100%);
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 24px;
+    padding: 34px 32px 28px; color: var(--text-light);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    animation: subIn .22s ease-out;
+  }
+  @keyframes subIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .sub-card .eyebrow { color: var(--pink-2); display: block; margin-bottom: 12px; }
+  .sub-card h3 { font-family: var(--display); font-weight: 700; font-size: 1.3rem; margin: 0 0 10px; color: #fff; }
+  .sub-card p { margin: 0 0 22px; font-size: 0.95rem; color: var(--muted-light); }
+  .sub-card .social { flex-direction: column; }
+  .sub-card .soc { justify-content: flex-start; }
+  .sub-x {
+    position: absolute; top: 14px; right: 14px; width: 36px; height: 36px;
+    border: 0; border-radius: 50%; cursor: pointer; font-size: 1.3rem; line-height: 1;
+    background: rgba(255,255,255,0.08); color: var(--muted-light);
+  }
+  .sub-x:hover { background: rgba(255,255,255,0.16); color: #fff; }
+  .sub-later {
+    margin-top: 18px; background: none; border: 0; cursor: pointer;
+    color: var(--muted-light); font-size: 0.88rem; font-family: var(--body);
+    text-decoration: underline; padding: 0;
+  }
+  .sub-later:hover { color: #fff; }
+
   /* ---------- FOOTER (dark) ---------- */
   footer {
     background: var(--ink); color: var(--muted-light); padding: 62px 0 40px;
@@ -643,6 +694,18 @@
     <h2 data-en="Join ANIMALSTEM 2026">Присоединяйтесь к ANIMALSTEM 2026</h2>
     <p data-en="Fill in the short registration form to reserve your place and receive updates about the programme.">Заполните короткую форму регистрации, чтобы забронировать место и получать обновления о программе.</p>
     <a class="btn reg-link" href="#" target="_blank" rel="noopener" data-en="Register →">Зарегистрироваться →</a>
+    <p class="cta-social-note" data-en="And subscribe so you do not miss the programme and the speakers:">И подпишитесь, чтобы не пропустить программу и спикеров:</p>
+    <div class="social">
+      <a class="soc" href="https://t.me/animalstem" target="_blank" rel="noopener">
+        <span class="tag">Telegram</span> ANIMALSTEM
+      </a>
+      <a class="soc" href="https://vk.ru/animalstem2026" target="_blank" rel="noopener">
+        <span class="tag">ВКонтакте</span> ANIMALSTEM
+      </a>
+      <a class="soc" href="https://vk.ru/reginox_ns" target="_blank" rel="noopener">
+        <span class="tag">ВКонтакте</span> Реджинокс
+      </a>
+    </div>
   </div>
 </section>
 
@@ -660,6 +723,10 @@
         <h5 data-en="Contacts">Контакты</h5>
         <p><a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a></p>
         <p><a href="tel:+79213946834">8-921-394-68-34</a></p>
+        <h5 style="margin-top:22px" data-en="Follow us">Мы в соцсетях</h5>
+        <p><a href="https://t.me/animalstem" target="_blank" rel="noopener">Telegram · ANIMALSTEM</a></p>
+        <p><a href="https://vk.ru/animalstem2026" target="_blank" rel="noopener">ВКонтакте · ANIMALSTEM</a></p>
+        <p><a href="https://vk.ru/reginox_ns" target="_blank" rel="noopener">ВКонтакте · Реджинокс</a></p>
       </div>
       <div class="foot-col">
         <h5 data-en="Venue">Место</h5>
@@ -673,6 +740,29 @@
     </div>
   </div>
 </footer>
+
+<!-- Окно с предложением подписаться. Показывается после клика по «Регистрация» -->
+<div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-labelledby="subTitle" hidden>
+  <div class="sub-backdrop" data-sub-close></div>
+  <div class="sub-card">
+    <button class="sub-x" type="button" data-sub-close aria-label="Закрыть" data-en-aria="Close">&times;</button>
+    <span class="eyebrow" data-en="One more step">Остался один шаг</span>
+    <h3 id="subTitle" data-en="Subscribe to our channels">Подпишитесь на наши каналы</h3>
+    <p data-en="The registration form has opened in the next tab. After you submit it, subscribe: we post the programme, the speakers and any changes there first.">Форма регистрации открылась в соседней вкладке. После отправки подпишитесь - там первыми публикуем программу, спикеров и все изменения.</p>
+    <div class="social">
+      <a class="soc" href="https://t.me/animalstem" target="_blank" rel="noopener">
+        <span class="tag">Telegram</span> ANIMALSTEM
+      </a>
+      <a class="soc" href="https://vk.ru/animalstem2026" target="_blank" rel="noopener">
+        <span class="tag">ВКонтакте</span> ANIMALSTEM
+      </a>
+      <a class="soc" href="https://vk.ru/reginox_ns" target="_blank" rel="noopener">
+        <span class="tag">ВКонтакте</span> Реджинокс
+      </a>
+    </div>
+    <button class="sub-later" type="button" data-sub-close data-en="Later">Позже</button>
+  </div>
+</div>
 
 <script>
 /* ======================================================================
@@ -795,6 +885,45 @@ var PAGE_META = {
   var saved = null;
   try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
   if (saved === 'en') apply('en');
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ПРЕДЛОЖЕНИЕ ПОДПИСАТЬСЯ ПОСЛЕ РЕГИСТРАЦИИ
+   ----------------------------------------------------------------------
+   Форма открывается в соседней вкладке, а здесь через полторы секунды
+   появляется окно со ссылками. Человек заполняет форму и, вернувшись
+   на сайт, видит предложение подписаться.
+
+   Показывается один раз на браузер, чтобы не надоедать повторным visits.
+   Чтобы показывать каждый раз - удалите строки с localStorage.
+   ====================================================================== */
+(function subscribePrompt() {
+  var modal = document.getElementById('subModal');
+  if (!modal) return;
+  var KEY = 'animalstem-sub-prompt';
+  var DELAY = 1500;
+
+  function open()  { modal.hidden = false; }
+  function close() { modal.hidden = true; }
+
+  modal.querySelectorAll('[data-sub-close]').forEach(function (el) {
+    el.addEventListener('click', close);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !modal.hidden) close();
+  });
+
+  document.querySelectorAll('.reg-link').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var shown = false;
+      try { shown = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      if (shown) return;
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      setTimeout(open, DELAY);
+    });
+  });
 })();
 </script>
 
