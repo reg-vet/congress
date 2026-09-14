@@ -417,8 +417,11 @@
   }
   .cta-band .soc { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.12); color: #fff; }
   .cta-band .soc .tag { color: #ffd9ec; }
-  .cta-band .social { justify-content: center; margin-top: 26px; }
-  .cta-social-note { color: rgba(255,255,255,0.8); font-size: 0.92rem; margin: 30px 0 0; }
+  .cta-band .social { justify-content: center; margin-top: 22px; }
+  .cta-band p.cta-social-note {
+    color: rgba(255,255,255,0.82); font-size: 0.95rem;
+    margin: 46px auto 0; max-width: 560px;
+  }
 
   /* ---------- МОДАЛКА «ПОДПИШИТЕСЬ» ---------- */
   .sub-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 22px; }
@@ -892,18 +895,19 @@ var PAGE_META = {
 /* ======================================================================
    ПРЕДЛОЖЕНИЕ ПОДПИСАТЬСЯ ПОСЛЕ РЕГИСТРАЦИИ
    ----------------------------------------------------------------------
-   Форма открывается в соседней вкладке, а здесь через полторы секунды
+   Форма открывается в соседней вкладке, а здесь через секунду с небольшим
    появляется окно со ссылками. Человек заполняет форму и, вернувшись
    на сайт, видит предложение подписаться.
 
-   Показывается один раз на браузер, чтобы не надоедать повторным visits.
-   Чтобы показывать каждый раз - удалите строки с localStorage.
+   Срабатывает на ЛЮБУЮ кнопку регистрации (их на странице три: в шапке,
+   в первом экране и в нижнем блоке) и КАЖДЫЙ раз, без ограничений.
+   Задержка задается в DELAY.
    ====================================================================== */
 (function subscribePrompt() {
   var modal = document.getElementById('subModal');
   if (!modal) return;
-  var KEY = 'animalstem-sub-prompt';
-  var DELAY = 1500;
+  var DELAY = 1200;
+  var timer = null;
 
   function open()  { modal.hidden = false; }
   function close() { modal.hidden = true; }
@@ -917,11 +921,8 @@ var PAGE_META = {
 
   document.querySelectorAll('.reg-link').forEach(function (a) {
     a.addEventListener('click', function () {
-      var shown = false;
-      try { shown = localStorage.getItem(KEY) === '1'; } catch (e) {}
-      if (shown) return;
-      try { localStorage.setItem(KEY, '1'); } catch (e) {}
-      setTimeout(open, DELAY);
+      clearTimeout(timer);
+      timer = setTimeout(open, DELAY);
     });
   });
 })();
