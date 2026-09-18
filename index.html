@@ -629,7 +629,7 @@
 
     <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
     <div class="hero-partners">
-      <div class="hp-label" data-en="Organizers and partners">Организаторы и партнёры</div>
+      <div class="hp-label" data-en="Organizers">Организаторы</div>
       <div class="hp-logos" id="heroLogos"></div>
     </div>
   </div>
@@ -852,15 +852,15 @@ var REG_URL = 'https://forms.gle/otXBaPaP1AdRS91cA';
      • hero — необязательно; true = показать логотип ещё и в шапке страницы
    ====================================================================== */
 var PARTNERS = [
-  { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                          url: '', hero: true },
-  { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'StemCells',                        url: '', hero: true },
-  { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '', hero: true },
-  { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '', hero: true },
-  { file: 'авком-Photoroom.png-Photoroom.png',              name: 'АВКоМ',                            url: '' },
-  { file: 'конная ассоциация-Photoroom.png-Photoroom.png',  name: 'Конная ассоциация',                url: '' },
+  /* hero: true - логотип показывается в верхней строке «Организаторы».
+     Там должны быть только организаторы, остальные идут в блок «При поддержке». */
+  { file: 'авком-Photoroom.png-Photoroom.png',              name: 'АВКоМ',                            url: '', hero: true },
+  { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                          url: '' },
+  { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'StemCells',                        url: '' },
+  { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '' },
+  { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '' },
   { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' },
-  { file: 'альфавет.png',                                   name: 'Альфавет',                         url: '' },
-  { file: 'rshb-venture.svg',                               name: 'РСХБ Венчур',                      url: '', hero: true, dark: true }
+  { file: 'rshb-venture.svg',                               name: 'РСХБ Венчур',                      url: '', dark: true }
 ];
 
 (function renderPartners() {
