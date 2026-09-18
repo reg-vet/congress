@@ -51,8 +51,11 @@
   },
   "organizer": [
     { "@type": "Organization", "name": "Евразийская Ассоциация регенеративной ветеринарной медицины" },
+    { "@type": "Organization", "name": "Ассоциация врачей конной медицины (АВКоМ)" }
+  ],
+  "sponsor": [
     { "@type": "Organization", "name": "Ветакадемия СПб" },
-    { "@type": "Organization", "name": "Стэм Реновацио", "url": "https://reg-vet.github.io/congress/" },
+    { "@type": "Organization", "name": "Стэм Реновацио" },
     { "@type": "Organization", "name": "Элайя-Мед" }
   ],
   "offers": {
@@ -267,15 +270,15 @@
   }
   .hp-logos { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .chip {
-    background: #fff; border-radius: 12px; height: 58px; padding: 0 20px;
+    background: #fff; border-radius: 14px; height: 74px; padding: 0 24px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 8px 24px rgba(0,0,0,0.22);
   }
-  .chip img { max-height: 34px; max-width: 130px; width: auto; object-fit: contain; }
+  .chip img { max-height: 48px; max-width: 168px; width: auto; object-fit: contain; }
   .chip.chip-dark img {
     box-sizing: content-box;
-    height: 22px; width: auto; max-height: none;
-    padding: 7px 11px;
+    height: 30px; width: auto; max-height: none;
+    padding: 8px 13px;
     background: var(--ink-2);
     border-radius: 9px;
   }
@@ -387,20 +390,20 @@
   .partners-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .plogo {
     background: var(--card); border: 1px solid var(--border-dark); border-radius: 16px;
-    height: 108px; display: flex; align-items: center; justify-content: center; padding: 22px;
+    height: 132px; display: flex; align-items: center; justify-content: center; padding: 22px 24px;
     transition: transform .18s, box-shadow .18s;
   }
   .plogo:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(123,45,142,0.12); }
-  .plogo img { max-height: 58px; max-width: 100%; object-fit: contain; }
+  .plogo img { max-height: 84px; max-width: 100%; object-fit: contain; }
   /* у SVG есть собственный размер, поэтому задаем высоту явно - иначе он мельче соседей */
-  .plogo img[src$=".svg"] { height: 56px; width: auto; max-width: 100%; }
+  .plogo img[src$=".svg"] { height: 78px; width: auto; max-width: 100%; }
 
   /* Светлый логотип, рассчитанный на темный фон: плитка остается белой,
      а под сам логотип подкладывается темная скругленная подложка. */
   .plogo.plogo-dark img {
     box-sizing: content-box;
-    height: 38px; width: auto;
-    padding: 12px 18px;
+    height: 52px; width: auto;
+    padding: 14px 20px;
     background: var(--ink-2);
     border-radius: 12px;
   }
@@ -423,7 +426,8 @@
   .venue-info { padding: 44px 42px; }
   .venue-info h3 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; margin: 0 0 6px; color: var(--text-dark); }
   .venue-info .addr { color: var(--muted-dark); font-size: 1.02rem; margin: 0 0 20px; }
-  .venue-info .org { color: var(--muted-dark); font-size: 0.95rem; margin: 0 0 28px; }
+  .venue-info .org { color: var(--muted-dark); font-size: 0.95rem; margin: 0 0 9px; }
+  .venue-info .org:last-of-type { margin-bottom: 28px; }
   .venue-info .org b { color: var(--text-dark); }
   .venue-side {
     background: var(--grad-br); color: #fff;
@@ -730,7 +734,8 @@
       <div class="venue-info">
         <h3 data-en="SPbGUVM">СПбГУВМ</h3>
         <p class="addr" data-en="5 Chernigovskaya st., St. Petersburg, 196084, Russia">196084, Санкт-Петербург, ул. Черниговская, д. 5</p>
-        <p class="org" data-en="Congress organizers: <b>Eurasian Association of Regenerative Veterinary Medicine</b>, <b>Veterinary Academy of St. Petersburg</b>, <b>Stem Renovatio</b>, <b>Elaya-Med</b>">Организаторы конгресса — <b>Евразийская Ассоциация регенеративной ветеринарной медицины</b>, <b>Ветакадемия СПб</b>, <b>«Стэм Реновацио»</b>, <b>«Элайя-Мед»</b></p>
+        <p class="org" data-en="Congress organizers: <b>Eurasian Association of Regenerative Veterinary Medicine</b> and the <b>Association of Equine Medicine Practitioners (AVKoM)</b>">Организаторы конгресса — <b>Евразийская Ассоциация регенеративной ветеринарной медицины</b> и <b>Ассоциация врачей конной медицины (АВКоМ)</b></p>
+        <p class="org" data-en="With the support of <b>the Veterinary Academy of St. Petersburg</b>, <b>Stem Renovatio</b> and <b>Elaya-Med</b>">При поддержке <b>Ветакадемии СПб</b>, <b>«Стэм Реновацио»</b> и <b>«Элайя-Мед»</b></p>
       </div>
       <div class="venue-side">
         <span class="map-pin">📍</span>
@@ -854,9 +859,9 @@ var REG_URL = 'https://forms.gle/otXBaPaP1AdRS91cA';
 var PARTNERS = [
   /* hero: true - логотип показывается в верхней строке «Организаторы».
      Там должны быть только организаторы, остальные идут в блок «При поддержке». */
-  { file: 'авком-Photoroom.png-Photoroom.png',              name: 'АВКоМ',                            url: '', hero: true },
+  { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'Евразийская Ассоциация регенеративной ветеринарной медицины', url: '', hero: true },
+  { file: 'авком-Photoroom.png-Photoroom.png',              name: 'Ассоциация врачей конной медицины (АВКоМ)', url: '', hero: true },
   { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                          url: '' },
-  { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'StemCells',                        url: '' },
   { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '' },
   { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '' },
   { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' },
