@@ -269,6 +269,20 @@
     text-transform: uppercase; color: var(--muted-light); max-width: 150px; line-height: 1.5;
   }
   .hp-logos { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hp-group { display: flex; align-items: center; gap: 22px; }
+  .hp-group-support { position: relative; padding-left: 44px; }
+  .hp-group-support::before {
+    content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 1px; height: 54px; background: rgba(255,255,255,0.16);
+  }
+  /* поддержка - визуально тише организаторов */
+  .hp-group-support .chip { height: 62px; padding: 0 18px; }
+  .hp-group-support .chip img { max-height: 38px; max-width: 140px; }
+  .hp-group-support .chip.chip-dark img { height: 24px; padding: 7px 11px; }
+  @media (max-width: 900px) {
+    .hp-group-support { padding-left: 0; }
+    .hp-group-support::before { display: none; }
+  }
   .chip {
     background: #fff; border-radius: 14px; height: 74px; padding: 0 24px;
     display: flex; align-items: center; justify-content: center;
@@ -633,8 +647,14 @@
 
     <!-- Логотипы подставляются из списка PARTNERS внизу страницы (в теге <script>) -->
     <div class="hero-partners">
-      <div class="hp-label" data-en="Organizers">Организаторы</div>
-      <div class="hp-logos" id="heroLogos"></div>
+      <div class="hp-group">
+        <div class="hp-label" data-en="Organizers">Организаторы</div>
+        <div class="hp-logos" id="heroLogos"></div>
+      </div>
+      <div class="hp-group hp-group-support">
+        <div class="hp-label" data-en="With the support of">При поддержке</div>
+        <div class="hp-logos" id="heroSupport"></div>
+      </div>
     </div>
   </div>
 </header>
@@ -859,13 +879,16 @@ var REG_URL = 'https://forms.gle/otXBaPaP1AdRS91cA';
 var PARTNERS = [
   /* hero: true - логотип показывается в верхней строке «Организаторы».
      Там должны быть только организаторы, остальные идут в блок «При поддержке». */
+  /* hero: true - верхняя строка «Организаторы»
+     support: true - верхняя строка «При поддержке»
+     без флага - только блок «При поддержке» внизу страницы */
   { file: 'лошадка-Photoroom.png-Photoroom.png',            name: 'Евразийская Ассоциация регенеративной ветеринарной медицины', url: '', hero: true },
   { file: 'авком-Photoroom.png-Photoroom.png',              name: 'Ассоциация врачей конной медицины (АВКоМ)', url: '', hero: true },
-  { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                          url: '' },
-  { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '' },
-  { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '' },
-  { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' },
-  { file: 'rshb-venture.svg',                               name: 'РСХБ Венчур',                      url: '', dark: true }
+  { file: 'СПБГУВМ-Photoroom.png-Photoroom.png',            name: 'СПбГУВМ',                          url: '', support: true },
+  { file: 'rshb-venture.svg',                               name: 'РСХБ Венчур',                      url: '', support: true, dark: true },
+  { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '', support: true },
+  { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '', support: true },
+  { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' }
 ];
 
 (function renderPartners() {
@@ -882,10 +905,15 @@ var PARTNERS = [
   }
   var grid = document.getElementById('partnersGrid');
   var strip = document.getElementById('heroLogos');
+  var support = document.getElementById('heroSupport');
   PARTNERS.forEach(function (p) {
     if (grid) grid.appendChild(logo(p, 'plogo'));
     if (strip && p.hero) strip.appendChild(logo(p, 'chip'));
+    if (support && p.support) support.appendChild(logo(p, 'chip'));
   });
+  // если группа «При поддержке» пуста - прячем ее вместе с подписью
+  var supGroup = document.querySelector('.hp-group-support');
+  if (supGroup && support && !support.children.length) supGroup.hidden = true;
 })();
 </script>
 
