@@ -393,6 +393,12 @@
     font-size: 0.9rem; color: rgba(246,236,250,0.92); line-height: 1.5;
   }
   .join-note b { color: #fff; font-weight: 600; }
+  .join-note-light {
+    margin-top: auto; background: var(--paper-2); border-color: var(--border-dark);
+    color: var(--muted-dark);
+  }
+  .join-note-light b { color: var(--text-dark); }
+  .join-card-online .join-note { margin-top: auto; }
 
   @media (max-width: 900px) { .join-grid { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
@@ -661,7 +667,8 @@
       </span>
     </a>
     <div class="nav-links">
-      <a href="#format" data-en="Format">Формат</a>
+      <a href="#format" data-en="About">О конгрессе</a>
+      <a href="#join" data-en="Taking part">Участие</a>
       <a href="#topics" data-en="Topics">Темы</a>
       <a href="#program" data-en="Programme">Программа</a>
       <a href="#partners" data-en="Partners">Партнёры</a>
@@ -773,6 +780,7 @@
           <li data-en="Talking to the speakers during the breaks">Общение с докладчиками в перерывах</li>
           <li data-en="A personal certificate of participation">Именной сертификат участника</li>
         </ul>
+        <p class="join-note join-note-light" data-en="Participation is free, but <b>the number of seats in the hall is limited</b> - it is worth registering in advance.">Участие бесплатное, но <b>мест в зале ограниченное количество</b> - лучше зарегистрироваться заранее.</p>
       </div>
 
       <div class="join-card join-card-online">
