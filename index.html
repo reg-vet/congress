@@ -506,7 +506,24 @@
   .spk-n2 { font-size: 0.92rem; color: var(--text-light); opacity: .82; margin-top: 3px; line-height: 1.35; }
   .spk-n2:empty { display: none; }
   .spk-role {
-    margin-top: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
+    margin: 12px 0 18px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  /* тема доклада прижата к низу карточки - у соседних карточек плашки стоят на одной линии */
+  .spk-talk {
+    margin-top: auto; align-self: stretch; display: block;
+    padding: 13px 14px 14px; border-radius: 14px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
+    transition: border-color .25s, background .25s;
+  }
+  .spk-card:hover .spk-talk, .spk-card:focus-visible .spk-talk { border-color: rgba(255,119,184,0.32); background: rgba(255,255,255,0.08); }
+  .spk-talk-lbl {
+    display: block; margin-bottom: 7px;
+    font-family: var(--display); font-weight: 600; font-size: 0.58rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink-2);
+  }
+  .spk-talk-t {
+    font-size: 0.86rem; line-height: 1.45; font-weight: 500; color: #fff;
     display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
   }
   .spk-more {
@@ -541,6 +558,7 @@
   .spk-m-talk { padding: 16px 18px; border-radius: 16px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); margin-bottom: 18px; }
   .spk-m-talk .eyebrow { color: var(--pink-2); display: block; margin-bottom: 8px; font-size: .6rem; }
   .spk-m-talk p { margin: 0; color: #fff; font-weight: 600; line-height: 1.5; }
+  .spk-m-talk p + p { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.12); }
   .spk-m-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.10); }
   .spk-m-nav .spk-btn { width: 44px; height: 44px; }
   .spk-m-pos { font-family: var(--display); font-weight: 600; font-size: .7rem; letter-spacing: .14em; color: var(--muted-light); }
@@ -1134,7 +1152,7 @@
     <p class="spk-m-text" id="spkMText"></p>
     <div class="spk-m-talk" id="spkMTalk" hidden>
       <span class="eyebrow" id="spkMTalkLbl">Тема доклада</span>
-      <p id="spkMTalkTxt"></p>
+      <div id="spkMTalkTxt"></div>
     </div>
     <div class="spk-m-nav">
       <button class="spk-btn" type="button" data-spk-step="-1" aria-label="Предыдущий спикер" data-en-aria="Previous speaker">
@@ -1257,76 +1275,99 @@ var PARTNERS = [
      n2   - вторая строка (имя и отчество); можно оставить пустой
      role - коротко о спикере, видно на карточке
      bio  - подробнее, видно в окне по клику; можно не заполнять
-     talk - тема доклада; можно не заполнять
+     talk - тема доклада; можно не заполнять. Если докладов несколько -
+            списком в квадратных скобках: talk: ['Первая тема', 'Вторая тема']
+   speech: true - вместо доклада выступление (например, приветственное слово):
+            тема показывается без кавычек и с подписью «Выступление»
    ====================================================================== */
 var SPEAKERS = [
-  { photo: 'stekolnikov.jpg',
+  { photo: 'stekolnikov.jpg', speech: true,
     ru: { n1: 'Стекольников', n2: 'Анатолий Александрович',
           role: 'Профессор, доктор ветеринарных наук, академик РАН',
-          bio:  'Заслуженный деятель науки Российской Федерации, доктор ветеринарных наук, профессор, академик РАН.' },
+          bio:  'Заслуженный деятель науки Российской Федерации, доктор ветеринарных наук, профессор, академик РАН.',
+          talk: 'Приветственное слово' },
     en: { n1: 'Anatoly Stekolnikov',
           role: 'Professor, Doctor of Veterinary Sciences, Academician of the Russian Academy of Sciences',
-          bio:  'Honoured Scientist of the Russian Federation, Doctor of Veterinary Sciences, Professor, Academician of the Russian Academy of Sciences.' } },
+          bio:  'Honoured Scientist of the Russian Federation, Doctor of Veterinary Sciences, Professor, Academician of the Russian Academy of Sciences.',
+          talk: 'Welcome address' } },
 
-  { photo: 'kontsevaya.jpg',
+  { photo: 'kontsevaya.jpg', speech: true,
     ru: { n1: 'Концевая', n2: 'Светлана Юрьевна',
           role: 'Председатель оргкомитета конгресса, доктор ветеринарных наук, профессор',
-          bio:  'Председатель оргкомитета конгресса. Доктор ветеринарных наук, профессор, академик Российской академии естествознания. Профессор кафедры управления АПК и сельскими территориями ФГБОУ ДПО «Российская академия кадрового обеспечения агропромышленного комплекса» МСХ РФ.' },
+          bio:  'Председатель оргкомитета конгресса. Доктор ветеринарных наук, профессор, академик Российской академии естествознания. Профессор кафедры управления АПК и сельскими территориями ФГБОУ ДПО «Российская академия кадрового обеспечения агропромышленного комплекса» МСХ РФ.',
+          talk: 'Приветственное слово' },
     en: { n1: 'Svetlana Kontsevaya',
           role: 'Chair of the Organizing Committee, Doctor of Veterinary Sciences, Professor',
-          bio:  'Chair of the Congress Organizing Committee. Doctor of Veterinary Sciences, Professor, Member of the Russian Academy of Natural History. Professor at the Department of Agribusiness and Rural Area Management, Russian Academy of Personnel Support for the Agro-Industrial Complex (Ministry of Agriculture of Russia).' } },
+          bio:  'Chair of the Congress Organizing Committee. Doctor of Veterinary Sciences, Professor, Member of the Russian Academy of Natural History. Professor at the Department of Agribusiness and Rural Area Management, Russian Academy of Personnel Support for the Agro-Industrial Complex (Ministry of Agriculture of Russia).',
+          talk: 'Welcome address' } },
 
   { photo: 'lavrik.jpg',
     ru: { n1: 'Лаврик', n2: 'Алексей Анатольевич',
-          role: 'Президент Евразийской ассоциации регенеративной ветеринарной медицины' },
+          role: 'Президент Евразийской ассоциации регенеративной ветеринарной медицины',
+          talk: 'Регинокс - регенеративные средства для животных на основе секретома мезенхимальных стволовых клеток (МСК)' },
     en: { n1: 'Alexey Lavrik',
-          role: 'President of the Eurasian Association of Regenerative Veterinary Medicine' } },
+          role: 'President of the Eurasian Association of Regenerative Veterinary Medicine',
+          talk: 'Reginox: regenerative products for animals based on the mesenchymal stem cell (MSC) secretome' } },
 
   { photo: 'chernysheva.jpg',
     ru: { n1: 'Чернышева', n2: 'Наталья Дмитриевна',
-          role: 'Управляющий директор по технологическому развитию, АО «Россельхозбанк»' },
+          role: 'Управляющий директор по технологическому развитию, АО «Россельхозбанк»',
+          talk: 'Инновации в сельском хозяйстве' },
     en: { n1: 'Natalia Chernysheva',
-          role: 'Managing Director for Technology Development, Russian Agricultural Bank (Rosselkhozbank)' } },
+          role: 'Managing Director for Technology Development, Russian Agricultural Bank (Rosselkhozbank)',
+          talk: 'Innovation in agriculture' } },
 
   { photo: 'joaquim.jpg',
     ru: { n1: 'Жан Жоаким', n2: 'Dr. Jean Joaquim, DVM, MSc, PhD, LAc',
           role: 'Университет штата Сан-Паулу (UNESP, Бразилия). Акупунктура и заболевания межпозвоночных дисков',
-          bio:  'Доктор ветеринарной медицины (1999), магистр (2003) и доктор наук (PhD, 2008) Университета штата Сан-Паулу (UNESP, Бразилия). Специализация: акупунктура и заболевания межпозвоночных дисков. Дополнительная подготовка: Венский университет (Австрия), BEVAS (Бельгия), Пекинский международный центр обучения акупунктуре (Китай).' },
+          bio:  'Доктор ветеринарной медицины (1999), магистр (2003) и доктор наук (PhD, 2008) Университета штата Сан-Паулу (UNESP, Бразилия). Специализация: акупунктура и заболевания межпозвоночных дисков. Дополнительная подготовка: Венский университет (Австрия), BEVAS (Бельгия), Пекинский международный центр обучения акупунктуре (Китай).',
+          talk: 'Опыт применения клеточной терапии у животных в личной практике' },
     en: { n1: 'Dr. Jean Joaquim', n2: 'DVM, MSc, PhD, LAc',
           role: 'São Paulo State University (UNESP, Brazil). Acupuncture and intervertebral disc disease',
-          bio:  'DVM (1999), MSc (2003) and PhD (2008) from São Paulo State University (UNESP, Brazil). Specialization: acupuncture and intervertebral disc disease. Further training: University of Vienna (Austria), BEVAS (Belgium), Beijing International Acupuncture Training Center (China).' } },
+          bio:  'DVM (1999), MSc (2003) and PhD (2008) from São Paulo State University (UNESP, Brazil). Specialization: acupuncture and intervertebral disc disease. Further training: University of Vienna (Austria), BEVAS (Belgium), Beijing International Acupuncture Training Center (China).',
+          talk: 'Cell therapy in animals: experience from my own practice' } },
 
   { photo: 'budiariati.jpg',
     ru: { n1: 'Виста Будиариати', n2: 'Dr. Vista Budiariati',
-          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)' },
+          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)',
+          talk: 'Опыт использования МСК в личной практике' },
     en: { n1: 'Dr. Vista Budiariati',
-          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)' } },
+          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)',
+          talk: 'Using MSCs in my own practice' } },
 
   { photo: 'bokarev.jpg',
     ru: { n1: 'Бокарев', n2: 'Александр Владимирович',
-          role: 'Доцент, доктор ветеринарных наук' },
+          role: 'Доцент, доктор ветеринарных наук',
+          talk: 'Влияние глюкокортикостероидов на способность тромбоцитов к активации (совместно с А. О. Мининой)' },
     en: { n1: 'Alexander Bokarev',
-          role: 'Associate Professor, Doctor of Veterinary Sciences' } },
+          role: 'Associate Professor, Doctor of Veterinary Sciences',
+          talk: 'Effect of glucocorticosteroids on the activation capacity of platelets (with A. O. Minina)' } },
 
   { photo: 'nikitin.jpg',
     ru: { n1: 'Никитин', n2: 'Георгий Сергеевич',
-          role: 'Доцент, кандидат ветеринарных наук, СПбГУВМ' },
+          role: 'Доцент, кандидат ветеринарных наук, СПбГУВМ',
+          talk: 'Секретом МСК в повышении репродуктивного потенциала коров-доноров' },
     en: { n1: 'Georgy Nikitin',
-          role: 'Associate Professor, PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine' } },
+          role: 'Associate Professor, PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine',
+          talk: 'MSC secretome for improving the reproductive potential of donor cows' } },
 
   { photo: 'minina.jpg',
     ru: { n1: 'Минина', n2: 'Анастасия Олеговна',
           role: 'Кандидат ветеринарных наук, доцент кафедры общей, частной и оперативной хирургии СПбГУВМ',
-          talk: 'Исследование регенеративной эффективности секретома МСК при стромальных повреждениях роговицы' },
+          talk: ['Исследование регенеративной эффективности секретома МСК при стромальных повреждениях роговицы',
+                'Влияние глюкокортикостероидов на способность тромбоцитов к активации (совместно с А. В. Бокаревым)'] },
     en: { n1: 'Anastasia Minina',
           role: 'PhD in Veterinary Sciences, Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine',
-          talk: 'Regenerative efficacy of the MSC secretome in corneal stromal injuries' } },
+          talk: ['Regenerative efficacy of the MSC secretome in corneal stromal injuries',
+                'Effect of glucocorticosteroids on the activation capacity of platelets (with A. V. Bokarev)'] } },
 
   { photo: 'shamis.jpg',
     ru: { n1: 'Шамис', n2: 'Эдуард Михайлович',
-          role: 'Главный врач Центра инновационной ветеринарии и реабилитации, член Союза ученых Санкт-Петербурга' },
+          role: 'Главный врач Центра инновационной ветеринарии и реабилитации, член Союза ученых Санкт-Петербурга',
+          talk: 'Клинический опыт использования регенеративной терапии у мелких домашних животных: практические результаты и анализ случаев' },
     en: { n1: 'Eduard Shamis',
-          role: 'Chief Veterinarian, Center for Innovative Veterinary Medicine and Rehabilitation; member of the St. Petersburg Union of Scientists' } },
+          role: 'Chief Veterinarian, Center for Innovative Veterinary Medicine and Rehabilitation; member of the St. Petersburg Union of Scientists',
+          talk: 'Clinical experience with regenerative therapy in small companion animals: practical results and case analysis' } },
 
   { photo: 'makarov.jpg',
     ru: { n1: 'Макаров', n2: 'Иван Николаевич',
@@ -1341,42 +1382,54 @@ var SPEAKERS = [
   { photo: 'romanova.jpg',
     ru: { n1: 'Романова', n2: 'Ольга Владимировна',
           role: 'Кандидат ветеринарных наук, руководитель АВКоМ, практикующий ветеринарный врач',
-          bio:  'Кандидат ветеринарных наук, руководитель АВКоМ, АВВ ФКС, член ВК ФКСР, практикующий ветеринарный врач.' },
+          bio:  'Кандидат ветеринарных наук, руководитель АВКоМ, АВВ ФКС, член ВК ФКСР, практикующий ветеринарный врач.',
+          talk: 'Ремоделирование легких при астме лошадей' },
     en: { n1: 'Olga Romanova',
           role: 'PhD in Veterinary Sciences, Head of the Association of Equine Medicine Practitioners (AVKoM), practicing veterinarian',
-          bio:  'PhD in Veterinary Sciences, Head of the Association of Equine Medicine Practitioners (AVKoM), member of the Veterinary Committee of the Equestrian Federation of Russia, practicing veterinarian.' } },
+          bio:  'PhD in Veterinary Sciences, Head of the Association of Equine Medicine Practitioners (AVKoM), member of the Veterinary Committee of the Equestrian Federation of Russia, practicing veterinarian.',
+          talk: 'Lung remodelling in equine asthma' } },
 
   { photo: 'aliev.jpg',
     ru: { n1: 'Алиев', n2: 'Руслан Умарович',
           role: 'Главный ветеринарный врач клиники «Новый век» и Ветеринарной клиники Доктора Алиева',
-          bio:  'Главный ветеринарный врач ветеринарной клиники «Новый век» и Ветеринарной клиники Доктора Алиева, преподаватель курсов повышения квалификации для ветеринарных врачей.' },
+          bio:  'Главный ветеринарный врач ветеринарной клиники «Новый век» и Ветеринарной клиники Доктора Алиева, преподаватель курсов повышения квалификации для ветеринарных врачей.',
+          talk: 'Стволовые клетки и боль' },
     en: { n1: 'Ruslan Aliev',
           role: 'Chief Veterinarian, Novy Vek Veterinary Clinic and Dr. Aliev Veterinary Clinic',
-          bio:  'Chief Veterinarian of the Novy Vek Veterinary Clinic and the Dr. Aliev Veterinary Clinic, lecturer of continuing education courses for veterinarians.' } },
+          bio:  'Chief Veterinarian of the Novy Vek Veterinary Clinic and the Dr. Aliev Veterinary Clinic, lecturer of continuing education courses for veterinarians.',
+          talk: 'Stem cells and pain' } },
 
   { photo: 'trifonova.jpg',
     ru: { n1: 'Трифонова', n2: 'Анна Валериевна',
-          role: 'Кандидат биологических наук, директор по науке «Элайя-Мед»' },
+          role: 'Кандидат биологических наук, директор по науке «Элайя-Мед»',
+          talk: 'Современные перспективы и направления развития регенеративной медицины в гуманной и ветеринарной медицине' },
     en: { n1: 'Anna Trifonova',
-          role: 'PhD in Biology, Director of Science, Elaya-Med' } },
+          role: 'PhD in Biology, Director of Science, Elaya-Med',
+          talk: 'Current prospects and directions of regenerative medicine in human and veterinary medicine' } },
 
   { photo: 'ali.jpg',
     ru: { n1: 'Али', n2: 'Сабина Гульзаровна',
-          role: 'Кандидат биологических наук' },
+          role: 'Кандидат биологических наук',
+          talk: 'Клеточная терапия - проблематика, история и современное состояние дел' },
     en: { n1: 'Sabina Ali',
-          role: 'PhD in Biology' } },
+          role: 'PhD in Biology',
+          talk: 'Cell therapy: challenges, history and current state' } },
 
   { photo: 'kozhina.jpg',
     ru: { n1: 'Кожина', n2: 'Полина Артемовна',
-          role: 'Ветеринарный врач, научный сотрудник' },
+          role: 'Ветеринарный врач, научный сотрудник',
+          talk: 'Применение МСК для сохранения и повышения качества спермы КРС' },
     en: { n1: 'Polina Kozhina',
-          role: 'Veterinarian, research fellow' } },
+          role: 'Veterinarian, research fellow',
+          talk: 'Using MSCs to preserve and improve the quality of cattle semen' } },
 
   { photo: 'joy.jpg',
     ru: { n1: 'Джой', n2: 'Иван Юрьевич',
-          role: 'Кандидат сельскохозяйственных наук' },
+          role: 'Кандидат сельскохозяйственных наук',
+          talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект до закупки' },
     en: { n1: 'Ivan Joy',
-          role: 'PhD in Agricultural Sciences' } }
+          role: 'PhD in Agricultural Sciences',
+          talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect before buying' } }
 ];
 
 (function speakersCarousel() {
@@ -1393,6 +1446,23 @@ var SPEAKERS = [
     return String(s || '').replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
+  }
+  // темы докладов всегда списком, даже если доклад один
+  function talks(d) {
+    if (!d || !d.talk) return [];
+    return Array.isArray(d.talk) ? d.talk : [d.talk];
+  }
+  // подпись над темой: «Доклад», «2 доклада», «Выступление»; short - для карточки
+  function talkLabel(s, n, isEn, short) {
+    if (s.speech) return isEn ? 'Speech' : 'Выступление';
+    if (n > 1) return short ? (isEn ? n + ' talks' : n + ' ' + plural(n, 'доклад', 'доклада', 'докладов'))
+                            : (isEn ? 'Talks' : 'Темы докладов');
+    return short ? (isEn ? 'Talk' : 'Доклад') : (isEn ? 'Talk' : 'Тема доклада');
+  }
+  // название доклада в кавычках; выступление - без кавычек
+  function quote(t, isEn, plain) {
+    if (plain) return t;
+    return isEn ? '“' + t + '”' : '«' + t + '»';
   }
   // элемент с русским текстом и английским в data-en (его подхватит переключатель языка)
   function txt(cls, ru, en) {
@@ -1424,6 +1494,15 @@ var SPEAKERS = [
     b.appendChild(txt('spk-n1', ru.n1, en.n1));
     b.appendChild(txt('spk-n2', ru.n2, en.n2));
     b.appendChild(txt('spk-role', ru.role, en.role));
+    // тема доклада внизу карточки; если докладов несколько - первая, остальные в окне
+    var tr = talks(ru), te = talks(en);
+    if (tr.length) {
+      var box = document.createElement('span');
+      box.className = 'spk-talk';
+      box.appendChild(txt('spk-talk-lbl', talkLabel(s, tr.length, false, true), talkLabel(s, te.length || tr.length, true, true)));
+      box.appendChild(txt('spk-talk-t', quote(tr[0], false, s.speech), quote(te[0] || tr[0], true, s.speech)));
+      b.appendChild(box);
+    }
     var more = document.createElement('span');
     more.className = 'spk-more';
     more.setAttribute('aria-hidden', 'true');
@@ -1573,9 +1652,16 @@ var SPEAKERS = [
     $('spkMName').textContent = d.n1 || '';
     $('spkMName2').textContent = d.n2 || '';
     $('spkMText').textContent = d.bio || d.role || '';
-    if (d.talk) {
-      $('spkMTalkLbl').textContent = isEn ? 'Talk' : 'Тема доклада';
-      $('spkMTalkTxt').textContent = isEn ? '“' + d.talk + '”' : '«' + d.talk + '»';
+    var T = talks(d).length ? talks(d) : talks(s.ru);
+    var list = $('spkMTalkTxt');
+    list.innerHTML = '';
+    if (T.length) {
+      $('spkMTalkLbl').textContent = talkLabel(s, T.length, isEn, false);
+      T.forEach(function (t) {
+        var p = document.createElement('p');
+        p.textContent = quote(t, isEn, s.speech);
+        list.appendChild(p);
+      });
       $('spkMTalk').hidden = false;
     } else {
       $('spkMTalk').hidden = true;
