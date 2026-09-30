@@ -388,17 +388,29 @@
   }
 
   .join-note {
+    /* плашка тянется до низа карточки, текст в ней по центру по вертикали */
+    flex: 1 1 auto; display: flex; align-items: center;
     margin: 22px 0 0; padding: 15px 18px; border-radius: 14px;
     background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.16);
     font-size: 0.9rem; color: rgba(246,236,250,0.92); line-height: 1.5;
   }
   .join-note b { color: #fff; font-weight: 600; }
   .join-note-light {
-    margin-top: auto; background: var(--paper-2); border-color: var(--border-dark);
+    background: var(--paper-2); border-color: var(--border-dark);
     color: var(--muted-dark);
   }
   .join-note-light b { color: var(--text-dark); }
-  .join-card-online .join-note { margin-top: auto; }
+
+  /* На широком экране строки обеих карточек идут по общей сетке:
+     метка, заголовок, список и плашка выравниваются друг с другом,
+     поэтому плашки всегда одной высоты, какой бы ни была длина текста. */
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 901px) {
+      .join-grid { grid-template-rows: repeat(4, auto); row-gap: 0; }
+      .join-card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+      .join-card .join-tag { justify-self: start; }
+    }
+  }
 
   @media (max-width: 900px) { .join-grid { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
@@ -779,7 +791,7 @@
           <li data-en="Talking to the speakers during the breaks">Общение с докладчиками в перерывах</li>
           <li data-en="A personal certificate of participation">Именной сертификат участника</li>
         </ul>
-        <p class="join-note join-note-light" data-en="Participation is free, but <b>the number of seats in the hall is limited</b>.">Участие бесплатное, но <b>мест в зале ограниченное количество</b>.</p>
+        <p class="join-note join-note-light"><span data-en="Participation is free, but <b>the number of seats in the hall is limited</b>.">Участие бесплатное, но <b>мест в зале ограниченное количество</b>.</span></p>
       </div>
 
       <div class="join-card join-card-online">
@@ -791,7 +803,7 @@
           <li data-en="Questions to the speakers in the chat">Вопросы докладчикам в чате</li>
           <li data-en="Join from a computer or a phone">Подключение с компьютера или телефона</li>
         </ul>
-        <p class="join-note" data-en="The connection link will be sent to the address given at registration a few days before the congress.">Ссылка на подключение будет направлена на адрес, указанный при регистрации, за несколько дней до конгресса.</p>
+        <p class="join-note"><span data-en="The connection link will be sent to the address given at registration a few days before the congress.">Ссылка на подключение будет направлена на адрес, указанный при регистрации, за несколько дней до конгресса.</span></p>
       </div>
 
     </div>
