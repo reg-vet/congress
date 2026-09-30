@@ -366,7 +366,7 @@
 
   /* онлайн-карточка - темная, чтобы новая информация читалась первой */
   .join-card-online {
-    border: 0; color: var(--text-light);
+    border-color: transparent; color: var(--text-light);   /* рамка той же толщины, что у белой карточки - иначе плашки расходятся на 1px */
     background:
       radial-gradient(760px 420px at 88% 0%, rgba(232,75,156,0.34), transparent 62%),
       linear-gradient(150deg, #2a1150 0%, #4a1d6e 46%, #7b2d8e 100%);
