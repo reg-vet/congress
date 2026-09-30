@@ -751,37 +751,16 @@
   .foot-col a:hover { color: #fff; }
   .foot-bottom { padding-top: 26px; font-size: 0.84rem; color: var(--muted-light); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
-  /* подпись агентства, которое сделало сайт */
-  .foot-credit {
-    margin-top: 26px; padding: 16px 16px 16px 22px; border-radius: 18px;
-    display: flex; align-items: center; gap: 14px 16px; flex-wrap: wrap;
-    background: linear-gradient(120deg, rgba(123,45,142,0.24) 0%, rgba(194,37,143,0.12) 60%, rgba(255,255,255,0.03) 100%);
-    border: 1px solid rgba(255,255,255,0.08);
-    font-size: 0.88rem; color: var(--muted-light);
-  }
-  .fc-dot {
-    flex-shrink: 0; width: 11px; height: 11px; border-radius: 50%;
-    background: var(--grad-br); animation: livePulse 2.6s infinite;
-  }
-  .fc-text { margin: 0; flex: 1 1 260px; line-height: 1.5; }
-  .fc-text b {
-    font-weight: 700;
+  /* подпись «design by CELLAR», название - ссылка на почту */
+  .foot-credit { letter-spacing: 0.04em; }
+  .foot-credit a {
+    font-family: var(--display); font-weight: 700; letter-spacing: 0.14em; text-decoration: none;
     background: linear-gradient(90deg, #ff9ccf, #ff77b8);
     -webkit-background-clip: text; background-clip: text; color: transparent;
+    border-bottom: 1px solid rgba(255,119,184,0.35); padding-bottom: 1px;
+    transition: border-color .2s;
   }
-  .fc-mail {
-    display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0;
-    padding: 11px 18px; border-radius: 999px; text-decoration: none;
-    font-weight: 600; font-size: 0.86rem; line-height: 1; color: #fff;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18);
-    transition: background .2s, border-color .2s, transform .16s;
-  }
-  .fc-mail svg { width: 17px; height: 17px; }
-  .fc-at { font-weight: 500; color: rgba(255,255,255,0.72); padding-left: 10px; border-left: 1px solid rgba(255,255,255,0.22); }
-  .fc-at:empty { display: none; }
-  .fc-mail:hover .fc-at { color: #fff; border-left-color: rgba(255,255,255,0.45); }
-  .fc-mail:hover { background: var(--grad); border-color: transparent; transform: translateY(-2px); }
-  @media (prefers-reduced-motion: reduce) { .fc-dot { animation: none; } }
+  .foot-credit a:hover { border-bottom-color: #ff77b8; }
 
   /* ---------- RESPONSIVE ---------- */
   /* пунктов меню семь: отступы между ними компактнее, а ниже 1120px меню уходит в «бургер» */
@@ -1148,17 +1127,8 @@
     <div class="foot-bottom">
       <span data-en="© 2026 ANIMALSTEM · Stem Renovatio">© 2026 ANIMALSTEM · Стэм Реновацио</span>
       <span data-en="Regenerative veterinary medicine">Регенеративная ветеринарная медицина</span>
-    </div>
-
-    <!-- Кто сделал сайт. Адрес почты собирается скриптом ниже, чтобы его не собирали спам-боты -->
-    <div class="foot-credit">
-      <span class="fc-dot" aria-hidden="true"></span>
-      <p class="fc-text"><span data-en="Website by the <b>Secretome</b> agency. Projects with a secret ingredient.">Сайт сделало агентство <b>«Секретом»</b>. Делаем проекты с секретом.</span></p>
-      <a class="fc-mail" id="agencyMail" href="#" rel="nofollow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.4"/><path d="M4 7.2l8 5.8 8-5.8"/></svg>
-        <span class="fc-addr" data-en="Write to us">Написать нам</span>
-        <span class="fc-at"></span>
-      </a>
+      <!-- Кто сделал сайт. Адрес почты подставляется скриптом ниже, чтобы его не собирали спам-боты -->
+      <span class="foot-credit">design by <a id="agencyMail" href="#" rel="nofollow">CELLAR</a></span>
     </div>
   </div>
 </footer>
@@ -1950,7 +1920,7 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
 
 <script>
 /* ======================================================================
-   ПОЧТА АГЕНТСТВА В ПОДВАЛЕ
+   «design by CELLAR» В ПОДВАЛЕ - ССЫЛКА НА ПОЧТУ
    Адрес собирается из двух частей, поэтому спам-боты его не находят,
    а у посетителя по клику открывается новое письмо на этот адрес.
    ====================================================================== */
@@ -1959,9 +1929,8 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
   if (!a) return;
   var user = 'i.dzhoy', domain = 'yandex.ru';
   var addr = user + '@' + domain;
-  a.href = 'mailto:' + addr + '?subject=' + encodeURIComponent('Проект с секретом');
-  var at = a.querySelector('.fc-at');
-  if (at) at.textContent = addr;
+  a.href = 'mailto:' + addr;
+  a.title = addr;
 })();
 </script>
 
