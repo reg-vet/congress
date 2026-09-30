@@ -751,15 +751,13 @@
   .foot-bottom { padding-top: 26px; font-size: 0.84rem; color: var(--muted-light); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 
   /* ---------- RESPONSIVE ---------- */
-  /* пунктов меню семь: на средних экранах сжимаем отступы, а ниже 1080px прячем в «бургер» */
+  /* пунктов меню семь: отступы между ними компактнее, а ниже 1120px меню уходит в «бургер» */
+  .nav-links { gap: 22px; font-size: 0.9rem; margin: 0 18px; }
   .nav-links a { white-space: nowrap; }
-  @media (max-width: 1240px) {
-    .nav-links { gap: 20px; font-size: 0.9rem; }
-  }
-  @media (max-width: 1080px) {
+  @media (max-width: 1120px) {
     .nav-toggle { display: flex; }
     .nav-links {
-      display: none; position: absolute; top: 70px; left: 0; right: 0;
+      display: none; position: absolute; top: 70px; left: 0; right: 0; margin: 0;
       flex-direction: column; gap: 0;
       background: #180a2c; border-bottom: 1px solid var(--border-light);
       padding: 8px 28px 16px;
