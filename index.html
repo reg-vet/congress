@@ -265,32 +265,29 @@
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
 
   /* partner strip in hero */
+  /* Две строки: сверху организаторы, под ними поддержка.
+     Подписи одной ширины, поэтому логотипы обеих строк начинаются с одной вертикали. */
   .hero-partners {
     position: relative; z-index: 2;
     border-top: 1px solid var(--border-light);
     padding: 26px 0 40px;
-    display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
   }
   .hp-label {
     font-family: var(--display); font-weight: 500; font-size: 0.62rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--muted-light); max-width: 150px; line-height: 1.5;
+    text-transform: uppercase; color: var(--muted-light); line-height: 1.5;
+    flex: 0 0 150px;
   }
   .hp-logos { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .hp-group { display: flex; align-items: center; gap: 18px; }
-  .hp-group-support { position: relative; padding-left: 30px; }
-  .hp-group-support::before {
-    content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 1px; height: 54px; background: rgba(255,255,255,0.16);
-  }
+  .hp-group { display: flex; align-items: center; gap: 22px; }
   /* поддержка - визуально тише организаторов */
-  .hp-group-support .hp-label { max-width: 96px; }
   .hp-group-support .hp-logos { gap: 10px; }
-  .hp-group-support .chip { height: 58px; padding: 0 14px; }
-  .hp-group-support .chip img { max-height: 32px; max-width: 108px; }
-  .hp-group-support .chip.chip-dark img { height: 21px; padding: 6px 10px; }
-  @media (max-width: 900px) {
-    .hp-group-support { padding-left: 0; }
-    .hp-group-support::before { display: none; }
+  .hp-group-support .chip { height: 58px; padding: 0 16px; }
+  .hp-group-support .chip img { max-height: 34px; max-width: 120px; }
+  .hp-group-support .chip.chip-dark img { height: 22px; padding: 6px 10px; }
+  @media (max-width: 600px) {
+    .hp-group { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .hp-label { flex-basis: auto; }
   }
   .chip {
     background: #fff; border-radius: 14px; height: 74px; padding: 0 24px;
@@ -1015,6 +1012,8 @@ var PARTNERS = [
   { file: 'rshb-venture.svg',                               name: 'РСХБ Венчур',                      url: '', support: true, dark: true },
   { file: 'stem-renovatio.png',                             name: 'Стэм Реновацио',                   url: '', support: true },
   { file: 'elaya-med.png',                                  name: 'Элайя-Мед',                        url: '', support: true },
+  { file: 'formed.png',                                     name: 'Формед',                           url: '', support: true },
+  { file: 'alfavet.png',                                    name: 'АльфаВет',                         url: '', support: true },
   { file: 'нови-Photoroom.png-Photoroom.png',               name: 'Нови',                             url: '' }
 ];
 
