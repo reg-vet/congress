@@ -435,6 +435,132 @@
   }
   .topic p { margin: 0; font-size: 0.98rem; color: var(--text-dark); }
 
+  /* ---------- СПИКЕРЫ: карусель ---------- */
+  #speakers {
+    position: relative; overflow: hidden; color: var(--text-light);
+    background:
+      radial-gradient(900px 520px at 88% 0%, rgba(232,75,156,0.20), transparent 62%),
+      radial-gradient(760px 520px at 0% 100%, rgba(75,29,110,0.55), transparent 62%),
+      linear-gradient(180deg, #1c0b33 0%, var(--ink) 100%);
+  }
+  #speakers .sec-head { margin-bottom: 0; }
+  #speakers .sec-head .eyebrow { color: var(--pink-2); }
+  #speakers h2 { color: #fff; }
+  #speakers .sec-head p { color: var(--muted-light); }
+  .spk-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 38px; }
+  .spk-nav { display: flex; gap: 10px; flex-shrink: 0; }
+  .spk-btn {
+    width: 52px; height: 52px; border-radius: 50%; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.05); color: #fff;
+    transition: background .2s, border-color .2s, opacity .2s, transform .16s;
+  }
+  .spk-btn svg { width: 20px; height: 20px; }
+  .spk-btn:hover:not(:disabled) { background: var(--grad); border-color: transparent; transform: translateY(-2px); }
+  .spk-btn:disabled { opacity: .3; cursor: default; }
+
+  /* лента карточек выходит за край контейнера до края экрана;
+     --edge выравнивает первую карточку по левому краю заголовка (уточняется скриптом) */
+  .spk-track {
+    --edge: max(28px, calc((100vw - var(--max)) / 2 + 28px));
+    display: flex; gap: 18px;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--edge);
+    padding: 12px var(--edge) 30px;
+    scrollbar-width: none; cursor: grab;
+  }
+  .spk-track::-webkit-scrollbar { display: none; }
+  .spk-track.is-drag { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+  .spk-track:focus-visible { outline: 2px solid var(--pink-2); outline-offset: -2px; border-radius: 12px; }
+
+  .spk-card {
+    flex: 0 0 258px; scroll-snap-align: start;
+    position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 30px 22px 26px; border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
+    border: 1px solid rgba(255,255,255,0.10);
+    color: var(--text-light); font: inherit; cursor: pointer;
+    transition: transform .25s ease, border-color .25s, background .25s, box-shadow .25s;
+  }
+  .spk-card:hover, .spk-card:focus-visible {
+    transform: translateY(-6px);
+    border-color: rgba(255,119,184,0.45);
+    background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    outline: none;
+  }
+  .spk-ph { position: relative; display: block; width: 164px; height: 164px; margin-bottom: 22px; flex-shrink: 0; }
+  .spk-ph::before {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(from 200deg, #7b2d8e, #c2258f, #ff77b8, #e84b9c, #7b2d8e);
+    box-shadow: 0 16px 44px rgba(232,75,156,0.30);
+    transition: transform .9s ease;
+  }
+  .spk-card:hover .spk-ph::before { transform: rotate(180deg); }
+  .spk-ph img {
+    position: absolute; top: 4px; left: 4px; width: calc(100% - 8px); height: calc(100% - 8px);
+    border-radius: 50%; object-fit: cover; border: 4px solid #1d0b34; background: #1d0b34;
+    -webkit-user-drag: none;
+  }
+  .spk-n1 { font-family: var(--display); font-weight: 600; font-size: 1rem; line-height: 1.3; color: #fff; }
+  .spk-n2 { font-size: 0.92rem; color: var(--text-light); opacity: .82; margin-top: 3px; line-height: 1.35; }
+  .spk-n2:empty { display: none; }
+  .spk-role {
+    margin-top: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .spk-more {
+    position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.18); color: var(--muted-light);
+    font-size: 1.15rem; line-height: 1; transition: background .2s, color .2s, border-color .2s;
+  }
+  .spk-card:hover .spk-more, .spk-card:focus-visible .spk-more { background: var(--grad); border-color: transparent; color: #fff; }
+
+  .spk-foot { display: flex; align-items: center; gap: 18px; }
+  .spk-progress { flex: 1; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.12); overflow: hidden; }
+  .spk-progress span { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--grad); transition: width .25s ease, margin-left .25s ease; }
+  .spk-count { font-family: var(--display); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-light); white-space: nowrap; }
+
+  /* окно с подробностями о спикере */
+  .spk-modal { position: fixed; inset: 0; z-index: 210; display: flex; align-items: center; justify-content: center; padding: 22px; }
+  .spk-modal[hidden] { display: none; }
+  .spk-sheet {
+    position: relative; z-index: 1; width: 100%; max-width: 560px; max-height: calc(100vh - 44px); overflow-y: auto;
+    background: linear-gradient(160deg, #24103f 0%, #1a0a30 100%);
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 26px;
+    padding: 34px 32px 24px; color: var(--text-light);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55); animation: subIn .22s ease-out;
+  }
+  .spk-sheet-top { display: flex; align-items: center; gap: 22px; margin-bottom: 20px; padding-right: 34px; }
+  .spk-sheet .spk-ph { width: 118px; height: 118px; margin: 0; }
+  .spk-sheet h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0; color: #fff; }
+  .spk-m-n2 { color: var(--text-light); opacity: .85; margin-top: 5px; font-size: .96rem; }
+  .spk-m-n2:empty { display: none; }
+  .spk-m-text { margin: 0 0 18px; color: var(--muted-light); font-size: .96rem; line-height: 1.65; }
+  .spk-m-talk { padding: 16px 18px; border-radius: 16px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); margin-bottom: 18px; }
+  .spk-m-talk .eyebrow { color: var(--pink-2); display: block; margin-bottom: 8px; font-size: .6rem; }
+  .spk-m-talk p { margin: 0; color: #fff; font-weight: 600; line-height: 1.5; }
+  .spk-m-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.10); }
+  .spk-m-nav .spk-btn { width: 44px; height: 44px; }
+  .spk-m-pos { font-family: var(--display); font-weight: 600; font-size: .7rem; letter-spacing: .14em; color: var(--muted-light); }
+
+  @media (max-width: 900px) {
+    .spk-head { flex-direction: column; align-items: flex-start; gap: 22px; margin-bottom: 26px; }
+  }
+  @media (max-width: 600px) {
+    .spk-nav { display: none; }
+    .spk-track { gap: 14px; }
+    .spk-card { flex-basis: 240px; padding: 26px 18px 22px; }
+    .spk-ph { width: 140px; height: 140px; }
+    .spk-modal { align-items: flex-end; padding: 0; }
+    .spk-sheet { border-radius: 24px 24px 0 0; max-height: 88vh; padding: 28px 22px 20px; }
+    .spk-sheet-top { flex-direction: column; align-items: flex-start; gap: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spk-card, .spk-ph::before { transition: none; }
+  }
+
   /* program */
   #program { background: var(--paper); }
   .days { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -679,6 +805,7 @@
       <a href="#format" data-en="About">О конгрессе</a>
       <a href="#join" data-en="Taking part">Участие</a>
       <a href="#topics" data-en="Topics">Темы</a>
+      <a href="#speakers" data-en="Speakers">Спикеры</a>
       <a href="#program" data-en="Programme">Программа</a>
       <a href="#partners" data-en="Partners">Партнёры</a>
       <a href="#venue" data-en="Venue">Место</a>
@@ -825,6 +952,34 @@
   </div>
 </section>
 
+<section id="speakers" aria-labelledby="spkTitle">
+  <div class="wrap">
+    <div class="spk-head">
+      <div class="sec-head">
+        <span class="eyebrow" data-en="Speakers">Спикеры</span>
+        <h2 id="spkTitle" data-en="Who is speaking at the congress">Кто выступит на конгрессе</h2>
+        <p data-en="Researchers, practicing veterinarians and industry experts from Russia and abroad. Tap a card to learn more.">Ученые, практикующие ветеринарные врачи и эксперты отрасли из России и других стран. Нажмите на карточку, чтобы узнать подробнее.</p>
+      </div>
+      <div class="spk-nav">
+        <button class="spk-btn" type="button" data-dir="-1" aria-controls="spkTrack" aria-label="Предыдущие спикеры" data-en-aria="Previous speakers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        </button>
+        <button class="spk-btn" type="button" data-dir="1" aria-controls="spkTrack" aria-label="Следующие спикеры" data-en-aria="Next speakers">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Карточки подставляются из списка SPEAKERS внизу страницы (в теге <script>) -->
+  <div class="spk-track" id="spkTrack" role="region" tabindex="0" aria-label="Спикеры конгресса" data-en-aria="Congress speakers"></div>
+  <div class="wrap">
+    <div class="spk-foot">
+      <div class="spk-progress" aria-hidden="true"><span id="spkBar"></span></div>
+      <span class="spk-count" id="spkCount"></span>
+    </div>
+  </div>
+</section>
+
 <section id="program">
   <div class="wrap">
     <div class="sec-head">
@@ -948,6 +1103,35 @@
   </div>
 </footer>
 
+<!-- Окно с подробностями о спикере. Заполняется скриптом из списка SPEAKERS -->
+<div class="spk-modal" id="spkModal" role="dialog" aria-modal="true" aria-labelledby="spkMName" hidden>
+  <div class="sub-backdrop" data-spk-close></div>
+  <div class="spk-sheet">
+    <button class="sub-x" type="button" data-spk-close aria-label="Закрыть" data-en-aria="Close">&times;</button>
+    <div class="spk-sheet-top">
+      <span class="spk-ph"><img id="spkMImg" src="" alt=""></span>
+      <div>
+        <h3 id="spkMName"></h3>
+        <div class="spk-m-n2" id="spkMName2"></div>
+      </div>
+    </div>
+    <p class="spk-m-text" id="spkMText"></p>
+    <div class="spk-m-talk" id="spkMTalk" hidden>
+      <span class="eyebrow" id="spkMTalkLbl">Тема доклада</span>
+      <p id="spkMTalkTxt"></p>
+    </div>
+    <div class="spk-m-nav">
+      <button class="spk-btn" type="button" data-spk-step="-1" aria-label="Предыдущий спикер" data-en-aria="Previous speaker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      </button>
+      <span class="spk-m-pos" id="spkMPos"></span>
+      <button class="spk-btn" type="button" data-spk-step="1" aria-label="Следующий спикер" data-en-aria="Next speaker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Окно с предложением подписаться. Показывается после клика по «Регистрация» -->
 <div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-labelledby="subTitle" hidden>
   <div class="sub-backdrop" data-sub-close></div>
@@ -1040,6 +1224,404 @@ var PARTNERS = [
   // если группа «При поддержке» пуста - прячем ее вместе с подписью
   var supGroup = document.querySelector('.hp-group-support');
   if (supGroup && support && !support.children.length) supGroup.hidden = true;
+})();
+</script>
+
+<script>
+/* ======================================================================
+   СПИКЕРЫ  -  редактируется только этот список
+   ----------------------------------------------------------------------
+   Чтобы добавить спикера:
+     1) положите квадратное фото в папку «speakers» (имя файла латиницей,
+        лицо по центру, от 400x400 px);
+     2) допишите блок в список ниже. Порядок в списке = порядок в карусели.
+
+   ru / en - тексты на двух языках:
+     n1   - первая строка (на русском фамилия, на английском имя и фамилия)
+     n2   - вторая строка (имя и отчество); можно оставить пустой
+     role - коротко о спикере, видно на карточке
+     bio  - подробнее, видно в окне по клику; можно не заполнять
+     talk - тема доклада; можно не заполнять
+   ====================================================================== */
+var SPEAKERS = [
+  { photo: 'stekolnikov.jpg',
+    ru: { n1: 'Стекольников', n2: 'Анатолий Александрович',
+          role: 'Профессор, доктор ветеринарных наук, академик РАН',
+          bio:  'Заслуженный деятель науки Российской Федерации, доктор ветеринарных наук, профессор, академик РАН.' },
+    en: { n1: 'Anatoly Stekolnikov',
+          role: 'Professor, Doctor of Veterinary Sciences, Academician of the Russian Academy of Sciences',
+          bio:  'Honoured Scientist of the Russian Federation, Doctor of Veterinary Sciences, Professor, Academician of the Russian Academy of Sciences.' } },
+
+  { photo: 'kontsevaya.jpg',
+    ru: { n1: 'Концевая', n2: 'Светлана Юрьевна',
+          role: 'Председатель оргкомитета конгресса, доктор ветеринарных наук, профессор',
+          bio:  'Председатель оргкомитета конгресса. Доктор ветеринарных наук, профессор, академик Российской академии естествознания. Профессор кафедры управления АПК и сельскими территориями ФГБОУ ДПО «Российская академия кадрового обеспечения агропромышленного комплекса» МСХ РФ.' },
+    en: { n1: 'Svetlana Kontsevaya',
+          role: 'Chair of the Organizing Committee, Doctor of Veterinary Sciences, Professor',
+          bio:  'Chair of the Congress Organizing Committee. Doctor of Veterinary Sciences, Professor, Member of the Russian Academy of Natural History. Professor at the Department of Agribusiness and Rural Area Management, Russian Academy of Personnel Support for the Agro-Industrial Complex (Ministry of Agriculture of Russia).' } },
+
+  { photo: 'lavrik.jpg',
+    ru: { n1: 'Лаврик', n2: 'Алексей Анатольевич',
+          role: 'Президент Евразийской ассоциации регенеративной ветеринарной медицины' },
+    en: { n1: 'Alexey Lavrik',
+          role: 'President of the Eurasian Association of Regenerative Veterinary Medicine' } },
+
+  { photo: 'chernysheva.jpg',
+    ru: { n1: 'Чернышева', n2: 'Наталья Дмитриевна',
+          role: 'Управляющий директор по технологическому развитию, АО «Россельхозбанк»' },
+    en: { n1: 'Natalia Chernysheva',
+          role: 'Managing Director for Technology Development, Russian Agricultural Bank (Rosselkhozbank)' } },
+
+  { photo: 'joaquim.jpg',
+    ru: { n1: 'Жан Жоаким', n2: 'Dr. Jean Joaquim, DVM, MSc, PhD, LAc',
+          role: 'Университет штата Сан-Паулу (UNESP, Бразилия). Акупунктура и заболевания межпозвоночных дисков',
+          bio:  'Доктор ветеринарной медицины (1999), магистр (2003) и доктор наук (PhD, 2008) Университета штата Сан-Паулу (UNESP, Бразилия). Специализация: акупунктура и заболевания межпозвоночных дисков. Дополнительная подготовка: Венский университет (Австрия), BEVAS (Бельгия), Пекинский международный центр обучения акупунктуре (Китай).' },
+    en: { n1: 'Dr. Jean Joaquim', n2: 'DVM, MSc, PhD, LAc',
+          role: 'São Paulo State University (UNESP, Brazil). Acupuncture and intervertebral disc disease',
+          bio:  'DVM (1999), MSc (2003) and PhD (2008) from São Paulo State University (UNESP, Brazil). Specialization: acupuncture and intervertebral disc disease. Further training: University of Vienna (Austria), BEVAS (Belgium), Beijing International Acupuncture Training Center (China).' } },
+
+  { photo: 'budiariati.jpg',
+    ru: { n1: 'Виста Будиариати', n2: 'Dr. Vista Budiariati',
+          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)' },
+    en: { n1: 'Dr. Vista Budiariati',
+          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)' } },
+
+  { photo: 'bokarev.jpg',
+    ru: { n1: 'Бокарев', n2: 'Александр Владимирович',
+          role: 'Доцент, доктор ветеринарных наук' },
+    en: { n1: 'Alexander Bokarev',
+          role: 'Associate Professor, Doctor of Veterinary Sciences' } },
+
+  { photo: 'nikitin.jpg',
+    ru: { n1: 'Никитин', n2: 'Георгий Сергеевич',
+          role: 'Доцент, кандидат ветеринарных наук, СПбГУВМ' },
+    en: { n1: 'Georgy Nikitin',
+          role: 'Associate Professor, PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine' } },
+
+  { photo: 'minina.jpg',
+    ru: { n1: 'Минина', n2: 'Анастасия Олеговна',
+          role: 'Кандидат ветеринарных наук, доцент кафедры общей, частной и оперативной хирургии СПбГУВМ',
+          talk: 'Исследование регенеративной эффективности секретома МСК при стромальных повреждениях роговицы' },
+    en: { n1: 'Anastasia Minina',
+          role: 'PhD in Veterinary Sciences, Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine',
+          talk: 'Regenerative efficacy of the MSC secretome in corneal stromal injuries' } },
+
+  { photo: 'shamis.jpg',
+    ru: { n1: 'Шамис', n2: 'Эдуард Михайлович',
+          role: 'Главный врач Центра инновационной ветеринарии и реабилитации, член Союза ученых Санкт-Петербурга' },
+    en: { n1: 'Eduard Shamis',
+          role: 'Chief Veterinarian, Center for Innovative Veterinary Medicine and Rehabilitation; member of the St. Petersburg Union of Scientists' } },
+
+  { photo: 'makarov.jpg',
+    ru: { n1: 'Макаров', n2: 'Иван Николаевич',
+          role: 'Кандидат ветеринарных наук, руководитель ветеринарной клиники «Джунгли», Москва',
+          bio:  'Кандидат ветеринарных наук. Руководитель отделения ветеринарной стоматологии и челюстно-лицевой хирургии, руководитель ветеринарной клиники «Джунгли», Москва. Член EVDS, преподаватель обучающего центра на базе клиники и Верхневолжского ГАУ, лектор российских и зарубежных конгрессов.',
+          talk: 'Эффективность плазмотерапии в лечении гингивостоматитов у кошек' },
+    en: { n1: 'Ivan Makarov',
+          role: 'PhD in Veterinary Sciences, Head of the Jungle Veterinary Clinic, Moscow',
+          bio:  'PhD in Veterinary Sciences. Head of the Department of Veterinary Dentistry and Maxillofacial Surgery and Head of the Jungle Veterinary Clinic, Moscow. EVDS member, instructor at the clinic training center and the Upper Volga State Agrarian University, lecturer at Russian and international congresses.',
+          talk: 'Efficacy of plasma therapy in the treatment of feline gingivostomatitis' } },
+
+  { photo: 'romanova.jpg',
+    ru: { n1: 'Романова', n2: 'Ольга Владимировна',
+          role: 'Кандидат ветеринарных наук, руководитель АВКоМ, практикующий ветеринарный врач',
+          bio:  'Кандидат ветеринарных наук, руководитель АВКоМ, АВВ ФКС, член ВК ФКСР, практикующий ветеринарный врач.' },
+    en: { n1: 'Olga Romanova',
+          role: 'PhD in Veterinary Sciences, Head of the Association of Equine Medicine Practitioners (AVKoM), practicing veterinarian',
+          bio:  'PhD in Veterinary Sciences, Head of the Association of Equine Medicine Practitioners (AVKoM), member of the Veterinary Committee of the Equestrian Federation of Russia, practicing veterinarian.' } },
+
+  { photo: 'aliev.jpg',
+    ru: { n1: 'Алиев', n2: 'Руслан Умарович',
+          role: 'Главный ветеринарный врач клиники «Новый век» и Ветеринарной клиники Доктора Алиева',
+          bio:  'Главный ветеринарный врач ветеринарной клиники «Новый век» и Ветеринарной клиники Доктора Алиева, преподаватель курсов повышения квалификации для ветеринарных врачей.' },
+    en: { n1: 'Ruslan Aliev',
+          role: 'Chief Veterinarian, Novy Vek Veterinary Clinic and Dr. Aliev Veterinary Clinic',
+          bio:  'Chief Veterinarian of the Novy Vek Veterinary Clinic and the Dr. Aliev Veterinary Clinic, lecturer of continuing education courses for veterinarians.' } },
+
+  { photo: 'trifonova.jpg',
+    ru: { n1: 'Трифонова', n2: 'Анна Валериевна',
+          role: 'Кандидат биологических наук, директор по науке «Элайя-Мед»' },
+    en: { n1: 'Anna Trifonova',
+          role: 'PhD in Biology, Director of Science, Elaya-Med' } },
+
+  { photo: 'ali.jpg',
+    ru: { n1: 'Али', n2: 'Сабина Гульзаровна',
+          role: 'Кандидат биологических наук' },
+    en: { n1: 'Sabina Ali',
+          role: 'PhD in Biology' } },
+
+  { photo: 'kozhina.jpg',
+    ru: { n1: 'Кожина', n2: 'Полина Артемовна',
+          role: 'Ветеринарный врач, научный сотрудник' },
+    en: { n1: 'Polina Kozhina',
+          role: 'Veterinarian, research fellow' } },
+
+  { photo: 'joy.jpg',
+    ru: { n1: 'Джой', n2: 'Иван Юрьевич',
+          role: 'Кандидат сельскохозяйственных наук' },
+    en: { n1: 'Ivan Joy',
+          role: 'PhD in Agricultural Sciences' } }
+];
+
+(function speakersCarousel() {
+  var section = document.getElementById('speakers');
+  var track = document.getElementById('spkTrack');
+  if (!section || !track) return;
+  if (!SPEAKERS.length) { section.hidden = true; return; }
+
+  var DIR = 'speakers/';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var behavior = reduce ? 'auto' : 'smooth';
+
+  function esc(s) {
+    return String(s || '').replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  // элемент с русским текстом и английским в data-en (его подхватит переключатель языка)
+  function txt(cls, ru, en) {
+    var el = document.createElement('span');
+    el.className = cls;
+    el.textContent = ru || '';
+    el.setAttribute('data-en', esc(en || ''));
+    return el;
+  }
+
+  /* ---- карточки ---- */
+  SPEAKERS.forEach(function (s, i) {
+    var ru = s.ru || {}, en = s.en || ru;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'spk-card';
+    b.setAttribute('data-i', i);
+    var ph = document.createElement('span');
+    ph.className = 'spk-ph';
+    var img = document.createElement('img');
+    img.src = DIR + s.photo;
+    img.alt = '';
+    img.width = 480; img.height = 480;
+    img.loading = i < 5 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.draggable = false;
+    ph.appendChild(img);
+    b.appendChild(ph);
+    b.appendChild(txt('spk-n1', ru.n1, en.n1));
+    b.appendChild(txt('spk-n2', ru.n2, en.n2));
+    b.appendChild(txt('spk-role', ru.role, en.role));
+    var more = document.createElement('span');
+    more.className = 'spk-more';
+    more.setAttribute('aria-hidden', 'true');
+    more.textContent = '+';
+    b.appendChild(more);
+    track.appendChild(b);
+  });
+  var cards = track.children;
+
+  /* ---- счетчик ---- */
+  function plural(n, one, few, many) {
+    var a = n % 10, b = n % 100;
+    if (a === 1 && b !== 11) return one;
+    if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return few;
+    return many;
+  }
+  var cnt = document.getElementById('spkCount');
+  if (cnt) {
+    var n = SPEAKERS.length;
+    cnt.textContent = n + ' ' + plural(n, 'спикер', 'спикера', 'спикеров');
+    cnt.setAttribute('data-en', n + (n === 1 ? ' speaker' : ' speakers'));
+  }
+
+  /* ---- прокрутка ---- */
+  var prevBtn = section.querySelector('.spk-btn[data-dir="-1"]');
+  var nextBtn = section.querySelector('.spk-btn[data-dir="1"]');
+  var bar = document.getElementById('spkBar');
+  var wrap = section.querySelector('.wrap');
+
+  // первая карточка стоит на одной линии с заголовком секции
+  function alignEdge() {
+    if (!wrap) return;
+    var left = wrap.getBoundingClientRect().left + (parseFloat(getComputedStyle(wrap).paddingLeft) || 0);
+    track.style.setProperty('--edge', Math.round(left) + 'px');
+  }
+  function edge() { return parseFloat(getComputedStyle(track).paddingLeft) || 0; }
+  function step() {
+    var c = cards[0];
+    if (!c) return 300;
+    var gap = parseFloat(getComputedStyle(track).columnGap) || 18;
+    return c.getBoundingClientRect().width + gap;
+  }
+  function page() {
+    var s = step();
+    return Math.max(1, Math.floor((track.clientWidth - edge()) / s)) * s;
+  }
+  function update() {
+    var max = track.scrollWidth - track.clientWidth;
+    if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
+    if (nextBtn) nextBtn.disabled = track.scrollLeft >= max - 2;
+    if (bar && track.scrollWidth) {
+      bar.style.width = Math.min(100, track.clientWidth / track.scrollWidth * 100) + '%';
+      bar.style.marginLeft = (track.scrollLeft / track.scrollWidth * 100) + '%';
+    }
+  }
+  var raf = 0;
+  track.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; update(); });
+  }, { passive: true });
+  window.addEventListener('resize', function () { alignEdge(); update(); });
+  window.addEventListener('load', update);
+  alignEdge();
+  update();
+
+  function go(dir) {
+    stopAuto();
+    track.scrollBy({ left: dir * page(), behavior: behavior });
+  }
+  if (prevBtn) prevBtn.addEventListener('click', function () { go(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { go(1); });
+
+  track.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    stopAuto();
+    track.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * step(), behavior: behavior });
+  });
+
+  /* ---- перетаскивание мышью (на телефоне лента листается пальцем сама) ---- */
+  var drag = null, suppressClick = false;
+  track.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    drag = { x: e.clientX, left: track.scrollLeft, moved: false };
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x;
+    if (!drag.moved) {
+      if (Math.abs(dx) < 6) return;
+      drag.moved = true;
+      track.classList.add('is-drag');
+      stopAuto();
+    }
+    track.scrollLeft = drag.left - dx;
+  });
+  window.addEventListener('pointerup', function () {
+    if (!drag) return;
+    var moved = drag.moved;
+    drag = null;
+    if (!moved) return;
+    track.classList.remove('is-drag');
+    suppressClick = true;
+    setTimeout(function () { suppressClick = false; }, 0);
+    var s = step();
+    track.scrollTo({ left: Math.round(track.scrollLeft / s) * s, behavior: behavior });
+  });
+
+  /* ---- мягкая автопрокрутка: пауза при наведении, выключается после любого действия ---- */
+  var auto = !reduce, hover = false, inView = false, timer = null;
+  function stopAuto() {
+    auto = false;
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function tick() {
+    if (!auto || hover || !inView || document.hidden || (modal && !modal.hidden)) return;
+    var max = track.scrollWidth - track.clientWidth;
+    if (track.scrollLeft >= max - 4) track.scrollTo({ left: 0, behavior: behavior });
+    else track.scrollBy({ left: step(), behavior: behavior });
+  }
+  if (auto) timer = setInterval(tick, 4000);
+  track.addEventListener('pointerenter', function () { hover = true; });
+  track.addEventListener('pointerleave', function () { hover = false; });
+  track.addEventListener('focusin', function () { hover = true; });
+  track.addEventListener('focusout', function () { hover = false; });
+  track.addEventListener('touchstart', stopAuto, { passive: true });
+  track.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) stopAuto();
+  }, { passive: true });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.35 }).observe(track);
+  } else {
+    inView = true;
+  }
+
+  /* ---- окно с подробностями ---- */
+  var modal = document.getElementById('spkModal');
+  var $ = function (id) { return document.getElementById(id); };
+  var cur = 0;
+
+  function fill(i) {
+    var s = SPEAKERS[i];
+    var isEn = document.documentElement.lang === 'en';
+    var d = (isEn ? s.en : s.ru) || s.ru;
+    $('spkMImg').src = DIR + s.photo;
+    $('spkMImg').alt = d.n1 + (d.n2 ? ' ' + d.n2 : '');
+    $('spkMName').textContent = d.n1 || '';
+    $('spkMName2').textContent = d.n2 || '';
+    $('spkMText').textContent = d.bio || d.role || '';
+    if (d.talk) {
+      $('spkMTalkLbl').textContent = isEn ? 'Talk' : 'Тема доклада';
+      $('spkMTalkTxt').textContent = isEn ? '“' + d.talk + '”' : '«' + d.talk + '»';
+      $('spkMTalk').hidden = false;
+    } else {
+      $('spkMTalk').hidden = true;
+    }
+    $('spkMPos').textContent = (i + 1) + ' / ' + SPEAKERS.length;
+  }
+  function openModal(i) {
+    if (!modal) return;
+    cur = i;
+    fill(i);
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    var x = modal.querySelector('.sub-x');
+    if (x) x.focus();
+  }
+  function closeModal() {
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    // в ленте показываем того, на ком остановились
+    var c = cards[cur];
+    if (c) {
+      var tr = track.getBoundingClientRect(), cr = c.getBoundingClientRect();
+      if (cr.left < tr.left + edge() - 2 || cr.right > tr.right + 2) {
+        var max = track.scrollWidth - track.clientWidth;
+        track.scrollTo({ left: Math.min(cur * step(), max), behavior: behavior });
+      }
+      c.focus({ preventScroll: true });
+    }
+  }
+  function stepModal(d) {
+    cur = (cur + d + SPEAKERS.length) % SPEAKERS.length;
+    fill(cur);
+  }
+
+  track.addEventListener('click', function (e) {
+    if (suppressClick) { e.preventDefault(); e.stopPropagation(); return; }
+    var c = e.target.closest ? e.target.closest('.spk-card') : null;
+    if (c) openModal(+c.getAttribute('data-i'));
+  });
+
+  if (modal) {
+    modal.querySelectorAll('[data-spk-close]').forEach(function (el) {
+      el.addEventListener('click', closeModal);
+    });
+    modal.querySelectorAll('[data-spk-step]').forEach(function (el) {
+      el.addEventListener('click', function () { stepModal(+el.getAttribute('data-spk-step')); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'ArrowRight') { stepModal(1); return; }
+      if (e.key === 'ArrowLeft') { stepModal(-1); return; }
+      if (e.key === 'Tab') {
+        // фокус не уходит из окна
+        var f = modal.querySelectorAll('button');
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
 })();
 </script>
 
