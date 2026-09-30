@@ -523,15 +523,92 @@
   .spk-count { font-family: var(--display); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-light); white-space: nowrap; }
 
   /* окно с подробностями о спикере */
-  .spk-modal { position: fixed; inset: 0; z-index: 210; display: flex; align-items: center; justify-content: center; padding: 22px; }
+  .spk-modal { position: fixed; inset: 0; z-index: 210; display: flex; align-items: center; justify-content: center; padding: 22px; --mx: 0; --my: 0; }
   .spk-modal[hidden] { display: none; }
+
+  /* ---- фон-сцена за окном спикера ---- */
+  @property --spk-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .spk-bg { position: absolute; inset: 0; overflow: hidden; cursor: pointer; }
+  .spk-bg > * { position: absolute; pointer-events: none; opacity: 0; transition: opacity .7s ease; }
+  .spk-bg-base { inset: 0; background: radial-gradient(120% 90% at 50% 42%, #210b3b 0%, #11061f 62%, #07020f 100%); }
+  /* размытое фото спикера - цвет сцены меняется под человека */
+  .spk-par { inset: 0; transition: opacity .8s ease, transform 1.4s cubic-bezier(.2,.8,.2,1); }
+  .spk-par-1 { transform: translate3d(calc(var(--mx) * -28px), calc(var(--my) * -20px), 0); }
+  .spk-par-2 { transform: translate3d(calc(var(--mx) * 42px), calc(var(--my) * 30px), 0); mix-blend-mode: screen; }
+  .spk-bg-photo {
+    position: absolute; inset: -14%; background-size: cover; background-position: center 30%;
+    filter: blur(70px) saturate(1.6) brightness(.85); opacity: 0;
+    transition: opacity 1s ease; animation: spkBreath 16s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  .spk-bg-photo.is-on { opacity: .55; }
+  @keyframes spkBreath { from { transform: scale(1.12) rotate(0deg); } to { transform: scale(1.34) rotate(7deg); } }
+  /* дрейфующие световые пятна в цветах конгресса */
+  .spk-aurora { position: absolute; inset: 0; }
+  .spk-aurora i { position: absolute; width: 72vmax; height: 72vmax; border-radius: 50%; will-change: transform; }
+  .spk-aurora i:nth-child(1) { left: -24vmax; top: -30vmax; background: radial-gradient(circle, rgba(194,37,143,0.50) 0%, rgba(194,37,143,0) 62%); animation: spkDrift1 19s ease-in-out infinite alternate; }
+  .spk-aurora i:nth-child(2) { right: -28vmax; top: 4vmax;   background: radial-gradient(circle, rgba(123,45,142,0.62) 0%, rgba(123,45,142,0) 62%); animation: spkDrift2 23s ease-in-out infinite alternate; }
+  .spk-aurora i:nth-child(3) { left: 12vmax;  bottom: -40vmax; background: radial-gradient(circle, rgba(255,119,184,0.32) 0%, rgba(255,119,184,0) 60%); animation: spkDrift3 27s ease-in-out infinite alternate; }
+  @keyframes spkDrift1 { to { transform: translate3d(14vmax, 10vmax, 0) scale(1.18); } }
+  @keyframes spkDrift2 { to { transform: translate3d(-12vmax, 12vmax, 0) scale(.9); } }
+  @keyframes spkDrift3 { to { transform: translate3d(10vmax, -14vmax, 0) scale(1.22); } }
+  /* медленно вращающиеся кольца, как обводка фото, только огромные */
+  .spk-ring {
+    left: 50%; top: 50%; width: 120vmin; height: 120vmin; margin: -60vmin 0 0 -60vmin; border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(123,45,142,0) 0deg, rgba(194,37,143,0.55) 70deg, rgba(255,119,184,0.75) 120deg, rgba(123,45,142,0) 180deg, rgba(232,75,156,0.45) 260deg, rgba(123,45,142,0) 330deg);
+    -webkit-mask: radial-gradient(closest-side, transparent 80%, #000 84%, #000 86.5%, transparent 91%);
+            mask: radial-gradient(closest-side, transparent 80%, #000 84%, #000 86.5%, transparent 91%);
+    scale: .82; transition: opacity 1s ease, scale 1.6s cubic-bezier(.2,.8,.2,1);
+    animation: spkSpin 42s linear infinite; will-change: transform;
+  }
+  .spk-ring-2 { width: 86vmin; height: 86vmin; margin: -43vmin 0 0 -43vmin; animation-duration: 28s; animation-direction: reverse; }
+  @keyframes spkSpin { to { transform: rotate(360deg); } }
+  .spk-cells { inset: 0; width: 100%; height: 100%; }
+  /* мягкий свет за курсором */
+  .spk-spot {
+    inset: 0; mix-blend-mode: screen;
+    background: radial-gradient(520px circle at calc(50% + var(--mx) * 50%) calc(50% + var(--my) * 50%), rgba(255,140,200,0.16), rgba(255,140,200,0) 62%);
+  }
+  /* зерно, как у пленки - дает «дорогую» фактуру */
+  .spk-grain {
+    inset: -60%; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: spkGrain 1.1s steps(5) infinite;
+  }
+  @keyframes spkGrain { 0% { transform: translate(0,0); } 20% { transform: translate(-4%,3%); } 40% { transform: translate(3%,-5%); } 60% { transform: translate(-5%,-2%); } 80% { transform: translate(4%,4%); } 100% { transform: translate(0,0); } }
+  .spk-vig { inset: 0; background: radial-gradient(120% 95% at 50% 45%, rgba(4,1,10,0) 42%, rgba(4,1,10,0.78) 100%); }
+
+  .spk-modal.is-open .spk-bg-base { opacity: .96; }
+  .spk-modal.is-open .spk-par { opacity: 1; }
+  .spk-modal.is-open .spk-ring { opacity: .6; scale: 1; transition-delay: .12s; }
+  .spk-modal.is-open .spk-ring-2 { opacity: .34; }
+  .spk-modal.is-open .spk-cells { opacity: 1; transition-delay: .2s; }
+  .spk-modal.is-open .spk-spot { opacity: 1; }
+  .spk-modal.is-open .spk-grain { opacity: .07; }
+  .spk-modal.is-open .spk-vig { opacity: 1; }
+  .spk-modal.is-closing .spk-bg > * { transition-duration: .38s; transition-delay: 0s; }
+
+  /* фото, которое «прилетает» из карточки в окно */
+  .spk-ph.spk-fly { position: fixed; z-index: 230; margin: 0; pointer-events: none; transform-origin: 0 0; will-change: transform; }
+
+  /* само окно - стекло, сквозь которое видна сцена, с бегущим бликом по рамке */
   .spk-sheet {
     position: relative; z-index: 1; width: 100%; max-width: 560px; max-height: calc(100vh - 44px); overflow-y: auto;
-    background: linear-gradient(160deg, #24103f 0%, #1a0a30 100%);
-    border: 1px solid rgba(255,255,255,0.14); border-radius: 26px;
+    background: linear-gradient(160deg, rgba(44,18,76,0.74) 0%, rgba(22,9,42,0.84) 100%);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4); backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 26px;
     padding: 34px 32px 24px; color: var(--text-light);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.55); animation: subIn .22s ease-out;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
   }
+  .spk-sheet::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+    background: conic-gradient(from var(--spk-a), rgba(255,119,184,0) 0deg, rgba(255,119,184,0) 210deg, rgba(255,119,184,0.9) 285deg, rgba(194,37,143,0.9) 320deg, rgba(255,119,184,0) 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    animation: spkBorder 6s linear infinite;
+  }
+  @keyframes spkBorder { to { --spk-a: 360deg; } }
+  .spk-sheet .sub-x { z-index: 2; }
   .spk-sheet-top { display: flex; align-items: center; gap: 22px; margin-bottom: 20px; padding-right: 34px; }
   .spk-sheet .spk-ph { width: 118px; height: 118px; margin: 0; }
   .spk-sheet h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0; color: #fff; }
@@ -560,6 +637,9 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .spk-card, .spk-ph::before { transition: none; }
+    /* без движения: сцена остается, но стоит на месте */
+    .spk-bg-photo, .spk-aurora i, .spk-ring, .spk-grain, .spk-sheet::before { animation: none; }
+    .spk-par { transition: opacity .3s ease; transform: none; }
   }
 
   /* program */
@@ -1135,22 +1215,36 @@
 
 <!-- Окно с подробностями о спикере. Заполняется скриптом из списка SPEAKERS -->
 <div class="spk-modal" id="spkModal" role="dialog" aria-modal="true" aria-labelledby="spkMName" hidden>
-  <div class="sub-backdrop" data-spk-close></div>
+  <!-- Фон-сцена: размытое фото спикера, дрейфующие пятна, кольца, «клетки», зерно.
+       Клик по фону закрывает окно -->
+  <div class="spk-bg" data-spk-close aria-hidden="true">
+    <div class="spk-bg-base"></div>
+    <div class="spk-par spk-par-1"><div class="spk-bg-photo" id="spkBgA"></div><div class="spk-bg-photo" id="spkBgB"></div></div>
+    <div class="spk-par spk-par-2"><div class="spk-aurora"><i></i><i></i><i></i></div></div>
+    <div class="spk-ring"></div>
+    <div class="spk-ring spk-ring-2"></div>
+    <canvas class="spk-cells" id="spkCells"></canvas>
+    <div class="spk-spot"></div>
+    <div class="spk-grain"></div>
+    <div class="spk-vig"></div>
+  </div>
   <div class="spk-sheet">
     <button class="sub-x" type="button" data-spk-close aria-label="Закрыть" data-en-aria="Close">&times;</button>
-    <div class="spk-sheet-top">
-      <span class="spk-ph"><img id="spkMImg" src="" alt=""></span>
-      <div>
-        <h3 id="spkMName"></h3>
-        <div class="spk-m-n2" id="spkMName2"></div>
+    <div class="spk-sheet-body" id="spkBody">
+      <div class="spk-sheet-top">
+        <span class="spk-ph" id="spkMPh"><img id="spkMImg" src="" alt=""></span>
+        <div class="spk-stg">
+          <h3 id="spkMName"></h3>
+          <div class="spk-m-n2" id="spkMName2"></div>
+        </div>
+      </div>
+      <p class="spk-m-text spk-stg" id="spkMText"></p>
+      <div class="spk-m-talk spk-stg" id="spkMTalk" hidden>
+        <span class="eyebrow" id="spkMTalkLbl">Тема доклада</span>
+        <div id="spkMTalkTxt"></div>
       </div>
     </div>
-    <p class="spk-m-text" id="spkMText"></p>
-    <div class="spk-m-talk" id="spkMTalk" hidden>
-      <span class="eyebrow" id="spkMTalkLbl">Тема доклада</span>
-      <div id="spkMTalkTxt"></div>
-    </div>
-    <div class="spk-m-nav">
+    <div class="spk-m-nav spk-stg">
       <button class="spk-btn" type="button" data-spk-step="-1" aria-label="Предыдущий спикер" data-en-aria="Previous speaker">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
       </button>
@@ -1624,10 +1718,101 @@ var SPEAKERS = [
     inView = true;
   }
 
-  /* ---- окно с подробностями ---- */
+  /* ---- окно с подробностями: сцена на фоне, фото «прилетает» из карточки ---- */
   var modal = document.getElementById('spkModal');
   var $ = function (id) { return document.getElementById(id); };
-  var cur = 0;
+  var cur = 0, closeTimer = null, swapAnims = [];
+  var sheet = modal ? modal.querySelector('.spk-sheet') : null;
+  var body = $('spkBody');
+  var canAnimate = !reduce && !!(sheet && sheet.animate);
+
+  // размытое фото спикера на фоне: два слоя, новый плавно проявляется поверх старого
+  var bgA = $('spkBgA'), bgB = $('spkBgB'), bgOn = null;
+  function setAmbient(src) {
+    if (!bgA || !bgB) return;
+    var next = bgOn === bgA ? bgB : bgA;
+    next.style.backgroundImage = 'url("' + src + '")';
+    next.classList.add('is-on');
+    if (bgOn && bgOn !== next) bgOn.classList.remove('is-on');
+    bgOn = next;
+  }
+
+  // параллакс и свет за курсором
+  var mx = 0, my = 0, pRaf = 0;
+  function onMove(e) {
+    mx = e.clientX / window.innerWidth * 2 - 1;
+    my = e.clientY / window.innerHeight * 2 - 1;
+    if (pRaf || reduce) return;
+    pRaf = requestAnimationFrame(function () {
+      pRaf = 0;
+      modal.style.setProperty('--mx', mx.toFixed(3));
+      modal.style.setProperty('--my', my.toFixed(3));
+    });
+  }
+
+  // «клетки», которые всплывают на фоне (как в первом экране сайта), с глубиной
+  var cv = $('spkCells'), ctx = null, CW = 0, CH = 0, dots = [], cRaf = 0;
+  try { ctx = cv && cv.getContext ? cv.getContext('2d') : null; } catch (err) { ctx = null; }
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var tints = ['255,119,184', '232,75,156', '194,37,143', '255,214,236'];
+  function cellsSize() {
+    CW = window.innerWidth; CH = window.innerHeight;
+    cv.width = CW * dpr; cv.height = CH * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.min(70, Math.round(CW / 18));
+    dots = [];
+    for (var k = 0; k < n; k++) {
+      dots.push({ x: Math.random() * CW, y: Math.random() * CH, r: Math.random() * 2.4 + 0.6,
+                  c: tints[(Math.random() * tints.length) | 0], a: Math.random() * 0.55 + 0.15,
+                  vy: Math.random() * 0.35 + 0.08, sw: Math.random() * 6.28, z: Math.random() });
+    }
+  }
+  function cellsFrame() {
+    ctx.clearRect(0, 0, CW, CH);
+    for (var k = 0; k < dots.length; k++) {
+      var p = dots[k];
+      p.sw += 0.012; p.y -= p.vy; p.x += Math.sin(p.sw) * 0.25;
+      if (p.y < -14) { p.y = CH + 14; p.x = Math.random() * CW; }
+      var px = p.x + mx * 16 * (p.z + 0.3), py = p.y + my * 12 * (p.z + 0.3);
+      var g = ctx.createRadialGradient(px, py, 0, px, py, p.r * 5);
+      g.addColorStop(0, 'rgba(' + p.c + ',' + p.a + ')');
+      g.addColorStop(1, 'rgba(' + p.c + ',0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(px, py, p.r * 5, 0, 6.2832); ctx.fill();
+    }
+    cRaf = requestAnimationFrame(cellsFrame);
+  }
+  function cellsStart() {
+    if (!ctx || reduce) return;
+    cellsSize();
+    if (!cRaf) cRaf = requestAnimationFrame(cellsFrame);
+  }
+  function cellsStop() { if (cRaf) cancelAnimationFrame(cRaf); cRaf = 0; }
+  window.addEventListener('resize', function () { if (cRaf) cellsSize(); });
+
+  // фото летит из карточки на свое место в окне (прием FLIP)
+  function fly(fromEl, toEl) {
+    if (!canAnimate || !fromEl || !toEl) return;
+    var a = fromEl.getBoundingClientRect(), b = toEl.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    if (a.bottom < 0 || a.top > window.innerHeight || a.right < 0 || a.left > window.innerWidth) return;
+    var clone = fromEl.cloneNode(true);
+    clone.className = 'spk-ph spk-fly';
+    clone.removeAttribute('id');
+    clone.style.cssText = 'left:' + b.left + 'px;top:' + b.top + 'px;width:' + b.width + 'px;height:' + b.height + 'px;';
+    document.body.appendChild(clone);
+    toEl.style.visibility = 'hidden';
+    var anim = clone.animate([
+      { transform: 'translate(' + (a.left - b.left) + 'px,' + (a.top - b.top) + 'px) scale(' + (a.width / b.width) + ')' },
+      { transform: 'translate(0,0) scale(1)' }
+    ], { duration: 780, easing: 'cubic-bezier(.22,.9,.18,1)' });
+    var done = function () {
+      toEl.style.visibility = '';
+      if (clone.parentNode) clone.parentNode.removeChild(clone);
+    };
+    anim.onfinish = done;
+    anim.oncancel = done;
+  }
 
   function fill(i) {
     var s = SPEAKERS[i];
@@ -1653,20 +1838,63 @@ var SPEAKERS = [
       $('spkMTalk').hidden = true;
     }
     $('spkMPos').textContent = (i + 1) + ' / ' + SPEAKERS.length;
+    setAmbient(DIR + s.photo);
   }
-  function openModal(i) {
+
+  function stopAnims(el) {
+    if (el && el.getAnimations) el.getAnimations().forEach(function (an) { an.cancel(); });
+  }
+
+  function openModal(i, fromCard) {
     if (!modal) return;
+    clearTimeout(closeTimer);
+    modal.classList.remove('is-closing');
+    stopAnims(sheet);
     cur = i;
     fill(i);
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
+    void modal.offsetWidth; // стартовое состояние сцены, чтобы сработали переходы
+
+    // окно уже стоит на своем месте: меряем, куда лететь фото, и запускаем полет
+    fly(fromCard ? fromCard.querySelector('.spk-ph') : null, $('spkMPh'));
+    modal.classList.add('is-open');
+    cellsStart();
+
+    if (canAnimate) {
+      var mobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+      sheet.animate(mobile
+        ? [{ transform: 'translateY(100%)' }, { transform: 'none' }]
+        : [{ opacity: 0, transform: 'translateY(34px) scale(.955)' }, { opacity: 1, transform: 'none' }],
+        { duration: mobile ? 560 : 720, delay: 40, easing: 'cubic-bezier(.2,.9,.2,1)', fill: 'backwards' });
+      modal.querySelectorAll('.spk-stg').forEach(function (el, k) {
+        el.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 600, delay: 260 + k * 80, easing: 'cubic-bezier(.2,.9,.2,1)', fill: 'backwards' });
+      });
+    }
     var x = modal.querySelector('.sub-x');
-    if (x) x.focus();
+    if (x) x.focus({ preventScroll: true });
   }
+
   function closeModal() {
-    if (!modal || modal.hidden) return;
-    modal.hidden = true;
-    document.body.style.overflow = '';
+    if (!modal || modal.hidden || modal.classList.contains('is-closing')) return;
+    modal.classList.add('is-closing');
+    modal.classList.remove('is-open');
+    if (canAnimate) {
+      var mobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
+      sheet.animate(mobile
+        ? [{ transform: 'none' }, { transform: 'translateY(100%)' }]
+        : [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(18px) scale(.97)' }],
+        { duration: 280, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+    }
+    closeTimer = setTimeout(function () {
+      modal.hidden = true;
+      modal.classList.remove('is-closing');
+      stopAnims(sheet);
+      cellsStop();
+      document.body.style.overflow = '';
+    }, canAnimate ? 400 : 0);
+
     // в ленте показываем того, на ком остановились
     var c = cards[cur];
     if (c) {
@@ -1678,18 +1906,35 @@ var SPEAKERS = [
       c.focus({ preventScroll: true });
     }
   }
-  function stepModal(d) {
-    cur = (cur + d + SPEAKERS.length) % SPEAKERS.length;
-    fill(cur);
+
+  // соседний спикер: текст уезжает в одну сторону и приезжает с другой, фон перетекает
+  function stepModal(dir) {
+    var n = (cur + dir + SPEAKERS.length) % SPEAKERS.length;
+    if (!canAnimate || !body) { cur = n; fill(n); return; }
+    swapAnims.forEach(function (an) { an.cancel(); });
+    var out = body.animate(
+      [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateX(' + (-dir * 30) + 'px)' }],
+      { duration: 170, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' });
+    swapAnims = [out];
+    out.onfinish = function () {
+      cur = n;
+      fill(n);
+      var inn = body.animate(
+        [{ opacity: 0, transform: 'translateX(' + (dir * 30) + 'px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 460, easing: 'cubic-bezier(.2,.9,.2,1)' });
+      out.cancel();
+      swapAnims = [inn];
+    };
   }
 
   track.addEventListener('click', function (e) {
     if (suppressClick) { e.preventDefault(); e.stopPropagation(); return; }
     var c = e.target.closest ? e.target.closest('.spk-card') : null;
-    if (c) openModal(+c.getAttribute('data-i'));
+    if (c) openModal(+c.getAttribute('data-i'), c);
   });
 
   if (modal) {
+    modal.addEventListener('pointermove', onMove);
     modal.querySelectorAll('[data-spk-close]').forEach(function (el) {
       el.addEventListener('click', closeModal);
     });
