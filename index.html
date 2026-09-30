@@ -34,21 +34,28 @@
   "startDate": "2026-10-15",
   "endDate": "2026-10-15",
   "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
   "description": "III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. Доклады и общение. Регистрация бесплатная.",
   "image": "https://reg-vet.github.io/congress/Логотипы/og-banner-v3.jpg",
   "url": "https://reg-vet.github.io/congress/",
-  "location": {
-    "@type": "Place",
-    "name": "СПбГУВМ — Санкт-Петербургский государственный университет ветеринарной медицины",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ул. Черниговская, д. 5",
-      "addressLocality": "Санкт-Петербург",
-      "postalCode": "196084",
-      "addressCountry": "RU"
+  "location": [
+    {
+      "@type": "Place",
+      "name": "СПбГУВМ — Санкт-Петербургский государственный университет ветеринарной медицины",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Черниговская, д. 5",
+        "addressLocality": "Санкт-Петербург",
+        "postalCode": "196084",
+        "addressCountry": "RU"
+      }
+    },
+    {
+      "@type": "VirtualLocation",
+      "name": "Онлайн-трансляция конгресса",
+      "url": "https://reg-vet.github.io/congress/"
     }
-  },
+  ],
   "organizer": [
     { "@type": "Organization", "name": "Евразийская Ассоциация регенеративной ветеринарной медицины" },
     { "@type": "Organization", "name": "Ассоциация врачей конной медицины (АВКоМ)" }
@@ -326,6 +333,69 @@
   .fmt-card:hover { transform: translateY(-5px); box-shadow: 0 22px 50px rgba(123,45,142,0.16); }
   .fmt-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.18rem; margin: 0 0 10px; color: var(--text-dark); }
   .fmt-card p { margin: 0; color: var(--muted-dark); font-size: 0.96rem; }
+
+  /* ---------- ФОРМАТЫ УЧАСТИЯ ---------- */
+  #join { background: var(--paper); }
+  .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: stretch; }
+  .join-card {
+    position: relative; overflow: hidden;
+    background: var(--card); border: 1px solid var(--border-dark);
+    border-radius: 22px; padding: 34px 32px 30px;
+    display: flex; flex-direction: column;
+  }
+  .join-tag {
+    display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
+    font-family: var(--display); font-weight: 600; font-size: 0.66rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 999px; margin-bottom: 18px;
+    background: var(--paper-2); color: var(--magenta);
+  }
+  .join-card h3 {
+    font-family: var(--display); font-weight: 600; font-size: 1.3rem;
+    margin: 0 0 18px; color: var(--text-dark);
+  }
+  .join-card ul { list-style: none; margin: 0; padding: 0; }
+  .join-card li {
+    position: relative; padding-left: 28px; margin-bottom: 13px;
+    color: var(--muted-dark); font-size: 0.98rem;
+  }
+  .join-card li::before {
+    content: ""; position: absolute; left: 0; top: 7px;
+    width: 11px; height: 11px; border-radius: 50%; background: var(--grad-br);
+  }
+
+  /* онлайн-карточка - темная, чтобы новая информация читалась первой */
+  .join-card-online {
+    border: 0; color: var(--text-light);
+    background:
+      radial-gradient(760px 420px at 88% 0%, rgba(232,75,156,0.34), transparent 62%),
+      linear-gradient(150deg, #2a1150 0%, #4a1d6e 46%, #7b2d8e 100%);
+    box-shadow: 0 26px 60px rgba(74,29,110,0.30);
+  }
+  .join-card-online h3 { color: #fff; }
+  .join-card-online li { color: rgba(246,236,250,0.88); }
+  .join-card-online li::before { background: linear-gradient(135deg, #ff77b8, #e84b9c); }
+  .join-card-online .join-tag { background: rgba(255,255,255,0.14); color: #ffd9ec; }
+
+  .live-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: #ff77b8;
+    box-shadow: 0 0 0 0 rgba(255,119,184,0.7); animation: livePulse 2s infinite;
+  }
+  @keyframes livePulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,119,184,0.65); }
+    70%  { box-shadow: 0 0 0 11px rgba(255,119,184,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,119,184,0); }
+  }
+
+  .join-note {
+    margin: 22px 0 0; padding: 15px 18px; border-radius: 14px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.16);
+    font-size: 0.9rem; color: rgba(246,236,250,0.92); line-height: 1.5;
+  }
+  .join-note b { color: #fff; font-weight: 600; }
+
+  @media (max-width: 900px) { .join-grid { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
 
   /* topics — cell-dot bullets */
   #topics { background: linear-gradient(180deg, var(--paper-2), var(--paper)); }
@@ -632,7 +702,7 @@
         <div class="hero-meta">
           <div class="meta-row"><span class="k" data-en="Date">Дата</span><span class="v" data-en="<b>15 October 2026</b> · one day"><b>15 октября 2026</b> · один день</span></div>
           <div class="meta-row"><span class="k" data-en="Venue">Место</span><span class="v" data-en="<b>St. Petersburg</b>, SPbGUVM · 5 Chernigovskaya st."><b>Санкт-Петербург</b>, СПбГУВМ · ул. Черниговская, д. 5</span></div>
-          <div class="meta-row"><span class="k" data-en="Format">Формат</span><span class="v" data-en="One day · plenary lectures and industry sessions">1 день · пленарные доклады и отраслевые сессии</span></div>
+          <div class="meta-row"><span class="k" data-en="Format">Формат</span><span class="v" data-en="In person in St. Petersburg <b>and online</b>"><b>Очно</b> в Санкт-Петербурге <b>и онлайн</b></span></div>
         </div>
 
         <div class="hero-cta">
@@ -681,6 +751,44 @@
         <h3 data-en="Networking">Общение</h3>
         <p data-en="Industry sessions from partners and networking with clinicians, researchers and manufacturers: contacts and partnerships that are hard to find online.">Отраслевые сессии партнёров и нетворкинг с врачами, исследователями и производителями — контакты и партнёрства, которые сложно найти онлайн.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-en="How to take part">Форматы участия</span>
+      <h2 data-en="In person or online">Очно или онлайн</h2>
+      <p data-en="Cannot make it to St. Petersburg? Join the broadcast. The programme is the same, and registration is free either way.">Не получается приехать в Петербург - подключайтесь к трансляции. Программа одна и та же, регистрация в обоих случаях бесплатная.</p>
+    </div>
+    <div class="join-grid">
+
+      <div class="join-card">
+        <span class="join-tag" data-en="In person">Очно</span>
+        <h3 data-en="St. Petersburg, SPbGUVM">Санкт-Петербург, СПбГУВМ</h3>
+        <ul>
+          <li data-en="The full day of talks in the hall">Полный день докладов в зале</li>
+          <li data-en="Stands and products of the participating companies">Стенды и препараты компаний-участников</li>
+          <li data-en="Talking to the speakers during the breaks">Общение с докладчиками в перерывах</li>
+          <li data-en="A personal certificate of participation">Именной сертификат участника</li>
+        </ul>
+      </div>
+
+      <div class="join-card join-card-online">
+        <span class="join-tag"><i class="live-dot"></i> <span data-en="Online">Онлайн</span></span>
+        <h3 data-en="Live broadcast from the hall">Трансляция из зала</h3>
+        <ul>
+          <li data-en="All talks of the main programme">Все доклады основной программы</li>
+          <li data-en="Simultaneous interpretation of the international talks">Синхронный перевод зарубежных докладов</li>
+          <li data-en="Questions to the speakers in the chat">Вопросы докладчикам в чате</li>
+          <li data-en="Join from a computer or a phone">Подключение с компьютера или телефона</li>
+        </ul>
+        <p class="join-note" data-en="<b>The link will be sent by email</b> a few days before the congress, to the address you give when registering. There is nothing else you need to do.">
+          <b>Ссылку на трансляцию пришлем на почту</b> за несколько дней до конгресса - на адрес, указанный при регистрации. Больше ничего делать не нужно.
+        </p>
+      </div>
+
     </div>
   </div>
 </section>
