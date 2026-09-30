@@ -506,24 +506,7 @@
   .spk-n2 { font-size: 0.92rem; color: var(--text-light); opacity: .82; margin-top: 3px; line-height: 1.35; }
   .spk-n2:empty { display: none; }
   .spk-role {
-    margin: 12px 0 18px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
-    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  /* тема доклада прижата к низу карточки - у соседних карточек плашки стоят на одной линии */
-  .spk-talk {
-    margin-top: auto; align-self: stretch; display: block;
-    padding: 13px 14px 14px; border-radius: 14px;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10);
-    transition: border-color .25s, background .25s;
-  }
-  .spk-card:hover .spk-talk, .spk-card:focus-visible .spk-talk { border-color: rgba(255,119,184,0.32); background: rgba(255,255,255,0.08); }
-  .spk-talk-lbl {
-    display: block; margin-bottom: 7px;
-    font-family: var(--display); font-weight: 600; font-size: 0.58rem;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink-2);
-  }
-  .spk-talk-t {
-    font-size: 0.86rem; line-height: 1.45; font-weight: 500; color: #fff;
+    margin-top: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
     display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
   }
   .spk-more {
@@ -767,6 +750,38 @@
   .foot-col a { color: var(--muted-light); text-decoration: none; }
   .foot-col a:hover { color: #fff; }
   .foot-bottom { padding-top: 26px; font-size: 0.84rem; color: var(--muted-light); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  /* подпись агентства, которое сделало сайт */
+  .foot-credit {
+    margin-top: 26px; padding: 16px 16px 16px 22px; border-radius: 18px;
+    display: flex; align-items: center; gap: 14px 16px; flex-wrap: wrap;
+    background: linear-gradient(120deg, rgba(123,45,142,0.24) 0%, rgba(194,37,143,0.12) 60%, rgba(255,255,255,0.03) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.88rem; color: var(--muted-light);
+  }
+  .fc-dot {
+    flex-shrink: 0; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--grad-br); animation: livePulse 2.6s infinite;
+  }
+  .fc-text { margin: 0; flex: 1 1 260px; line-height: 1.5; }
+  .fc-text b {
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff9ccf, #ff77b8);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .fc-mail {
+    display: inline-flex; align-items: center; gap: 9px; flex-shrink: 0;
+    padding: 11px 18px; border-radius: 999px; text-decoration: none;
+    font-weight: 600; font-size: 0.86rem; line-height: 1; color: #fff;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18);
+    transition: background .2s, border-color .2s, transform .16s;
+  }
+  .fc-mail svg { width: 17px; height: 17px; }
+  .fc-at { font-weight: 500; color: rgba(255,255,255,0.72); padding-left: 10px; border-left: 1px solid rgba(255,255,255,0.22); }
+  .fc-at:empty { display: none; }
+  .fc-mail:hover .fc-at { color: #fff; border-left-color: rgba(255,255,255,0.45); }
+  .fc-mail:hover { background: var(--grad); border-color: transparent; transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) { .fc-dot { animation: none; } }
 
   /* ---------- RESPONSIVE ---------- */
   /* пунктов меню семь: отступы между ними компактнее, а ниже 1120px меню уходит в «бургер» */
@@ -1134,6 +1149,17 @@
       <span data-en="© 2026 ANIMALSTEM · Stem Renovatio">© 2026 ANIMALSTEM · Стэм Реновацио</span>
       <span data-en="Regenerative veterinary medicine">Регенеративная ветеринарная медицина</span>
     </div>
+
+    <!-- Кто сделал сайт. Адрес почты собирается скриптом ниже, чтобы его не собирали спам-боты -->
+    <div class="foot-credit">
+      <span class="fc-dot" aria-hidden="true"></span>
+      <p class="fc-text"><span data-en="Website by the <b>Secretome</b> agency. Projects with a secret ingredient.">Сайт сделало агентство <b>«Секретом»</b>. Делаем проекты с секретом.</span></p>
+      <a class="fc-mail" id="agencyMail" href="#" rel="nofollow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.4"/><path d="M4 7.2l8 5.8 8-5.8"/></svg>
+        <span class="fc-addr" data-en="Write to us">Написать нам</span>
+        <span class="fc-at"></span>
+      </a>
+    </div>
   </div>
 </footer>
 
@@ -1275,10 +1301,10 @@ var PARTNERS = [
      n2   - вторая строка (имя и отчество); можно оставить пустой
      role - коротко о спикере, видно на карточке
      bio  - подробнее, видно в окне по клику; можно не заполнять
-     talk - тема доклада; можно не заполнять. Если докладов несколько -
-            списком в квадратных скобках: talk: ['Первая тема', 'Вторая тема']
+     talk - тема доклада, видна в окне по клику; можно не заполнять.
+            Если докладов несколько - списком: talk: ['Первая тема', 'Вторая тема']
    speech: true - вместо доклада выступление (например, приветственное слово):
-            тема показывается без кавычек и с подписью «Выступление»
+            в окне тема идет без кавычек и с подписью «Выступление»
    ====================================================================== */
 var SPEAKERS = [
   { photo: 'stekolnikov.jpg', speech: true,
@@ -1452,12 +1478,11 @@ var SPEAKERS = [
     if (!d || !d.talk) return [];
     return Array.isArray(d.talk) ? d.talk : [d.talk];
   }
-  // подпись над темой: «Доклад», «2 доклада», «Выступление»; short - для карточки
-  function talkLabel(s, n, isEn, short) {
+  // подпись над темой в окне: «Тема доклада», «Темы докладов», «Выступление»
+  function talkLabel(s, n, isEn) {
     if (s.speech) return isEn ? 'Speech' : 'Выступление';
-    if (n > 1) return short ? (isEn ? n + ' talks' : n + ' ' + plural(n, 'доклад', 'доклада', 'докладов'))
-                            : (isEn ? 'Talks' : 'Темы докладов');
-    return short ? (isEn ? 'Talk' : 'Доклад') : (isEn ? 'Talk' : 'Тема доклада');
+    if (n > 1) return isEn ? 'Talks' : 'Темы докладов';
+    return isEn ? 'Talk' : 'Тема доклада';
   }
   // название доклада в кавычках; выступление - без кавычек
   function quote(t, isEn, plain) {
@@ -1494,15 +1519,6 @@ var SPEAKERS = [
     b.appendChild(txt('spk-n1', ru.n1, en.n1));
     b.appendChild(txt('spk-n2', ru.n2, en.n2));
     b.appendChild(txt('spk-role', ru.role, en.role));
-    // тема доклада внизу карточки; если докладов несколько - первая, остальные в окне
-    var tr = talks(ru), te = talks(en);
-    if (tr.length) {
-      var box = document.createElement('span');
-      box.className = 'spk-talk';
-      box.appendChild(txt('spk-talk-lbl', talkLabel(s, tr.length, false, true), talkLabel(s, te.length || tr.length, true, true)));
-      box.appendChild(txt('spk-talk-t', quote(tr[0], false, s.speech), quote(te[0] || tr[0], true, s.speech)));
-      b.appendChild(box);
-    }
     var more = document.createElement('span');
     more.className = 'spk-more';
     more.setAttribute('aria-hidden', 'true');
@@ -1656,7 +1672,7 @@ var SPEAKERS = [
     var list = $('spkMTalkTxt');
     list.innerHTML = '';
     if (T.length) {
-      $('spkMTalkLbl').textContent = talkLabel(s, T.length, isEn, false);
+      $('spkMTalkLbl').textContent = talkLabel(s, T.length, isEn);
       T.forEach(function (t) {
         var p = document.createElement('p');
         p.textContent = quote(t, isEn, s.speech);
@@ -1929,6 +1945,23 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       timer = setTimeout(open, DELAY);
     });
   });
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ПОЧТА АГЕНТСТВА В ПОДВАЛЕ
+   Адрес собирается из двух частей, поэтому спам-боты его не находят,
+   а у посетителя по клику открывается новое письмо на этот адрес.
+   ====================================================================== */
+(function agencyMail() {
+  var a = document.getElementById('agencyMail');
+  if (!a) return;
+  var user = 'i.dzhoy', domain = 'yandex.ru';
+  var addr = user + '@' + domain;
+  a.href = 'mailto:' + addr + '?subject=' + encodeURIComponent('Проект с секретом');
+  var at = a.querySelector('.fc-at');
+  if (at) at.textContent = addr;
 })();
 </script>
 
