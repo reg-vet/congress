@@ -674,9 +674,11 @@
     box-shadow: 0 30px 80px rgba(41,19,56,0.22);
   }
   .pd-main { min-width: 0; }
+  /* касания внутри барабана целиком отдаем барабану: свайп крутит его, а не страницу */
   .pd-stage {
     position: relative; height: 520px; perspective: 1500px; overflow: hidden; cursor: grab; user-select: none;
-    touch-action: pan-y; outline: none; border-radius: 18px;
+    -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+    touch-action: none; outline: none; border-radius: 18px;
     -webkit-mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
             mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
   }
@@ -732,6 +734,8 @@
   .pd-card.pd-brk .pd-time, .pd-card.pd-sec .pd-time { margin-top: 8px; color: var(--pink-2); }
   .pd-card.pd-brk .pd-kind { margin-bottom: 8px; }
   .pd-ctrl { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; }
+  /* без этого быстрые нажатия на стрелки телефон принимает за двойное касание и увеличивает страницу */
+  button, .pd-ctrl, .pd-rail { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .pd-ctrl .spk-btn { width: 46px; height: 46px; }
   .pd-pos { font-family: var(--display); font-weight: 600; font-size: .72rem; letter-spacing: .14em; color: var(--muted-light); min-width: 74px; text-align: center; }
   .pd-rail { display: flex; flex-direction: column; justify-content: center; gap: 3px; height: 520px; align-self: start; }
@@ -743,7 +747,7 @@
   @media (max-width: 760px) {
     .pdrum { grid-template-columns: 1fr; padding: 16px 12px 18px; border-radius: 24px; }
     .pd-rail { display: none; }
-    .pd-stage { height: 460px; }
+    .pd-stage { height: 430px; }
     .pd-card { grid-template-columns: 56px 54px minmax(0, 1fr); gap: 11px; padding: 14px; }
     .pd-ph { width: 54px; height: 54px; }
     .pd-ph.duo .pd-av:first-child { inset: 0 12px 12px 0; }
@@ -2335,30 +2339,45 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       if (Math.abs(acc) >= 40 && now - last > 90) { go(cur + (acc > 0 ? 1 : -1)); acc = 0; last = now; }
     }, { passive: false });
 
-    // мышью барабан тянется за любое место, на телефоне - за переднюю карточку (остальное место листает страницу)
+    // барабан тянется мышью или пальцем за любое место; быстрый взмах прокручивает сразу несколько выступлений
     var drag = null, suppress = false;
+    var K = (TH / H) * 1.1;                        // градусов поворота на пиксель движения пальца
+    var LO = -TH * 0.35;                           // насколько можно «перетянуть» за первое выступление
+    function HI() { return (items.length - 1 + 0.35) * TH; }
     stage.addEventListener('pointerdown', function (e) {
-      var front = e.target.closest('.pd-card.front');
-      if (e.pointerType === 'mouse') { if (e.button !== 0) return; }
-      else if (!front) return;
-      drag = { y: e.clientY, a: angle, moved: false };
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      drag = { y: e.clientY, last: e.clientY, a: angle, moved: false, pts: [{ t: e.timeStamp, y: e.clientY }] };
     });
     window.addEventListener('pointermove', function (e) {
       if (!drag) return;
-      var dy = drag.y - e.clientY;
-      if (!drag.moved) { if (Math.abs(dy) < 6) return; drag.moved = true; stage.classList.add('drag'); }
-      var a = drag.a + dy * (TH / H) * 1.1;
-      apply(Math.max(-TH * 0.6, Math.min((items.length - 0.4) * TH, a)), true);
+      var step = drag.last - e.clientY;            // сдвиг с прошлого события: плюс - палец идет вверх
+      drag.last = e.clientY;
+      if (!drag.moved) {
+        if (Math.abs(drag.y - e.clientY) < 6) return;
+        drag.moved = true;
+        stage.classList.add('drag');
+      }
+      drag.pts.push({ t: e.timeStamp, y: e.clientY });
+      if (drag.pts.length > 6) drag.pts.shift();
+      var total = drag.y - e.clientY, a = drag.a + total * K;
+      // на первом и последнем выступлении палец дальше листает уже страницу - на барабане не застрять
+      if (a < LO) { if (step < 0) window.scrollBy(0, step); drag.a = LO - total * K; a = LO; }
+      else if (a > HI()) { if (step > 0) window.scrollBy(0, step); drag.a = HI() - total * K; a = HI(); }
+      apply(a, true);
     });
-    function endDrag() {
+    function endDrag(e) {
       if (!drag) return;
-      var moved = drag.moved;
+      var d = drag;
       drag = null;
       stage.classList.remove('drag');
-      if (!moved) return;
+      if (!d.moved) return;
       suppress = true;
       setTimeout(function () { suppress = false; }, 0);
-      go(Math.round(angle / TH));
+      // инерция: скорость пальца за последние доли секунды
+      var v = 0, p = d.pts, f = p[0], l = p[p.length - 1];
+      var idle = e && e.timeStamp ? e.timeStamp - l.t : 0;
+      if (p.length > 1 && l.t > f.t && idle < 90) v = (f.y - l.y) / (l.t - f.t);
+      go(Math.round((angle + v * 200 * K) / TH));
     }
     window.addEventListener('pointerup', endDrag);
     window.addEventListener('pointercancel', endDrag);
@@ -2444,10 +2463,9 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       cur = nowI >= 0 ? nowI : 0;
       build();
 
-      // подписи раздела под новый формат
-      window.setLangText && setLangText(document.getElementById('progLead'),
-        'Крутите барабан колесом мыши, стрелками или пальцем. Нажмите на выступление с фото, чтобы узнать о спикере.',
-        'Spin the drum with your mouse wheel, the arrows or your finger. Tap a talk with a photo to learn about the speaker.');
+      // подпись под заголовком нужна только запасному блоку - при барабане ее прячем
+      var lead = document.getElementById('progLead');
+      if (lead) lead.hidden = true;
       window.setLangText && setLangText(document.querySelector('.prog-note'),
         'Программа дополняется по мере подтверждения докладов. Актуальная версия всегда на этой странице.',
         'The programme is updated as talks are confirmed. This page always shows the current version.');
