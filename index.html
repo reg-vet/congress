@@ -663,6 +663,100 @@
   .day li b { color: var(--text-dark); font-weight: 600; }
   .prog-note { margin-top: 24px; font-size: 0.9rem; color: var(--muted-dark); font-style: italic; }
 
+  /* ---------- программа: барабан ---------- */
+  .pdrum {
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 22px; align-items: center;
+    padding: 28px 28px 22px; border-radius: 30px; overflow: hidden; color: var(--text-light);
+    background:
+      radial-gradient(760px 420px at 88% 0%, rgba(232,75,156,0.22), transparent 62%),
+      radial-gradient(680px 460px at 0% 100%, rgba(75,29,110,0.6), transparent 62%),
+      linear-gradient(180deg, #1c0b33 0%, #120624 100%);
+    box-shadow: 0 30px 80px rgba(41,19,56,0.22);
+  }
+  .pd-main { min-width: 0; }
+  .pd-stage {
+    position: relative; height: 520px; perspective: 1500px; overflow: hidden; cursor: grab; user-select: none;
+    touch-action: pan-y; outline: none; border-radius: 18px;
+    -webkit-mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
+            mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
+  }
+  .pd-stage.drag { cursor: grabbing; }
+  .pd-stage:focus-visible { box-shadow: inset 0 0 0 2px rgba(255,119,184,0.5); }
+  .pd-drum { position: absolute; left: 0; right: 0; top: 50%; height: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.9,.2,1); }
+  .pd-drum.nt { transition: none; }
+  .pd-card {
+    position: absolute; left: 50%; top: 0; width: min(760px, 100%); height: 150px; margin: -75px 0 0 calc(min(760px, 100%) / -2);
+    display: grid; grid-template-columns: 92px 88px minmax(0, 1fr); gap: 20px; align-items: center;
+    padding: 16px 26px 16px 22px; border-radius: 22px;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    background: linear-gradient(180deg, rgba(44,18,76,0.94), rgba(24,10,44,0.96));
+    border: 1px solid rgba(255,255,255,0.10);
+    transition: opacity .5s, border-color .5s, box-shadow .5s;
+  }
+  .pd-card.front { border-color: rgba(255,119,184,0.55); box-shadow: 0 0 0 1px rgba(255,119,184,0.25), 0 26px 70px rgba(194,37,143,0.35); touch-action: none; }
+  .pd-card.front.has-spk { cursor: pointer; }
+  .pd-card.near { cursor: pointer; }
+  /* слева: номер, под ним время (появится, когда его заполнят в таблице), ниже тип */
+  .pd-l { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .pd-n { font-family: var(--display); font-weight: 700; font-size: 1.3rem; line-height: 1; color: #fff; }
+  .pd-time { font-family: var(--display); font-weight: 600; font-size: .72rem; line-height: 1.25; color: #fff; min-height: 1.25em; }
+  .pd-kind { font-family: var(--display); font-weight: 600; font-size: .54rem; letter-spacing: .16em; text-transform: uppercase; color: var(--pink-2); }
+  .pd-now {
+    position: absolute; top: 12px; right: 14px; display: inline-flex; align-items: center; gap: 7px;
+    padding: 5px 10px; border-radius: 999px; background: rgba(255,119,184,0.16); border: 1px solid rgba(255,119,184,0.45);
+    font-family: var(--display); font-weight: 600; font-size: .54rem; letter-spacing: .14em; text-transform: uppercase; color: #ffd0ea;
+  }
+  .pd-now i { width: 7px; height: 7px; border-radius: 50%; background: #ff77b8; animation: livePulse 2s infinite; }
+  .pd-ph { position: relative; width: 84px; height: 84px; }
+  .pd-ph .pd-av {
+    position: absolute; inset: 0; border-radius: 50%; padding: 3px;
+    background: conic-gradient(from 200deg, #7b2d8e, #c2258f, #ff77b8, #e84b9c, #7b2d8e);
+  }
+  .pd-ph .pd-av img, .pd-ph .pd-av span {
+    display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; border: 3px solid #1d0b34; background: linear-gradient(150deg, #3a1460, #1d0b34);
+    font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: #fff;
+  }
+  /* двое докладчиков: второе фото поменьше, внахлест */
+  .pd-ph.duo .pd-av:first-child { inset: 0 18px 18px 0; }
+  .pd-ph.duo .pd-av + .pd-av { inset: 30px 0 0 30px; }
+  .pd-t {
+    font-family: var(--display); font-weight: 600; font-size: 1rem; line-height: 1.32; color: #fff;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .pd-card.front .pd-t { -webkit-line-clamp: 4; }
+  .pd-t.tbd { color: var(--muted-light); }
+  .pd-s { font-size: .86rem; color: var(--muted-light); margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd-card.pd-brk, .pd-card.pd-sec { grid-template-columns: 1fr; text-align: center; padding: 16px 28px; }
+  .pd-card.pd-brk { background: repeating-linear-gradient(135deg, rgba(255,119,184,0.10) 0 14px, rgba(255,119,184,0.03) 14px 28px), rgba(24,10,44,0.96); }
+  .pd-card.pd-brk .pd-time, .pd-card.pd-sec .pd-time { margin-top: 8px; color: var(--pink-2); }
+  .pd-card.pd-brk .pd-kind { margin-bottom: 8px; }
+  .pd-ctrl { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; }
+  .pd-ctrl .spk-btn { width: 46px; height: 46px; }
+  .pd-pos { font-family: var(--display); font-weight: 600; font-size: .72rem; letter-spacing: .14em; color: var(--muted-light); min-width: 74px; text-align: center; }
+  .pd-rail { display: flex; flex-direction: column; justify-content: center; gap: 3px; height: 520px; align-self: start; }
+  .pd-rail button { position: relative; flex: 0 1 15px; min-height: 5px; width: 40px; border: 0; padding: 0; background: transparent; cursor: pointer; }
+  .pd-rail button::before { content: ""; position: absolute; left: 10px; right: 10px; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; background: rgba(255,255,255,0.22); transition: all .25s; }
+  .pd-rail button.brk::before { background: rgba(255,119,184,0.6); left: 4px; right: 4px; }
+  .pd-rail button.on::before { left: 0; right: 0; height: 4px; margin-top: -2px; background: var(--grad); box-shadow: 0 0 12px rgba(255,119,184,0.8); }
+  .pd-rail button:hover::before { background: #fff; }
+  @media (max-width: 760px) {
+    .pdrum { grid-template-columns: 1fr; padding: 16px 12px 18px; border-radius: 24px; }
+    .pd-rail { display: none; }
+    .pd-stage { height: 460px; }
+    .pd-card { grid-template-columns: 66px 60px minmax(0, 1fr); gap: 12px; padding: 14px 16px 14px 14px; }
+    .pd-ph { width: 58px; height: 58px; }
+    .pd-ph.duo .pd-av:first-child { inset: 0 12px 12px 0; }
+    .pd-ph.duo .pd-av + .pd-av { inset: 22px 0 0 22px; }
+    .pd-ph .pd-av span { font-size: .8rem; }
+    .pd-n { font-size: 1.05rem; }
+    .pd-time { font-size: .62rem; }
+    .pd-t { font-size: .86rem; }
+    .pd-s { font-size: .78rem; }
+    .pd-now { top: 8px; right: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pd-drum { transition: none; } .pd-now i { animation: none; } }
+
   /* ---------- расписание из таблицы ---------- */
   .sched { display: grid; gap: 10px; }
   .sched-row {
@@ -1093,11 +1187,27 @@
     <div class="sec-head">
       <span class="eyebrow" data-en="Programme">Программа</span>
       <h2 data-en="One day of the congress">Один день конгресса</h2>
-      <p data-en="The final list of speakers and topics is being confirmed. The general structure of the programme is below.">Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
+      <p id="progLead" data-en="The final list of speakers and topics is being confirmed. The general structure of the programme is below.">Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
     </div>
-    <!-- Расписание из Google-таблицы. Пока таблица не подключена или недоступна,
-         показывается запасной блок ниже. -->
-    <div class="sched" id="schedule" hidden></div>
+    <!-- Программа на барабане. Данные берутся из Google-таблицы (скрипт PROGRAM_CSV внизу страницы).
+         Пока таблица не подключена или недоступна, показывается запасной блок ниже. -->
+    <div class="pdrum" id="pdrum" hidden>
+      <div class="pd-main">
+        <div class="pd-stage" id="pdStage" tabindex="0" aria-label="Программа конгресса" data-en-aria="Congress programme">
+          <div class="pd-drum" id="pdDrum"></div>
+        </div>
+        <div class="pd-ctrl">
+          <button class="spk-btn" type="button" id="pdUp" aria-label="Предыдущее выступление" data-en-aria="Previous talk">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+          </button>
+          <span class="pd-pos" id="pdPos"></span>
+          <button class="spk-btn" type="button" id="pdDown" aria-label="Следующее выступление" data-en-aria="Next talk">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="pd-rail" id="pdRail" aria-hidden="true"></div>
+    </div>
 
     <div class="days days-1" id="scheduleFallback">
       <div class="day">
@@ -1857,7 +1967,7 @@ var SPEAKERS = [
     void modal.offsetWidth; // стартовое состояние сцены, чтобы сработали переходы
 
     // окно уже стоит на своем месте: меряем, куда лететь фото, и запускаем полет
-    fly(fromCard ? fromCard.querySelector('.spk-ph') : null, $('spkMPh'));
+    fly(fromCard ? fromCard.querySelector('.spk-ph, .pd-av') : null, $('spkMPh'));
     modal.classList.add('is-open');
     cellsStart();
 
@@ -1955,6 +2065,33 @@ var SPEAKERS = [
       }
     });
   }
+
+  /* ---- для программы: найти спикера по имени из таблицы, взять фото, открыть окно ---- */
+  function surname(n, hasN2) {
+    var w = String(n || '').trim().split(/\s+/);
+    return (hasN2 && w.length === 1 ? w[0] : w[w.length - 1]) || '';
+  }
+  function norm(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е'); }
+  var KEYS = SPEAKERS.map(function (s) {
+    var ru = s.ru || {}, en = s.en || {};
+    return [surname(ru.n1, !!ru.n2), surname(en.n1, false)].filter(Boolean).map(norm);
+  });
+  window.SPK = {
+    // номера спикеров из карусели, которые упомянуты в строке (не больше двух, в порядке упоминания)
+    find: function (name) {
+      var words = norm(name).split(/[^a-zа-я-]+/).filter(Boolean);
+      var hits = [];
+      KEYS.forEach(function (keys, i) {
+        var at = -1;
+        keys.forEach(function (k) { var p = words.indexOf(k); if (p >= 0 && (at < 0 || p < at)) at = p; });
+        if (at >= 0) hits.push({ i: i, at: at });
+      });
+      hits.sort(function (a, b) { return a.at - b.at; });
+      return hits.slice(0, 2).map(function (h) { return h.i; });
+    },
+    photo: function (i) { return DIR + SPEAKERS[i].photo; },
+    open: function (i, fromEl) { openModal(i, fromEl); }
+  };
 })();
 </script>
 
@@ -1985,19 +2122,35 @@ var PAGE_META = {
 
 (function languageSwitch() {
   var STORE_KEY = 'animalstem-lang';
-  var nodes = [], attrNodes = [];
 
-  document.querySelectorAll('[data-en]').forEach(function (el) {
-    nodes.push({ el: el, ru: el.innerHTML, en: el.getAttribute('data-en') });
-  });
-  document.querySelectorAll('[data-en-aria]').forEach(function (el) {
-    attrNodes.push({ el: el, ru: el.getAttribute('aria-label'), en: el.getAttribute('data-en-aria') });
-  });
+  // русский текст запоминаем в data-ru: так переключаются и блоки, которые скрипты дописывают позже
+  function remember() {
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      if (!el.hasAttribute('data-ru')) el.setAttribute('data-ru', el.innerHTML);
+    });
+    document.querySelectorAll('[data-en-aria]').forEach(function (el) {
+      if (!el.hasAttribute('data-ru-aria')) el.setAttribute('data-ru-aria', el.getAttribute('aria-label') || '');
+    });
+  }
+  remember();
+
+  // для скриптов: задать текст сразу на двух языках и показать нужный
+  window.setLangText = function (el, ru, en) {
+    if (!el) return;
+    el.setAttribute('data-ru', ru);
+    el.setAttribute('data-en', en);
+    el.innerHTML = document.documentElement.lang === 'en' ? en : ru;
+  };
 
   function apply(lang) {
     var isEn = (lang === 'en');
-    nodes.forEach(function (n) { n.el.innerHTML = isEn ? n.en : n.ru; });
-    attrNodes.forEach(function (n) { n.el.setAttribute('aria-label', isEn ? n.en : n.ru); });
+    remember();
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      el.innerHTML = isEn ? el.getAttribute('data-en') : el.getAttribute('data-ru');
+    });
+    document.querySelectorAll('[data-en-aria]').forEach(function (el) {
+      el.setAttribute('aria-label', isEn ? el.getAttribute('data-en-aria') : el.getAttribute('data-ru-aria'));
+    });
 
     document.documentElement.lang = lang;
     document.title = PAGE_META[lang].title;
@@ -2009,6 +2162,11 @@ var PAGE_META = {
     });
 
     try { localStorage.setItem(STORE_KEY, lang); } catch (e) {}
+    // блоки, которые рисует скрипт (например, барабан программы), перерисовываются по этому событию
+    var ev;
+    try { ev = new CustomEvent('langchange', { detail: lang }); }
+    catch (e) { ev = document.createEvent('CustomEvent'); ev.initCustomEvent('langchange', false, false, lang); }
+    document.dispatchEvent(ev);
   }
 
   document.querySelectorAll('.lang-opt').forEach(function (b) {
@@ -2067,6 +2225,164 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
     });
   }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  // переносы строк внутри ячейки превращаем в запятые
+  function clean(s) { return String(s || '').replace(/\s*\n+\s*/g, ', ').replace(/\s{2,}/g, ' ').replace(/^[\s,]+|[\s,]+$/g, ''); }
+  function initials(n) {
+    return String(n || '').split(/[\s,]+/).filter(Boolean).slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
+  }
+  function lang() { return document.documentElement.lang === 'en' ? 'en' : 'ru'; }
+
+  /* ---------- барабан ---------- */
+  var CONGRESS_DAY = '2026-10-15';
+  var L = {
+    ru: { talk: 'Доклад', hello: 'Приветствие', partner: 'Партнер', brk: 'Перерыв', tbd: 'Тема уточняется', now: 'Сейчас' },
+    en: { talk: 'Talk', hello: 'Welcome', partner: 'Partner', brk: 'Break', tbd: 'Topic to be announced', now: 'Now' }
+  };
+  var items = [], total = 0, cur = 0, angle = 0;
+  var TH = 12, H = 150, RAD = (H / 2) / Math.tan(TH / 2 * Math.PI / 180) * 1.1;
+  var box, stage, drum, rail, pos, cards = [], nowI = -1;
+
+  function startMin(t) { var m = /(\d{1,2})[.:](\d{2})/.exec(t || ''); return m ? (+m[1]) * 60 + (+m[2]) : -1; }
+  // в день конгресса по времени Санкт-Петербурга находим выступление, которое идет сейчас
+  function nowIndex() {
+    var msk = new Date(Date.now() + 3 * 3600 * 1000);
+    if (msk.toISOString().slice(0, 10) !== CONGRESS_DAY) return -1;
+    var mins = msk.getUTCHours() * 60 + msk.getUTCMinutes(), found = -1;
+    items.forEach(function (it, i) { var s = startMin(it.time); if (s >= 0 && s <= mins) found = i; });
+    return found;
+  }
+
+  function build() {
+    var T = L[lang()], html = '', railHtml = '';
+    nowI = nowIndex();
+    items.forEach(function (it, i) {
+      var mid = it.type === 'brk' || it.type === 'sec';
+      var style = 'transform:rotateX(' + (-i * TH) + 'deg) translateZ(' + RAD.toFixed(1) + 'px)';
+      var now = i === nowI ? '<span class="pd-now"><i></i>' + T.now + '</span>' : '';
+      if (mid) {
+        html += '<div class="pd-card pd-' + it.type + '" data-i="' + i + '" style="' + style + '">' + now + '<div>' +
+          (it.type === 'brk' ? '<div class="pd-kind">' + T.brk + '</div>' : '') +
+          '<div class="pd-t">' + esc(it.title) + '</div>' +
+          (it.time ? '<div class="pd-time">' + esc(it.time) + '</div>' : '') +
+          '</div></div>';
+      } else {
+        var ph = it.spk.length
+          ? '<div class="pd-ph' + (it.spk.length > 1 ? ' duo' : '') + '">' + it.spk.map(function (k) {
+              return '<span class="pd-av"><img alt="" loading="lazy" src="' + SPK.photo(k) + '"></span>';
+            }).join('') + '</div>'
+          : '<div class="pd-ph"><span class="pd-av"><span>' + esc(initials(it.names[0])) + '</span></span></div>';
+        html += '<div class="pd-card' + (it.spk.length ? ' has-spk' : '') + '" data-i="' + i + '" style="' + style + '">' + now +
+          // номер, под ним время (пустая строка держит место, пока время не заполнено), ниже тип
+          '<div class="pd-l"><div class="pd-n">' + pad(it.no) + '</div><div class="pd-time">' + esc(it.time) + '</div><div class="pd-kind">' + T[it.type] + '</div></div>' +
+          ph +
+          '<div><div class="pd-t' + (it.tbd ? ' tbd' : '') + '">' + esc(it.tbd ? T.tbd : it.topic) + '</div>' +
+          '<div class="pd-s">' + esc(it.names.join(', ')) + '</div></div>' +
+          '</div>';
+      }
+      railHtml += '<button type="button" tabindex="-1" class="' + (mid ? 'brk' : '') + '" data-i="' + i + '" title="' +
+        esc(mid ? it.title : pad(it.no) + '. ' + (it.tbd ? it.names.join(', ') : it.topic)) + '"></button>';
+    });
+    drum.innerHTML = html;
+    rail.innerHTML = railHtml;
+    cards = drum.children;
+    go(cur, true);
+  }
+
+  function apply(a, instant) {
+    angle = a;
+    drum.classList.toggle('nt', !!instant);
+    drum.style.transform = 'translateZ(' + (-RAD).toFixed(1) + 'px) rotateX(' + a.toFixed(2) + 'deg)';
+    var c = a / TH;
+    for (var i = 0; i < cards.length; i++) {
+      var d = Math.abs(i - c), card = cards[i];
+      card.style.opacity = d > 3.2 ? 0 : Math.max(0, 1 - d * 0.32).toFixed(2);
+      card.style.visibility = d > 3.4 ? 'hidden' : '';
+      card.style.pointerEvents = d < 1.6 ? 'auto' : 'none';
+      card.classList.toggle('front', d < 0.5);
+      card.classList.toggle('near', d >= 0.5 && d < 1.6);
+    }
+  }
+  function go(i, instant) {
+    cur = Math.max(0, Math.min(items.length - 1, i));
+    apply(cur * TH, instant);
+    var bs = rail.children;
+    for (var k = 0; k < bs.length; k++) bs[k].classList.toggle('on', k === cur);
+    var it = items[cur];
+    pos.textContent = it ? (it.no ? pad(it.no) + ' / ' + total : (it.type === 'brk' ? L[lang()].brk : '··')) : '';
+  }
+
+  function bind() {
+    document.getElementById('pdUp').addEventListener('click', function () { go(cur - 1); });
+    document.getElementById('pdDown').addEventListener('click', function () { go(cur + 1); });
+    rail.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (b) go(+b.getAttribute('data-i')); });
+
+    // колесо мыши крутит барабан; на первом и последнем выступлении страница листается дальше как обычно
+    var acc = 0, accT = 0, last = 0;
+    stage.addEventListener('wheel', function (e) {
+      var dy = e.deltaY * (e.deltaMode === 1 ? 33 : e.deltaMode === 2 ? 400 : 1);
+      if (Math.abs(e.deltaX) > Math.abs(dy)) return;
+      var dir = dy > 0 ? 1 : -1;
+      if ((dir > 0 && cur >= items.length - 1) || (dir < 0 && cur <= 0)) return;
+      e.preventDefault();
+      acc += dy;
+      clearTimeout(accT);
+      accT = setTimeout(function () { acc = 0; }, 200);
+      var now = Date.now();
+      if (Math.abs(acc) >= 40 && now - last > 90) { go(cur + (acc > 0 ? 1 : -1)); acc = 0; last = now; }
+    }, { passive: false });
+
+    // мышью барабан тянется за любое место, на телефоне - за переднюю карточку (остальное место листает страницу)
+    var drag = null, suppress = false;
+    stage.addEventListener('pointerdown', function (e) {
+      var front = e.target.closest('.pd-card.front');
+      if (e.pointerType === 'mouse') { if (e.button !== 0) return; }
+      else if (!front) return;
+      drag = { y: e.clientY, a: angle, moved: false };
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dy = drag.y - e.clientY;
+      if (!drag.moved) { if (Math.abs(dy) < 6) return; drag.moved = true; stage.classList.add('drag'); }
+      var a = drag.a + dy * (TH / H) * 1.1;
+      apply(Math.max(-TH * 0.6, Math.min((items.length - 0.4) * TH, a)), true);
+    });
+    function endDrag() {
+      if (!drag) return;
+      var moved = drag.moved;
+      drag = null;
+      stage.classList.remove('drag');
+      if (!moved) return;
+      suppress = true;
+      setTimeout(function () { suppress = false; }, 0);
+      go(Math.round(angle / TH));
+    }
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+
+    // нажатие: соседняя карточка встает вперед, передняя открывает окно спикера (если он есть в карусели)
+    stage.addEventListener('click', function (e) {
+      if (suppress) return;
+      var card = e.target.closest('.pd-card');
+      if (!card) return;
+      var i = +card.getAttribute('data-i');
+      if (i !== cur) { go(i); return; }
+      var it = items[i];
+      if (it.spk && it.spk.length && window.SPK) SPK.open(it.spk[0], card);
+    });
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); go(cur + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); go(cur - 1); }
+      else if ((e.key === 'Enter' || e.key === ' ') && items[cur] && items[cur].spk && items[cur].spk.length) {
+        e.preventDefault();
+        SPK.open(items[cur].spk[0], cards[cur]);
+      }
+    });
+
+    document.addEventListener('langchange', function () { build(); });
+    // в день конгресса раз в минуту обновляем отметку «Сейчас»
+    setInterval(function () { if (nowIndex() !== nowI) build(); }, 60000);
+  }
 
   fetch(PROGRAM_CSV, { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
@@ -2081,43 +2397,57 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       var cols = rows[head].map(function (c) { return c.trim(); });
       var idx = function (n) { return cols.indexOf(n); };
       var iTime = idx('Время'), iKind = idx('Тип'), iName = idx('Спикер'),
-          iReg  = idx('Регалии'), iTopic = idx('Тема'), iPub = idx('Публиковать');
+          iTopic = idx('Тема'), iPub = idx('Публиковать');
 
-      var html = '', shown = 0;
+      var list = [];
       for (var j = head + 1; j < rows.length; j++) {
         var r = rows[j];
         var get = function (k) { return k >= 0 && r[k] ? r[k].trim() : ''; };
         if (get(iPub).toLowerCase() !== 'да') continue;
         if (get(iTime).indexOf('ПРИМЕР') === 0) continue;
-        var name = get(iName), reg = get(iReg), topic = get(iTopic), kind = get(iKind);
+        var kind = get(iKind).toLowerCase(), name = clean(get(iName)), topic = clean(get(iTopic)), time = clean(get(iTime));
         if (!name && !topic) continue;
-        var isBreak = kind === 'перерыв';
-        html += '<div class="sched-row' + (isBreak ? ' is-break' : '') + '">' +
-                  '<div class="sched-time">' + esc(get(iTime)) + '</div>' +
-                  '<div>' +
-                    (name ? '<div class="sched-name">' + esc(name) +
-                      (kind === 'спонсор' ? '<span class="sched-badge">партнер</span>' : '') +
-                    '</div>' : '') +
-                    (reg ? '<div class="sched-reg">' + esc(reg) + '</div>' : '') +
-                    (topic ? '<div class="sched-topic">' + esc(topic) + '</div>' : '') +
-                  '</div>' +
-                '</div>';
-        shown++;
+        var prev = list[list.length - 1];
+        // строка без типа с той же темой, что у предыдущей, - это соавтор: дописываем имя к той же карточке
+        if (!kind && prev && topic && prev.topic === topic && prev.type !== 'brk') { if (name) prev.names.push(name); continue; }
+        var type = kind === 'перерыв' ? 'brk'
+                 : kind === 'приветствие' ? 'hello'
+                 : kind === 'спонсор' ? 'partner'
+                 : (kind === 'доклад' || topic) ? 'talk' : 'sec';
+        list.push({ type: type, names: name ? [name] : [], topic: topic, time: time, title: name || topic });
       }
-      if (!shown) throw new Error('нет строк со значением «да»');
+      if (!list.length) throw new Error('нет строк со значением «да»');
 
-      var box = document.getElementById('schedule');
-      box.innerHTML = html;
+      var no = 0;
+      list.forEach(function (it) {
+        if (it.type !== 'brk' && it.type !== 'sec') it.no = ++no;
+        it.tbd = !it.topic || /^тема уточняется\.?$/i.test(it.topic);
+        it.spk = window.SPK ? SPK.find(it.names.join(', ')) : [];
+      });
+      items = list;
+      total = no;
+
+      box = document.getElementById('pdrum');
+      stage = document.getElementById('pdStage');
+      drum = document.getElementById('pdDrum');
+      rail = document.getElementById('pdRail');
+      pos = document.getElementById('pdPos');
       box.hidden = false;
       var fb = document.getElementById('scheduleFallback');
       if (fb) fb.hidden = true;
 
-      // подпись под расписанием меняем: программа уже опубликована, но еще дополняется
-      var note = document.querySelector('.prog-note');
-      if (note) {
-        note.textContent = 'Программа дополняется по мере подтверждения докладов. Актуальная версия всегда на этой странице.';
-        note.setAttribute('data-en', 'The programme is updated as talks are confirmed. This page always shows the current version.');
-      }
+      bind();
+      nowI = nowIndex();
+      cur = nowI >= 0 ? nowI : 0;
+      build();
+
+      // подписи раздела под новый формат
+      window.setLangText && setLangText(document.getElementById('progLead'),
+        'Крутите барабан колесом мыши, стрелками или пальцем. Нажмите на выступление с фото, чтобы узнать о спикере.',
+        'Spin the drum with your mouse wheel, the arrows or your finger. Tap a talk with a photo to learn about the speaker.');
+      window.setLangText && setLangText(document.querySelector('.prog-note'),
+        'Программа дополняется по мере подтверждения докладов. Актуальная версия всегда на этой странице.',
+        'The programme is updated as talks are confirmed. This page always shows the current version.');
     })
     .catch(function (e) {
       // таблица недоступна - молча оставляем запасной блок
