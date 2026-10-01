@@ -2413,7 +2413,8 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       if (praf) { cancelAnimationFrame(praf); flush(); }
       if (!d.moved) {
         // барабан поймали на лету и отпустили - ставим ровно на ближайшее выступление
-        if (Math.abs(angle - Math.round(angle / TH) * TH) > 0.05) go(Math.round(angle / TH));
+        var ni = Math.round(angle / TH);
+        if (ni !== cur || Math.abs(angle - ni * TH) > 0.05) go(ni);
         return;
       }
       suppress = true;
