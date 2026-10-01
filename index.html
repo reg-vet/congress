@@ -679,12 +679,15 @@
     position: relative; height: 520px; perspective: 1500px; overflow: hidden; cursor: grab; user-select: none;
     -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
     touch-action: none; outline: none; border-radius: 18px;
-    -webkit-mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
-            mask: linear-gradient(180deg, transparent 0, #000 20%, #000 80%, transparent 100%);
   }
+  /* затухание сверху и снизу - полупрозрачными шторками, а не маской: телефону так заметно легче */
+  .pd-stage::before, .pd-stage::after { content: ""; position: absolute; left: 0; right: 0; height: 24%; z-index: 2; pointer-events: none; }
+  .pd-stage::before { top: 0; background: linear-gradient(180deg, rgba(28,11,51,0.97) 0%, rgba(28,11,51,0) 100%); }
+  .pd-stage::after { bottom: 0; background: linear-gradient(0deg, rgba(20,7,38,0.97) 0%, rgba(20,7,38,0) 100%); }
   .pd-stage.drag { cursor: grabbing; }
+  .pd-stage.drag .pd-card { transition: none; }
   .pd-stage:focus-visible { box-shadow: inset 0 0 0 2px rgba(255,119,184,0.5); }
-  .pd-drum { position: absolute; left: 0; right: 0; top: 50%; height: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.9,.2,1); }
+  .pd-drum { position: absolute; left: 0; right: 0; top: 50%; height: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.9,.2,1); will-change: transform; }
   .pd-drum.nt { transition: none; }
   .pd-card {
     position: absolute; left: 50%; top: 0; width: min(760px, 100%); height: 150px; margin: -75px 0 0 calc(min(760px, 100%) / -2);
@@ -748,6 +751,8 @@
     .pdrum { grid-template-columns: 1fr; padding: 16px 12px 18px; border-radius: 24px; }
     .pd-rail { display: none; }
     .pd-stage { height: 430px; }
+    /* на телефоне тень у передней карточки легче - меньше перерисовок при вращении */
+    .pd-card.front { box-shadow: 0 0 0 1px rgba(255,119,184,0.25), 0 10px 26px rgba(194,37,143,0.28); }
     .pd-card { grid-template-columns: 56px 54px minmax(0, 1fr); gap: 11px; padding: 14px; }
     .pd-ph { width: 54px; height: 54px; }
     .pd-ph.duo .pd-av:first-child { inset: 0 12px 12px 0; }
@@ -2276,7 +2281,7 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       } else {
         var ph = it.spk.length
           ? '<div class="pd-ph' + (it.spk.length > 1 ? ' duo' : '') + '">' + it.spk.map(function (k) {
-              return '<span class="pd-av"><img alt="" loading="lazy" src="' + SPK.photo(k) + '"></span>';
+              return '<span class="pd-av"><img alt="" decoding="async" src="' + SPK.photo(k) + '"></span>';
             }).join('') + '</div>'
           : '<div class="pd-ph"><span class="pd-av"><span>' + esc(initials(it.names[0])) + '</span></span></div>';
         html += '<div class="pd-card' + (it.spk.length ? ' has-spk' : '') + '" data-i="' + i + '" style="' + style + '">' + now +
@@ -2293,22 +2298,48 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
     drum.innerHTML = html;
     rail.innerHTML = railHtml;
     cards = drum.children;
+    lastOp = [];
+    frontIdx = -1;
     go(cur, true);
   }
 
-  function apply(a, instant) {
+  // light - облегченный режим во время перетаскивания: меняем только то, что действительно изменилось
+  var lastOp = [], frontIdx = -1;
+  function apply(a, instant, light) {
     angle = a;
     drum.classList.toggle('nt', !!instant);
     drum.style.transform = 'translateZ(' + (-RAD).toFixed(1) + 'px) rotateX(' + a.toFixed(2) + 'deg)';
     var c = a / TH;
     for (var i = 0; i < cards.length; i++) {
       var d = Math.abs(i - c), card = cards[i];
-      card.style.opacity = d > 3.2 ? 0 : Math.max(0, 1 - d * 0.32).toFixed(2);
-      card.style.visibility = d > 3.4 ? 'hidden' : '';
-      card.style.pointerEvents = d < 1.6 ? 'auto' : 'none';
-      card.classList.toggle('front', d < 0.5);
-      card.classList.toggle('near', d >= 0.5 && d < 1.6);
+      // прозрачность с шагом 0.05: меньше лишних перерисовок
+      var op = d > 3.2 ? 0 : Math.round(Math.max(0, 1 - d * 0.32) * 20) / 20;
+      if (lastOp[i] !== op) {
+        card.style.opacity = op;
+        card.style.visibility = op === 0 ? 'hidden' : '';
+        lastOp[i] = op;
+      }
+      if (!light) {
+        card.style.pointerEvents = d < 1.6 ? 'auto' : 'none';
+        card.classList.toggle('near', d >= 0.5 && d < 1.6);
+      }
     }
+    // подсветку передней карточки переносим, только когда вперед выходит другая
+    var f = Math.max(0, Math.min(cards.length - 1, Math.round(c)));
+    if (f !== frontIdx) {
+      if (cards[frontIdx]) cards[frontIdx].classList.remove('front');
+      if (cards[f]) cards[f].classList.add('front');
+      frontIdx = f;
+    }
+  }
+  // реальный угол барабана прямо сейчас, даже посреди анимации поворота
+  function visualAngle() {
+    var tr = getComputedStyle(drum).transform, m = tr && tr.match(/matrix3d\(([^)]+)\)/);
+    if (!m) return angle;
+    var v = m[1].split(',').map(parseFloat);
+    var raw = Math.atan2(v[6], v[5]) * 180 / Math.PI;
+    var delta = ((raw - angle % 360) % 360 + 540) % 360 - 180;
+    return angle + delta;
   }
   function go(i, instant) {
     cur = Math.max(0, Math.min(items.length - 1, i));
@@ -2344,10 +2375,17 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
     var K = (TH / H) * 1.1;                        // градусов поворота на пиксель движения пальца
     var LO = -TH * 0.35;                           // насколько можно «перетянуть» за первое выступление
     function HI() { return (items.length - 1 + 0.35) * TH; }
+    var pend = null, praf = 0;
+    function flush() { praf = 0; if (pend !== null) { apply(pend, true, true); pend = null; } }
     stage.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
+      // если барабан еще докручивается, ловим его там, где он сейчас, без скачка
+      var va = visualAngle();
+      if (Math.abs(va - angle) > 0.05) apply(va, true, true);
       drag = { y: e.clientY, last: e.clientY, a: angle, moved: false, pts: [{ t: e.timeStamp, y: e.clientY }] };
     });
+    // iOS иногда все равно двигает страницу под барабаном - запрещаем явно
+    stage.addEventListener('touchmove', function (e) { if (e.cancelable) e.preventDefault(); }, { passive: false });
     window.addEventListener('pointermove', function (e) {
       if (!drag) return;
       var step = drag.last - e.clientY;            // сдвиг с прошлого события: плюс - палец идет вверх
@@ -2363,14 +2401,21 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       // на первом и последнем выступлении палец дальше листает уже страницу - на барабане не застрять
       if (a < LO) { if (step < 0) window.scrollBy(0, step); drag.a = LO - total * K; a = LO; }
       else if (a > HI()) { if (step > 0) window.scrollBy(0, step); drag.a = HI() - total * K; a = HI(); }
-      apply(a, true);
+      // рисуем не чаще одного раза за кадр
+      pend = a;
+      if (!praf) praf = requestAnimationFrame(flush);
     });
     function endDrag(e) {
       if (!drag) return;
       var d = drag;
       drag = null;
       stage.classList.remove('drag');
-      if (!d.moved) return;
+      if (praf) { cancelAnimationFrame(praf); flush(); }
+      if (!d.moved) {
+        // барабан поймали на лету и отпустили - ставим ровно на ближайшее выступление
+        if (Math.abs(angle - Math.round(angle / TH) * TH) > 0.05) go(Math.round(angle / TH));
+        return;
+      }
       suppress = true;
       setTimeout(function () { suppress = false; }, 0);
       // инерция: скорость пальца за последние доли секунды
