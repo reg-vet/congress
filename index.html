@@ -505,6 +505,14 @@
   .spk-n1 { font-family: var(--display); font-weight: 600; font-size: 1rem; line-height: 1.3; color: #fff; }
   .spk-n2 { font-size: 0.92rem; color: var(--text-light); opacity: .82; margin-top: 3px; line-height: 1.35; }
   .spk-n2:empty { display: none; }
+  /* подпись-метка под именем (например, «Interim-партнер»); задается полем tag в списке SPEAKERS */
+  .spk-tag {
+    margin-top: 10px; padding: 4px 11px; border-radius: 999px;
+    background: rgba(255,119,184,0.14); border: 1px solid rgba(255,119,184,0.42); color: var(--pink-2);
+    font-family: var(--display); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.14em;
+    text-transform: uppercase; line-height: 1.35;
+  }
+  .spk-tag + .spk-role { margin-top: 10px; }
   .spk-role {
     margin-top: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
     display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
@@ -614,11 +622,19 @@
   .spk-sheet h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0; color: #fff; }
   .spk-m-n2 { color: var(--text-light); opacity: .85; margin-top: 5px; font-size: .96rem; }
   .spk-m-n2:empty { display: none; }
+  .spk-m-tag {
+    display: inline-block; margin-top: 10px; padding: 5px 12px; border-radius: 999px;
+    background: rgba(255,119,184,0.14); border: 1px solid rgba(255,119,184,0.42); color: var(--pink-2);
+    font-family: var(--display); font-weight: 600; font-size: .62rem; letter-spacing: .14em;
+    text-transform: uppercase; line-height: 1.3;
+  }
+  .spk-m-tag[hidden] { display: none; }
   .spk-m-text { margin: 0 0 18px; color: var(--muted-light); font-size: .96rem; line-height: 1.65; }
   .spk-m-talk { padding: 16px 18px; border-radius: 16px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); margin-bottom: 18px; }
   .spk-m-talk .eyebrow { color: var(--pink-2); display: block; margin-bottom: 8px; font-size: .6rem; }
   .spk-m-talk p { margin: 0; color: #fff; font-weight: 600; line-height: 1.5; }
   .spk-m-talk p + p { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.12); }
+  .spk-m-talk p.tbd { color: var(--muted-light); font-weight: 500; }
   .spk-m-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.10); }
   .spk-m-nav .spk-btn { width: 44px; height: 44px; }
   .spk-m-pos { font-family: var(--display); font-weight: 600; font-size: .7rem; letter-spacing: .14em; color: var(--muted-light); }
@@ -1358,6 +1374,7 @@
         <div class="spk-stg">
           <h3 id="spkMName"></h3>
           <div class="spk-m-n2" id="spkMName2"></div>
+          <div class="spk-m-tag" id="spkMTag" hidden></div>
         </div>
       </div>
       <p class="spk-m-text spk-stg" id="spkMText"></p>
@@ -1488,10 +1505,21 @@ var PARTNERS = [
      n2   - вторая строка (имя и отчество); можно оставить пустой
      role - коротко о спикере, видно на карточке
      bio  - подробнее, видно в окне по клику; можно не заполнять
-     talk - тема доклада, видна в окне по клику; можно не заполнять.
-            Если докладов несколько - списком: talk: ['Первая тема', 'Вторая тема']
-   speech: true - вместо доклада выступление (например, приветственное слово):
-            в окне тема идет без кавычек и с подписью «Выступление»
+     tag  - короткая подпись-метка под именем (например, «Interim-партнер»),
+            видна на карточке и в окне; можно не заполнять
+     talk - ТЕМЫ БЕРУТСЯ ИЗ GOOGLE-ТАБЛИЦЫ (столбец «Тема»), тех же строк, что
+            и в барабане программы: спикер находится в таблице по фамилии, и
+            в окне показываются темы всех его строк. Поле talk нужно только как
+            запасной вариант:
+              - английский перевод: подставляется в английской версии, если
+                тема в таблице совпадает с русской формулировкой отсюда
+                (мелкие опечатки и знаки препинания не мешают);
+              - если таблица не загрузилась, показывается эта тема.
+            Можно не заполнять. Если докладов несколько - списком:
+            talk: ['Первая тема', 'Вторая тема']
+   speech: true - только для запасного варианта: вместо доклада выступление
+            (например, приветственное слово). Когда тема берется из таблицы,
+            это определяет столбец «Тип» (приветствие / доклад / спонсор)
    ====================================================================== */
 var SPEAKERS = [
   { photo: 'gerasimov.jpg', speech: true,
@@ -1550,19 +1578,17 @@ var SPEAKERS = [
 
   { photo: 'budiariati.jpg',
     ru: { n1: 'Виста Будиариати', n2: 'Dr. Vista Budiariati',
-          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)',
-          talk: 'Опыт использования МСК в личной практике' },
+          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)' },
     en: { n1: 'Dr. Vista Budiariati',
-          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)',
-          talk: 'Using MSCs in my own practice' } },
+          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)' } },
 
   { photo: 'bokarev.jpg',
     ru: { n1: 'Бокарев', n2: 'Александр Владимирович',
           role: 'Доцент, доктор ветеринарных наук',
-          talk: 'Влияние глюкокортикостероидов на способность тромбоцитов к активации (совместно с А. О. Мининой)' },
+          talk: 'Влияние глюкокортикостероидов на способность тромбоцитов к активации' },
     en: { n1: 'Alexander Bokarev',
           role: 'Associate Professor, Doctor of Veterinary Sciences',
-          talk: 'Effect of glucocorticosteroids on the activation capacity of platelets (with A. O. Minina)' } },
+          talk: 'Effect of glucocorticosteroids on the activation capacity of platelets' } },
 
   { photo: 'nikitin.jpg',
     ru: { n1: 'Никитин', n2: 'Георгий Сергеевич',
@@ -1576,11 +1602,11 @@ var SPEAKERS = [
     ru: { n1: 'Минина', n2: 'Анастасия Олеговна',
           role: 'Кандидат ветеринарных наук, доцент кафедры общей, частной и оперативной хирургии СПбГУВМ',
           talk: ['Исследование регенеративной эффективности секретома МСК при стромальных повреждениях роговицы',
-                'Влияние глюкокортикостероидов на способность тромбоцитов к активации (совместно с А. В. Бокаревым)'] },
+                'Влияние глюкокортикостероидов на способность тромбоцитов к активации'] },
     en: { n1: 'Anastasia Minina',
           role: 'PhD in Veterinary Sciences, Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine',
           talk: ['Regenerative efficacy of the MSC secretome in corneal stromal injuries',
-                'Effect of glucocorticosteroids on the activation capacity of platelets (with A. V. Bokarev)'] } },
+                'Effect of glucocorticosteroids on the activation capacity of platelets'] } },
 
   { photo: 'shamis.jpg',
     ru: { n1: 'Шамис', n2: 'Эдуард Михайлович',
@@ -1696,11 +1722,13 @@ var SPEAKERS = [
 
   { photo: 'joy.jpg',
     ru: { n1: 'Джой', n2: 'Иван Юрьевич',
+          tag: 'Interim-партнер',
           role: 'Кандидат сельскохозяйственных наук',
-          talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект до закупки' },
+          talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект' },
     en: { n1: 'Ivan Joy',
+          tag: 'Interim Partner',
           role: 'PhD in Agricultural Sciences',
-          talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect before buying' } }
+          talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect' } }
 ];
 
 (function speakersCarousel() {
@@ -1724,8 +1752,10 @@ var SPEAKERS = [
     return Array.isArray(d.talk) ? d.talk : [d.talk];
   }
   // подпись над темой в окне: «Тема доклада», «Темы докладов», «Выступление»
-  function talkLabel(s, n, isEn) {
-    if (s.speech) return isEn ? 'Speech' : 'Выступление';
+  // kind: 'speech' - приветствие или слово партнера, 'talk' - доклад, 'mixed' - и то и другое
+  function talkLabel(kind, n, isEn) {
+    if (kind === 'speech') return isEn ? 'Speech' : 'Выступление';
+    if (kind === 'mixed') return isEn ? 'Sessions' : 'Выступления';
     if (n > 1) return isEn ? 'Talks' : 'Темы докладов';
     return isEn ? 'Talk' : 'Тема доклада';
   }
@@ -1741,6 +1771,64 @@ var SPEAKERS = [
     el.textContent = ru || '';
     el.setAttribute('data-en', esc(en || ''));
     return el;
+  }
+
+  /* ---- темы докладов из Google-таблицы ----
+     Строки программы приходят из скрипта «Программа из Google-таблицы» (вызов SPK.setProgram) -
+     те же, что и в барабане. Пока таблица не загрузилась или недоступна, tableTalks = null,
+     и окно показывает темы из списка SPEAKERS. */
+  var tableTalks = null;   // для каждого спикера: [{ type, topic, tbd }, ...] в порядке строк таблицы
+
+  // тема без регистра, знаков препинания и «ё» - чтобы сравнивать формулировки
+  function topicKey(s) {
+    return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]+/g, ' ').trim();
+  }
+  // насколько похожи две строки, от 0 до 1 (расстояние Левенштейна)
+  function similarity(a, b) {
+    if (a === b) return 1;
+    var n = a.length, m = b.length, prev = [], cur = [], i, j, t;
+    if (!n || !m) return 0;
+    for (j = 0; j <= m; j++) prev[j] = j;
+    for (i = 1; i <= n; i++) {
+      cur[0] = i;
+      for (j = 1; j <= m; j++) {
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+      }
+      t = prev; prev = cur; cur = t;
+    }
+    return 1 - prev[m] / Math.max(n, m);
+  }
+  // английская версия темы: берем перевод из списка SPEAKERS, если тема из таблицы
+  // совпадает с его русской формулировкой (опечатки и знаки препинания не мешают).
+  // Если не совпала - показываем тему из таблицы как есть.
+  function translateTopic(s, topic) {
+    var ru = talks(s.ru), en = talks(s.en), key = topicKey(topic), best = -1, top = 0;
+    ru.forEach(function (t, k) {
+      var sc = similarity(topicKey(t), key);
+      if (sc > top) { top = sc; best = k; }
+    });
+    return best >= 0 && top >= 0.88 && en[best] ? en[best] : topic;
+  }
+  // что показать в блоке темы: { label, items: [{ text, tbd }] }
+  function talkBlock(i, isEn) {
+    var s = SPEAKERS[i], d = (isEn ? s.en : s.ru) || s.ru;
+    if (!tableTalks) {
+      // таблицы нет - запасной вариант: темы из списка SPEAKERS
+      var T = talks(d).length ? talks(d) : talks(s.ru);
+      return {
+        label: T.length ? talkLabel(s.speech ? 'speech' : 'talk', T.length, isEn) : '',
+        items: T.map(function (t) { return { text: quote(t, isEn, s.speech) }; })
+      };
+    }
+    var kinds = {};
+    var items = (tableTalks[i] || []).map(function (r) {
+      var speech = r.type !== 'talk';          // приветствие и слово партнера - без кавычек
+      kinds[speech ? 'speech' : 'talk'] = true;
+      if (r.tbd) return { text: isEn ? 'Topic to be announced' : 'Тема уточняется', tbd: true };
+      return { text: quote(isEn ? translateTopic(s, r.topic) : r.topic, isEn, speech) };
+    });
+    var kind = kinds.speech && kinds.talk ? 'mixed' : (kinds.speech ? 'speech' : 'talk');
+    return { label: items.length ? talkLabel(kind, items.length, isEn) : '', items: items };
   }
 
   /* ---- карточки ---- */
@@ -1763,6 +1851,7 @@ var SPEAKERS = [
     b.appendChild(ph);
     b.appendChild(txt('spk-n1', ru.n1, en.n1));
     b.appendChild(txt('spk-n2', ru.n2, en.n2));
+    if (ru.tag) b.appendChild(txt('spk-tag', ru.tag, en.tag || ru.tag));
     b.appendChild(txt('spk-role', ru.role, en.role));
     var more = document.createElement('span');
     more.className = 'spk-more';
@@ -2003,15 +2092,20 @@ var SPEAKERS = [
     $('spkMImg').alt = d.n1 + (d.n2 ? ' ' + d.n2 : '');
     $('spkMName').textContent = d.n1 || '';
     $('spkMName2').textContent = d.n2 || '';
+    var tag = $('spkMTag'), tg = d.tag || (s.ru && s.ru.tag) || '';
+    tag.textContent = tg;
+    tag.hidden = !tg;
     $('spkMText').textContent = d.bio || d.role || '';
-    var T = talks(d).length ? talks(d) : talks(s.ru);
+    // темы берутся из таблицы программы (запасной вариант - список SPEAKERS)
+    var blk = talkBlock(i, isEn);
     var list = $('spkMTalkTxt');
     list.innerHTML = '';
-    if (T.length) {
-      $('spkMTalkLbl').textContent = talkLabel(s, T.length, isEn);
-      T.forEach(function (t) {
+    if (blk.items.length) {
+      $('spkMTalkLbl').textContent = blk.label;
+      blk.items.forEach(function (x) {
         var p = document.createElement('p');
-        p.textContent = quote(t, isEn, s.speech);
+        p.textContent = x.text;
+        if (x.tbd) p.className = 'tbd';
         list.appendChild(p);
       });
       $('spkMTalk').hidden = false;
@@ -2147,21 +2241,37 @@ var SPEAKERS = [
     var ru = s.ru || {}, en = s.en || {};
     return [surname(ru.n1, !!ru.n2), surname(en.n1, false)].filter(Boolean).map(norm);
   });
+  // номера спикеров из карусели, которые упомянуты в строке, в порядке упоминания
+  function findSpeakers(name, all) {
+    var words = norm(name).split(/[^a-zа-я-]+/).filter(Boolean);
+    var hits = [];
+    KEYS.forEach(function (keys, i) {
+      var at = -1;
+      keys.forEach(function (k) { var p = words.indexOf(k); if (p >= 0 && (at < 0 || p < at)) at = p; });
+      if (at >= 0) hits.push({ i: i, at: at });
+    });
+    hits.sort(function (a, b) { return a.at - b.at; });
+    return (all ? hits : hits.slice(0, 2)).map(function (h) { return h.i; });
+  }
   window.SPK = {
-    // номера спикеров из карусели, которые упомянуты в строке (не больше двух, в порядке упоминания)
-    find: function (name) {
-      var words = norm(name).split(/[^a-zа-я-]+/).filter(Boolean);
-      var hits = [];
-      KEYS.forEach(function (keys, i) {
-        var at = -1;
-        keys.forEach(function (k) { var p = words.indexOf(k); if (p >= 0 && (at < 0 || p < at)) at = p; });
-        if (at >= 0) hits.push({ i: i, at: at });
-      });
-      hits.sort(function (a, b) { return a.at - b.at; });
-      return hits.slice(0, 2).map(function (h) { return h.i; });
-    },
+    // для барабана: не больше двух спикеров в строке
+    find: function (name) { return findSpeakers(name, false); },
     photo: function (i) { return DIR + SPEAKERS[i].photo; },
-    open: function (i, fromEl) { openModal(i, fromEl); }
+    open: function (i, fromEl) { openModal(i, fromEl); },
+    // темы из таблицы: list - строки программы { type, names[], topic, tbd }.
+    // Вызывается скриптом программы, когда таблица загрузилась; дальше окно спикера
+    // показывает темы всех строк, где упомянут этот спикер.
+    setProgram: function (list) {
+      var map = SPEAKERS.map(function () { return []; });
+      (list || []).forEach(function (it) {
+        if (it.type === 'brk' || it.type === 'sec') return;
+        findSpeakers((it.names || []).join(', '), true).forEach(function (i) {
+          var dup = map[i].some(function (x) { return x.type === it.type && x.topic === it.topic; });
+          if (!dup) map[i].push({ type: it.type, topic: it.topic, tbd: !!it.tbd });
+        });
+      });
+      tableTalks = map;
+    }
   };
 })();
 </script>
@@ -2299,6 +2409,8 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   // переносы строк внутри ячейки превращаем в запятые
   function clean(s) { return String(s || '').replace(/\s*\n+\s*/g, ', ').replace(/\s{2,}/g, ' ').replace(/^[\s,]+|[\s,]+$/g, ''); }
+  // в теме перенос строки внутри ячейки - это перенос слов, а не перечисление: превращаем его в пробел
+  function cleanTopic(s) { return String(s || '').replace(/\s*\n+\s*/g, ' ').replace(/\s{2,}/g, ' ').replace(/^[\s,]+|[\s,]+$/g, ''); }
   function initials(n) {
     return String(n || '').split(/[\s,]+/).filter(Boolean).slice(0, 2).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
   }
@@ -2532,7 +2644,7 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
         var get = function (k) { return k >= 0 && r[k] ? r[k].trim() : ''; };
         if (get(iPub).toLowerCase() !== 'да') continue;
         if (get(iTime).indexOf('ПРИМЕР') === 0) continue;
-        var kind = get(iKind).toLowerCase(), name = clean(get(iName)), topic = clean(get(iTopic)), time = clean(get(iTime));
+        var kind = get(iKind).toLowerCase(), name = clean(get(iName)), topic = cleanTopic(get(iTopic)), time = clean(get(iTime));
         if (!name && !topic) continue;
         var prev = list[list.length - 1];
         // строка без типа с той же темой, что у предыдущей, - это соавтор: дописываем имя к той же карточке
@@ -2553,6 +2665,8 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       });
       items = list;
       total = no;
+      // темы из этой же таблицы показываем и в окне спикера (карточка в карусели)
+      if (window.SPK && SPK.setProgram) SPK.setProgram(list);
 
       box = document.getElementById('pdrum');
       stage = document.getElementById('pdStage');
