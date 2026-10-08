@@ -505,14 +505,6 @@
   .spk-n1 { font-family: var(--display); font-weight: 600; font-size: 1rem; line-height: 1.3; color: #fff; }
   .spk-n2 { font-size: 0.92rem; color: var(--text-light); opacity: .82; margin-top: 3px; line-height: 1.35; }
   .spk-n2:empty { display: none; }
-  /* подпись-метка под именем (например, «Interim-партнер»); задается полем tag в списке SPEAKERS */
-  .spk-tag {
-    margin-top: 10px; padding: 4px 11px; border-radius: 999px;
-    background: rgba(255,119,184,0.14); border: 1px solid rgba(255,119,184,0.42); color: var(--pink-2);
-    font-family: var(--display); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.14em;
-    text-transform: uppercase; line-height: 1.35;
-  }
-  .spk-tag + .spk-role { margin-top: 10px; }
   .spk-role {
     margin-top: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--muted-light);
     display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
@@ -622,13 +614,6 @@
   .spk-sheet h3 { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0; color: #fff; }
   .spk-m-n2 { color: var(--text-light); opacity: .85; margin-top: 5px; font-size: .96rem; }
   .spk-m-n2:empty { display: none; }
-  .spk-m-tag {
-    display: inline-block; margin-top: 10px; padding: 5px 12px; border-radius: 999px;
-    background: rgba(255,119,184,0.14); border: 1px solid rgba(255,119,184,0.42); color: var(--pink-2);
-    font-family: var(--display); font-weight: 600; font-size: .62rem; letter-spacing: .14em;
-    text-transform: uppercase; line-height: 1.3;
-  }
-  .spk-m-tag[hidden] { display: none; }
   .spk-m-text { margin: 0 0 18px; color: var(--muted-light); font-size: .96rem; line-height: 1.65; }
   .spk-m-talk { padding: 16px 18px; border-radius: 16px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); margin-bottom: 18px; }
   .spk-m-talk .eyebrow { color: var(--pink-2); display: block; margin-bottom: 8px; font-size: .6rem; }
@@ -1374,7 +1359,6 @@
         <div class="spk-stg">
           <h3 id="spkMName"></h3>
           <div class="spk-m-n2" id="spkMName2"></div>
-          <div class="spk-m-tag" id="spkMTag" hidden></div>
         </div>
       </div>
       <p class="spk-m-text spk-stg" id="spkMText"></p>
@@ -1505,8 +1489,6 @@ var PARTNERS = [
      n2   - вторая строка (имя и отчество); можно оставить пустой
      role - коротко о спикере, видно на карточке
      bio  - подробнее, видно в окне по клику; можно не заполнять
-     tag  - короткая подпись-метка под именем (например, «Interim-партнер»),
-            видна на карточке и в окне; можно не заполнять
      talk - ТЕМЫ БЕРУТСЯ ИЗ GOOGLE-ТАБЛИЦЫ (столбец «Тема»), тех же строк, что
             и в барабане программы: спикер находится в таблице по фамилии, и
             в окне показываются темы всех его строк. Поле talk нужно только как
@@ -1722,12 +1704,10 @@ var SPEAKERS = [
 
   { photo: 'joy.jpg',
     ru: { n1: 'Джой', n2: 'Иван Юрьевич',
-          tag: 'Interim-партнер',
-          role: 'Кандидат сельскохозяйственных наук',
+          role: 'Interim-партнер, кандидат сельскохозяйственных наук',
           talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект' },
     en: { n1: 'Ivan Joy',
-          tag: 'Interim Partner',
-          role: 'PhD in Agricultural Sciences',
+          role: 'Interim Partner, PhD in Agricultural Sciences',
           talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect' } }
 ];
 
@@ -1851,7 +1831,6 @@ var SPEAKERS = [
     b.appendChild(ph);
     b.appendChild(txt('spk-n1', ru.n1, en.n1));
     b.appendChild(txt('spk-n2', ru.n2, en.n2));
-    if (ru.tag) b.appendChild(txt('spk-tag', ru.tag, en.tag || ru.tag));
     b.appendChild(txt('spk-role', ru.role, en.role));
     var more = document.createElement('span');
     more.className = 'spk-more';
@@ -2092,9 +2071,6 @@ var SPEAKERS = [
     $('spkMImg').alt = d.n1 + (d.n2 ? ' ' + d.n2 : '');
     $('spkMName').textContent = d.n1 || '';
     $('spkMName2').textContent = d.n2 || '';
-    var tag = $('spkMTag'), tg = d.tag || (s.ru && s.ru.tag) || '';
-    tag.textContent = tg;
-    tag.hidden = !tg;
     $('spkMText').textContent = d.bio || d.role || '';
     // темы берутся из таблицы программы (запасной вариант - список SPEAKERS)
     var blk = talkBlock(i, isEn);
