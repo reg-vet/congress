@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ANIMALSTEM 2026">
 <meta property="og:title" content="ANIMALSTEM 2026 — Международный конгресс регенеративной ветеринарной медицины">
-<meta property="og:description" content="15 октября 2026 · Санкт-Петербург, СПбГУВМ. Доклады, общение. Регистрация бесплатная.">
+<meta property="og:description" content="15 октября 2026 · Санкт-Петербург, СПбГУВМ. Доклады, общение. Участие бесплатное.">
 <meta property="og:url" content="https://reg-vet.github.io/congress/">
 <meta property="og:image" content="https://reg-vet.github.io/congress/Логотипы/og-banner-v3.jpg">
 <meta property="og:image:width" content="1200">
@@ -22,7 +22,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ANIMALSTEM 2026 — конгресс регенеративной ветеринарной медицины">
-<meta name="twitter:description" content="15 октября 2026 · Санкт-Петербург, СПбГУВМ. Регистрация бесплатная.">
+<meta name="twitter:description" content="15 октября 2026 · Санкт-Петербург, СПбГУВМ. Участие бесплатное.">
 <meta name="twitter:image" content="https://reg-vet.github.io/congress/Логотипы/og-banner-v3.jpg">
 
 <!-- Микроразметка мероприятия для поисковиков -->
@@ -35,7 +35,7 @@
   "endDate": "2026-10-15",
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-  "description": "III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. Доклады и общение. Регистрация бесплатная.",
+  "description": "III Международный конгресс регенеративной ветеринарной медицины ANIMALSTEM 2026. Доклады и общение. Участие бесплатное.",
   "image": "https://reg-vet.github.io/congress/Логотипы/og-banner-v3.jpg",
   "url": "https://reg-vet.github.io/congress/",
   "location": [
@@ -70,7 +70,7 @@
     "price": "0",
     "priceCurrency": "RUB",
     "availability": "https://schema.org/InStock",
-    "url": "https://forms.gle/otXBaPaP1AdRS91cA"
+    "url": "https://reg-vet.github.io/congress/#join"
   }
 }
 </script>
@@ -1036,7 +1036,7 @@
         <button type="button" class="lang-opt is-active" data-lang="ru">RU</button>
         <button type="button" class="lang-opt" data-lang="en">EN</button>
       </div>
-      <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener" data-en="Register">Регистрация</a>
+      <a class="btn btn-grad" href="#join" data-en="Take part">Участвовать</a>
       <button class="nav-toggle" type="button" aria-label="Меню" data-en-aria="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -1070,10 +1070,10 @@
         </div>
 
         <div class="hero-cta">
-          <a class="btn btn-grad reg-link" href="#" target="_blank" rel="noopener" data-en="Register">Зарегистрироваться</a>
+          <a class="btn btn-grad" href="#join" data-en="Take part">Участвовать</a>
           <a class="btn btn-ghost" href="#program" data-en="View programme">Смотреть программу</a>
         </div>
-        <div class="hero-note" data-en="Registration is free · places are limited">Регистрация бесплатная · количество мест ограничено</div>
+        <div class="hero-note" data-en="Participation is free · places are limited">Участие бесплатное · количество мест ограничено</div>
       </div>
 
       <div class="hero-art">
@@ -1294,8 +1294,8 @@
 <section class="cta-band">
   <div class="wrap">
     <h2 data-en="Join ANIMALSTEM 2026">Присоединяйтесь к ANIMALSTEM 2026</h2>
-    <p data-en="Fill in the short registration form to reserve your place and receive updates about the programme.">Заполните короткую форму регистрации, чтобы забронировать место и получать обновления о программе.</p>
-    <a class="btn reg-link" href="#" target="_blank" rel="noopener" data-en="Register →">Зарегистрироваться →</a>
+    <p data-en="Choose how to take part: in person in St. Petersburg or online. Participation is free.">Выберите формат участия: очно в Санкт-Петербурге или онлайн. Участие бесплатное.</p>
+    <a class="btn" href="#join" data-en="Take part →">Участвовать →</a>
     <p class="cta-social-note" data-en="And subscribe so you do not miss the programme and the speakers:">И подпишитесь, чтобы не пропустить программу и спикеров:</p>
     <div class="social">
       <a class="soc" href="https://t.me/animalstem" target="_blank" rel="noopener">
@@ -1388,14 +1388,14 @@
   </div>
 </div>
 
-<!-- Окно с предложением подписаться. Показывается после клика по «Регистрация» -->
+<!-- Окно с предложением подписаться. Сейчас не показывается (см. скрипт «Окно Подпишитесь») -->
 <div class="sub-modal" id="subModal" role="dialog" aria-modal="true" aria-labelledby="subTitle" hidden>
   <div class="sub-backdrop" data-sub-close></div>
   <div class="sub-card">
     <button class="sub-x" type="button" data-sub-close aria-label="Закрыть" data-en-aria="Close">&times;</button>
     <span class="eyebrow" data-en="One more step">Остался один шаг</span>
     <h3 id="subTitle" data-en="Subscribe to our channels">Подпишитесь на наши каналы</h3>
-    <p data-en="After registering, subscribe: we post the programme, the speakers and any changes there first.">После регистрации подпишитесь - там первыми публикуем программу, спикеров и все изменения.</p>
+    <p data-en="Subscribe: we post the programme, the speakers and any changes there first.">Подпишитесь - там первыми публикуем программу, спикеров и все изменения.</p>
     <div class="social">
       <a class="soc" href="https://t.me/animalstem" target="_blank" rel="noopener">
         <span class="tag">Telegram</span> ANIMALSTEM
@@ -1410,21 +1410,6 @@
     <button class="sub-later" type="button" data-sub-close data-en="Later">Позже</button>
   </div>
 </div>
-
-<script>
-/* ======================================================================
-   ССЫЛКА НА РЕГИСТРАЦИЮ  —  вставьте сюда адрес вашей Google-формы.
-   Он подставится сразу во все кнопки «Регистрация» / «Зарегистрироваться».
-   ====================================================================== */
-var REG_URL = 'https://forms.gle/otXBaPaP1AdRS91cA';
-
-(function applyRegUrl() {
-  if (!REG_URL || REG_URL.indexOf('PASTE_') === 0) return; // ссылка ещё не задана
-  document.querySelectorAll('.reg-link').forEach(function (a) {
-    a.href = REG_URL;
-  });
-})();
-</script>
 
 <script>
 /* ======================================================================
@@ -2748,22 +2733,16 @@ var PROGRAM_SNAPSHOT = 'program-snapshot.csv';
 
 <script>
 /* ======================================================================
-   ПРЕДЛОЖЕНИЕ ПОДПИСАТЬСЯ ПОСЛЕ РЕГИСТРАЦИИ
+   ОКНО «ПОДПИШИТЕСЬ» - СЕЙЧАС НЕ ПОКАЗЫВАЕТСЯ
    ----------------------------------------------------------------------
-   Форма открывается в соседней вкладке, а здесь через секунду с небольшим
-   появляется окно со ссылками. Человек заполняет форму и, вернувшись
-   на сайт, видит предложение подписаться.
-
-   Срабатывает на ЛЮБУЮ кнопку регистрации (их на странице три: в шапке,
-   в первом экране и в нижнем блоке) и КАЖДЫЙ раз, без ограничений.
-   Задержка задается в DELAY.
+   Раньше окно открывалось после клика по кнопке регистрации. Форму
+   убрали, кнопки «Участвовать» ведут в раздел «Форматы участия», поэтому
+   окно ни от чего не запускается. Разметка (#subModal) и стили оставлены:
+   чтобы показать окно, вызовите openSubscribe().
    ====================================================================== */
 (function subscribePrompt() {
   var modal = document.getElementById('subModal');
   if (!modal) return;
-  var DELAY = 1200;
-  var timer = null;
-
   function open()  { modal.hidden = false; }
   function close() { modal.hidden = true; }
 
@@ -2774,12 +2753,8 @@ var PROGRAM_SNAPSHOT = 'program-snapshot.csv';
     if (e.key === 'Escape' && !modal.hidden) close();
   });
 
-  document.querySelectorAll('.reg-link').forEach(function (a) {
-    a.addEventListener('click', function () {
-      clearTimeout(timer);
-      timer = setTimeout(open, DELAY);
-    });
-  });
+  // вручную: openSubscribe()
+  window.openSubscribe = open;
 })();
 </script>
 
