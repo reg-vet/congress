@@ -397,6 +397,8 @@
     color: var(--muted-dark);
   }
   .join-note-light b { color: var(--text-dark); }
+  .join-note-light a { color: var(--magenta); font-weight: 600; text-underline-offset: 2px; white-space: nowrap; }
+  .join-note-light a:hover { text-decoration-thickness: 2px; }
   /* онлайн: в плашке кнопка подключения к трансляции и подпись с началом */
   .join-note-link { flex-direction: column; align-items: stretch; justify-content: center; gap: 12px; }
   .join-link { padding: 16px 26px; font-size: 1rem; line-height: 1.25; white-space: normal; text-align: center; }
@@ -1136,7 +1138,7 @@
           <li data-en="Talking to the speakers during the breaks">Общение с докладчиками в перерывах</li>
           <li data-en="A personal certificate of participation">Именной сертификат участника</li>
         </ul>
-        <p class="join-note join-note-light"><span data-en="Participation is free, but <b>the number of seats in the hall is limited</b>.">Участие бесплатное, но <b>мест в зале ограниченное количество</b>.</span></p>
+        <p class="join-note join-note-light"><span data-en="Participation is free, but <b>the number of seats in the hall is limited</b>. To check whether in-person places are available, write to <a href='mailto:conf@reg-vet.ru'>conf@reg-vet.ru</a>.">Участие бесплатное, но <b>мест в зале ограниченное количество</b>. Возможность очного участия уточняйте по почте <a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a>.</span></p>
       </div>
 
       <div class="join-card join-card-online">
