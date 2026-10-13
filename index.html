@@ -53,7 +53,7 @@
     {
       "@type": "VirtualLocation",
       "name": "Онлайн-трансляция конгресса",
-      "url": "https://reg-vet.github.io/congress/"
+      "url": "https://meeting.spbguvm.ru/rooms/1vq-jm6-rnu-v1m/join"
     }
   ],
   "organizer": [
@@ -397,6 +397,10 @@
     color: var(--muted-dark);
   }
   .join-note-light b { color: var(--text-dark); }
+  /* онлайн: в плашке кнопка подключения к трансляции и подпись с началом */
+  .join-note-link { flex-direction: column; align-items: stretch; justify-content: center; gap: 12px; }
+  .join-link { padding: 16px 26px; font-size: 1rem; line-height: 1.25; white-space: normal; text-align: center; }
+  .join-link-hint { font-size: 0.86rem; line-height: 1.45; color: rgba(246,236,250,0.8); text-align: center; }
 
   /* На широком экране строки обеих карточек идут по общей сетке:
      метка, заголовок, список и плашка выравниваются друг с другом,
@@ -737,6 +741,8 @@
   .pd-card.pd-brk { background: repeating-linear-gradient(135deg, rgba(255,119,184,0.10) 0 14px, rgba(255,119,184,0.03) 14px 28px), rgba(24,10,44,0.96); }
   .pd-card.pd-brk .pd-time, .pd-card.pd-sec .pd-time { margin-top: 8px; color: var(--pink-2); }
   .pd-card.pd-brk .pd-kind { margin-bottom: 8px; }
+  /* подпись блока (столбец «Регалии» у строки-блока): например, «Венчурная студия «Россельхозбанк»» */
+  .pd-sub { margin-top: 6px; font-size: .86rem; line-height: 1.35; color: var(--muted-light); }
   .pd-ctrl { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; }
   /* без этого быстрые нажатия на стрелки телефон принимает за двойное касание и увеличивает страницу */
   button, .pd-ctrl, .pd-rail { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
@@ -1142,7 +1148,10 @@
           <li data-en="Questions to the speakers in the chat">Вопросы докладчикам в чате</li>
           <li data-en="Join from a computer or a phone">Подключение с компьютера или телефона</li>
         </ul>
-        <p class="join-note"><span data-en="The connection link will be sent to the address given at registration a few days before the congress.">Ссылка на подключение будет направлена на адрес, указанный при регистрации, за несколько дней до конгресса.</span></p>
+        <div class="join-note join-note-link">
+          <a class="btn btn-grad join-link" href="https://meeting.spbguvm.ru/rooms/1vq-jm6-rnu-v1m/join" target="_blank" rel="noopener" data-en="Join the broadcast →">Подключиться к трансляции →</a>
+          <span class="join-link-hint" data-en="The programme starts on 15 October at 9:00 St. Petersburg time">Начало программы 15 октября в 9:00 по времени <span style="white-space:nowrap">Санкт-Петербурга</span></span>
+        </div>
       </div>
 
     </div>
@@ -1200,7 +1209,7 @@
     <div class="sec-head">
       <span class="eyebrow" data-en="Programme">Программа</span>
       <h2 data-en="One day of the congress">Один день конгресса</h2>
-      <p id="progLead" data-en="The final list of speakers and topics is being confirmed. The general structure of the programme is below.">Финальный состав спикеров и темы уточняются — ниже общая структура программы.</p>
+      <p id="progLead" data-en="The general structure of the programme is below. The detailed schedule with times and speakers appears here as soon as it loads.">Ниже общая структура программы. Подробное расписание со временем и докладчиками появится здесь, как только загрузится.</p>
     </div>
     <!-- Программа на барабане. Данные берутся из Google-таблицы (скрипт PROGRAM_CSV внизу страницы).
          Пока таблица не подключена или недоступна, показывается запасной блок ниже. -->
@@ -1236,7 +1245,7 @@
         </ul>
       </div>
     </div>
-    <p class="prog-note" data-en="A detailed programme with the exact schedule and list of speakers will be published later.">Подробная программа с точным расписанием и составом спикеров будет опубликована позднее.</p>
+    <p class="prog-note" data-en="If the schedule does not appear, refresh the page or write to <a href='mailto:conf@reg-vet.ru'>conf@reg-vet.ru</a>.">Если расписание не появилось, обновите страницу или напишите на <a href="mailto:conf@reg-vet.ru">conf@reg-vet.ru</a>.</p>
   </div>
 </section>
 
@@ -1517,11 +1526,11 @@ var SPEAKERS = [
   { photo: 'stekolnikov.jpg', speech: true,
     ru: { n1: 'Стекольников', n2: 'Анатолий Александрович',
           role: 'Профессор, доктор ветеринарных наук, академик РАН',
-          bio:  'Заслуженный деятель науки Российской Федерации, доктор ветеринарных наук, профессор, академик РАН.',
+          bio:  'Профессор кафедры общей, частной и оперативной хирургии СПбГУВМ. Заслуженный деятель науки Российской Федерации, доктор ветеринарных наук, академик РАН.',
           talk: 'Приветственное слово' },
     en: { n1: 'Anatoly Stekolnikov',
           role: 'Professor, Doctor of Veterinary Sciences, Academician of the Russian Academy of Sciences',
-          bio:  'Honoured Scientist of the Russian Federation, Doctor of Veterinary Sciences, Professor, Academician of the Russian Academy of Sciences.',
+          bio:  'Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine. Honoured Scientist of the Russian Federation, Doctor of Veterinary Sciences, Academician of the Russian Academy of Sciences.',
           talk: 'Welcome address' } },
 
   { photo: 'kontsevaya.jpg', speech: true,
@@ -1544,11 +1553,11 @@ var SPEAKERS = [
 
   { photo: 'chernysheva.jpg',
     ru: { n1: 'Чернышева', n2: 'Наталья Дмитриевна',
-          role: 'Управляющий директор по технологическому развитию, АО «Россельхозбанк»',
-          talk: 'Инновации в сельском хозяйстве' },
+          role: 'Управляющий директор по технологическому развитию АПК, АО «Россельхозбанк»',
+          talk: 'Инновации ветеринарной медицины' },
     en: { n1: 'Natalia Chernysheva',
-          role: 'Managing Director for Technology Development, Russian Agricultural Bank (Rosselkhozbank)',
-          talk: 'Innovation in agriculture' } },
+          role: 'Managing Director for Agribusiness Technology Development, Rosselkhozbank',
+          talk: 'Innovations in veterinary medicine' } },
 
   { photo: 'joaquim.jpg',
     ru: { n1: 'Жан Жоаким', n2: 'Dr. Jean Joaquim, DVM, MSc, PhD, LAc',
@@ -1562,35 +1571,41 @@ var SPEAKERS = [
 
   { photo: 'budiariati.jpg',
     ru: { n1: 'Виста Будиариати', n2: 'Dr. Vista Budiariati',
-          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)' },
+          role: 'Доктор ветеринарной медицины, магистр наук, Universitas Gadjah Mada (Индонезия)',
+          talk: 'Опыт использования МСК в личной практике' },
     en: { n1: 'Dr. Vista Budiariati',
-          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)' } },
+          role: 'DVM, MSc, Universitas Gadjah Mada (Indonesia)',
+          talk: 'Experience of using MSCs in my own practice' } },
 
   { photo: 'bokarev.jpg',
     ru: { n1: 'Бокарев', n2: 'Александр Владимирович',
-          role: 'Доцент, доктор ветеринарных наук',
+          role: 'Доцент кафедры общей, частной и оперативной хирургии СПбГУВМ, кандидат ветеринарных наук',
           talk: 'Влияние глюкокортикостероидов на способность тромбоцитов к активации' },
     en: { n1: 'Alexander Bokarev',
-          role: 'Associate Professor, Doctor of Veterinary Sciences',
+          role: 'Associate Professor, PhD in Veterinary Sciences, SPbGUVM',
+          bio:  'Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine; PhD in Veterinary Sciences.',
           talk: 'Effect of glucocorticosteroids on the activation capacity of platelets' } },
 
   { photo: 'nikitin.jpg',
     ru: { n1: 'Никитин', n2: 'Георгий Сергеевич',
-          role: 'Доцент, кандидат ветеринарных наук, СПбГУВМ',
+          role: 'Доцент кафедры генетических и репродуктивных биотехнологий СПбГУВМ, кандидат ветеринарных наук',
           talk: 'Секретом МСК в повышении репродуктивного потенциала коров-доноров' },
     en: { n1: 'Georgy Nikitin',
-          role: 'Associate Professor, PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine',
+          role: 'Associate Professor, PhD in Veterinary Sciences, SPbGUVM',
+          bio:  'Associate Professor, Department of Genetic and Reproductive Biotechnology, St. Petersburg State University of Veterinary Medicine; PhD in Veterinary Sciences.',
           talk: 'MSC secretome for improving the reproductive potential of donor cows' } },
 
   { photo: 'minina.jpg',
     ru: { n1: 'Минина', n2: 'Анастасия Олеговна',
           role: 'Кандидат ветеринарных наук, доцент кафедры общей, частной и оперативной хирургии СПбГУВМ',
           talk: ['Исследование регенеративной эффективности секретома МСК при стромальных повреждениях роговицы',
-                'Влияние глюкокортикостероидов на способность тромбоцитов к активации'] },
+                'Влияние глюкокортикостероидов на способность тромбоцитов к активации',
+                'Разработка ранозаживляющей пленки на основе коллагеновой матрицы и секретома мезенхимальных стволовых клеток, индуцированных в фибробласты'] },
     en: { n1: 'Anastasia Minina',
           role: 'PhD in Veterinary Sciences, Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine',
           talk: ['Regenerative efficacy of the MSC secretome in corneal stromal injuries',
-                'Effect of glucocorticosteroids on the activation capacity of platelets'] } },
+                'Effect of glucocorticosteroids on the activation capacity of platelets',
+                'Development of a wound-healing film based on a collagen matrix and the secretome of mesenchymal stem cells induced into fibroblasts'] } },
 
   { photo: 'shamis.jpg',
     ru: { n1: 'Шамис', n2: 'Эдуард Михайлович',
@@ -1642,10 +1657,11 @@ var SPEAKERS = [
 
   { photo: 'narusbaeva.jpg',
     ru: { n1: 'Нарусбаева', n2: 'Марина Александровна',
-          role: 'Доцент, кандидат ветеринарных наук, СПбГУВМ',
+          role: 'Доцент кафедры общей, частной и оперативной хирургии СПбГУВМ, кандидат ветеринарных наук',
           talk: 'Лечение хронического тендинита у лошадей' },
     en: { n1: 'Marina Narusbaeva',
-          role: 'Associate Professor, PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine',
+          role: 'Associate Professor, PhD in Veterinary Sciences, SPbGUVM',
+          bio:  'Associate Professor, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine; PhD in Veterinary Sciences.',
           talk: 'Treatment of chronic tendinitis in horses' } },
 
   { photo: 'martseva.jpg',
@@ -1660,57 +1676,64 @@ var SPEAKERS = [
 
   { photo: 'soroka.jpg',
     ru: { n1: 'Сорока', n2: 'Виталий Александрович',
-          role: 'Кандидат ветеринарных наук, СПбГУВМ',
+          role: 'Ассистент кафедры общей, частной и оперативной хирургии СПбГУВМ, кандидат ветеринарных наук',
           talk: 'Применение Регинокс дентал вет при патологиях слизистой оболочки ротовой полости у животных' },
     en: { n1: 'Vitaly Soroka',
-          role: 'PhD in Veterinary Sciences, St. Petersburg State University of Veterinary Medicine',
+          role: 'Assistant, PhD in Veterinary Sciences, SPbGUVM',
+          bio:  'Assistant, Department of General, Special and Operative Surgery, St. Petersburg State University of Veterinary Medicine; PhD in Veterinary Sciences.',
           talk: 'Reginox Dental Vet for pathologies of the oral mucosa in animals' } },
 
   { photo: 'shelamova.jpg',
     ru: { n1: 'Шеламова', n2: 'Анна Георгиевна',
-          role: 'Главный врач ветеринарной клиники «Добрый доктор», Пермь' },
+          role: 'Главный врач и директор ветеринарной клиники ООО «Добрый доктор», Пермь',
+          talk: 'Разработка протоколов лечения МСК' },
     en: { n1: 'Anna Shelamova',
-          role: 'Chief Veterinarian, Dobry Doktor Veterinary Clinic, Perm' } },
+          role: 'Chief Veterinarian and Director, Dobry Doktor Veterinary Clinic LLC, Perm',
+          talk: 'Developing MSC treatment protocols' } },
 
   { photo: 'iskenderova.jpg',
     ru: { n1: 'Искендерова', n2: 'Надежда Эльдаровна',
-          role: 'Санкт-Петербург',
+          role: 'Ведущий специалист отдела продвижения ООО «Элайя-Мед», Санкт-Петербург',
           talk: 'Разработка активного регенеративного иммунного компонента (АРИК) для конструирования комбовакцин на примере антирабической вакцины' },
     en: { n1: 'Nadezhda Iskenderova',
-          role: 'St. Petersburg',
+          role: 'Lead specialist, Promotion Department, Elaya-Med LLC, St. Petersburg',
           talk: 'Development of an active regenerative immune component (ARIC) for designing combination vaccines: the rabies vaccine case' } },
 
   { photo: 'trifonova.jpg',
     ru: { n1: 'Трифонова', n2: 'Анна Валериевна',
           role: 'Кандидат биологических наук, директор по науке «Элайя-Мед»',
-          talk: 'Современные перспективы и направления развития регенеративной медицины в гуманной и ветеринарной медицине' },
+          talk: 'Современные перспективы и направления развития регенеративной медицины в гуманной и ветеринарной медицине (скаффолды)' },
     en: { n1: 'Anna Trifonova',
           role: 'PhD in Biology, Director of Science, Elaya-Med',
-          talk: 'Current prospects and directions of regenerative medicine in human and veterinary medicine' } },
+          talk: 'Current prospects and directions of regenerative medicine in human and veterinary medicine (scaffolds)' } },
 
   { photo: 'ali.jpg',
     ru: { n1: 'Али', n2: 'Сабина Гульзаровна',
-          role: 'Кандидат биологических наук',
+          role: 'Начальник лаборатории клеточных технологий ООО «Стэм Реновацио», кандидат биологических наук',
+          bio:  'Начальник научно-производственной лаборатории клеточных технологий ООО «Стэм Реновацио», кандидат биологических наук.',
           talk: 'Клеточная терапия - проблематика, история и современное состояние дел' },
     en: { n1: 'Sabina Ali',
-          role: 'PhD in Biology',
+          role: 'Head of the Cell Technologies Laboratory, Stem Renovatio LLC; PhD in Biology',
+          bio:  'Head of the Scientific and Production Laboratory of Cell Technologies, Stem Renovatio LLC; PhD in Biology.',
           talk: 'Cell therapy: challenges, history and current state' } },
 
   { photo: 'kozhina.jpg',
     ru: { n1: 'Кожина', n2: 'Полина Артемовна',
-          role: 'Ветеринарный врач, научный сотрудник',
-          talk: 'Применение МСК для сохранения и повышения качества спермы КРС' },
+          role: 'Ветеринарный врач-консультант ООО «Стэм Реновацио», научный сотрудник',
+          talk: ['Применение МСК для сохранения и повышения качества спермы КРС',
+                'Кормовая добавка Регинокс-К на основе секретома стволовых клеток'] },
     en: { n1: 'Polina Kozhina',
-          role: 'Veterinarian, research fellow',
-          talk: 'Using MSCs to preserve and improve the quality of cattle semen' } },
+          role: 'Veterinary consultant, Stem Renovatio LLC; research fellow',
+          talk: ['Using MSCs to preserve and improve the quality of cattle semen',
+                'Reginox-K feed additive based on the stem cell secretome'] } },
 
   { photo: 'joy.jpg',
     ru: { n1: 'Джой', n2: 'Иван Юрьевич',
           role: 'Interim-партнер, кандидат сельскохозяйственных наук',
-          talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект' },
+          talk: 'Экономика регенеративной терапии: как клинике и хозяйству посчитать эффект до закупки' },
     en: { n1: 'Ivan Joy',
           role: 'Interim Partner, PhD in Agricultural Sciences',
-          talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect' } }
+          talk: 'The economics of regenerative therapy: how a clinic or a farm can estimate the effect before purchase' } }
 ];
 
 (function speakersCarousel() {
@@ -2346,17 +2369,24 @@ var PAGE_META = {
    Ссылка ниже берет из нее первый лист в формате CSV.
 
    ВАЖНО: у таблицы должен быть доступ «Всем, у кого есть ссылка - Читатель».
-   Если доступ закрыть, программа на сайте перестанет обновляться и
-   останется запасной блок.
+   Если доступ закрыть, программа на сайте перестанет обновляться: сайт покажет
+   снимок program-snapshot.csv (копию программы на дату публикации).
 
    На сайт попадают только строки, где в столбце «Публиковать» стоит «да».
-   Если таблица недоступна, показывается запасной блок из index.html -
-   страница не ломается никогда.
+   Если таблица недоступна, показывается снимок program-snapshot.csv, а если нет
+   и его - запасной блок из index.html. Страница не ломается никогда.
+
+   Столбцы: Время (09.00-09.10), Тип (доклад, приветствие, спонсор, перерыв),
+   Спикер, Регалии (в карточке не показываются, кроме подписи блока), Тема,
+   Публиковать. Блок без типа и без темы (например, «Презентация стартапов»)
+   выводится заголовком: название - в «Спикер», подпись - в «Регалии».
 
    Чтобы сменить таблицу: подставьте в ссылку ниже новый идентификатор
    файла (длинный код между /d/ и /export в адресе таблицы).
    ====================================================================== */
 var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0gdqfssvzuMJ/export?format=csv';
+// копия опубликованных строк на случай, если таблица недоступна (подробнее - у вызова fetchText ниже)
+var PROGRAM_SNAPSHOT = 'program-snapshot.csv';
 
 (function renderProgram() {
   if (!PROGRAM_CSV) return;
@@ -2425,6 +2455,7 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
         html += '<div class="pd-card pd-' + it.type + '" data-i="' + i + '" style="' + style + '">' + now + '<div>' +
           (it.type === 'brk' ? '<div class="pd-kind">' + T.brk + '</div>' : '') +
           '<div class="pd-t">' + esc(it.title) + '</div>' +
+          (it.sub ? '<div class="pd-sub">' + esc(it.sub) + '</div>' : '') +
           (it.time ? '<div class="pd-time">' + esc(it.time) + '</div>' : '') +
           '</div></div>';
       } else {
@@ -2601,9 +2632,8 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
     setInterval(function () { if (nowIndex() !== nowI) build(); }, 60000);
   }
 
-  fetch(PROGRAM_CSV, { cache: 'no-store' })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
-    .then(function (text) {
+  // разбираем CSV и показываем барабан: сначала для живой таблицы, при сбое - для снимка (см. ниже)
+  function show(text) {
       var rows = parseCSV(text);
       // ищем строку заголовков
       var head = -1;
@@ -2613,7 +2643,7 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       if (head < 0) throw new Error('нет строки заголовков');
       var cols = rows[head].map(function (c) { return c.trim(); });
       var idx = function (n) { return cols.indexOf(n); };
-      var iTime = idx('Время'), iKind = idx('Тип'), iName = idx('Спикер'),
+      var iTime = idx('Время'), iKind = idx('Тип'), iName = idx('Спикер'), iReg = idx('Регалии'),
           iTopic = idx('Тема'), iPub = idx('Публиковать');
 
       var list = [];
@@ -2631,7 +2661,9 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
                  : kind === 'приветствие' ? 'hello'
                  : kind === 'спонсор' ? 'partner'
                  : (kind === 'доклад' || topic) ? 'talk' : 'sec';
-        list.push({ type: type, names: name ? [name] : [], topic: topic, time: time, title: name || topic });
+        // у блока (перерыв, презентация стартапов) в столбце «Регалии» можно дать подпись под названием
+        list.push({ type: type, names: name ? [name] : [], topic: topic, time: time, title: name || topic,
+                    sub: (type === 'brk' || type === 'sec') ? clean(get(iReg)) : '' });
       }
       if (!list.length) throw new Error('нет строк со значением «да»');
 
@@ -2664,12 +2696,34 @@ var PROGRAM_CSV = 'https://docs.google.com/spreadsheets/d/15aE8yqX_AjDyn6fpEWjE0
       var lead = document.getElementById('progLead');
       if (lead) lead.hidden = true;
       window.setLangText && setLangText(document.querySelector('.prog-note'),
-        'Программа дополняется по мере подтверждения докладов. Актуальная версия всегда на этой странице.',
-        'The programme is updated as talks are confirmed. This page always shows the current version.');
+        'Время указано по Санкт-Петербургу (МСК). Если в программе что-то изменится, актуальная версия будет на этой странице.',
+        'Times are St. Petersburg time (Moscow time, UTC+3). If anything changes, the current version will be on this page.');
+  }
+
+  // текст ответа с ограничением по времени: если Google не отвечает, не ждем минуту до сдачи
+  function fetchText(url, ms) {
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, ms) : 0;
+    return fetch(url, { cache: 'no-store', signal: ctl ? ctl.signal : undefined }).then(function (r) {
+      clearTimeout(timer);
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    }, function (e) { clearTimeout(timer); throw e; });
+  }
+
+  /* Порядок такой: живая таблица -> снимок program-snapshot.csv (лежит рядом с index.html) -> запасной блок в HTML.
+     Снимок нужен на случай, когда Google недоступен или ограничил запросы (например, в день конгресса много
+     людей открывают страницу сразу). Это копия программы на дату публикации, поэтому после правок в таблице
+     его стоит обновлять. Пока таблица отвечает, снимок не используется. */
+  fetchText(PROGRAM_CSV, 8000)
+    .then(show)
+    .catch(function (e) {
+      if (window.console) console.warn('Программа из таблицы не загрузилась, беру снимок:', e.message);
+      return fetchText(PROGRAM_SNAPSHOT, 8000).then(show);
     })
     .catch(function (e) {
-      // таблица недоступна - молча оставляем запасной блок
-      if (window.console) console.warn('Программа из таблицы не загрузилась:', e.message);
+      // нет ни таблицы, ни снимка - молча оставляем запасной блок
+      if (window.console) console.warn('Программа не загрузилась:', e.message);
     });
 })();
 </script>
