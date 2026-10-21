@@ -197,6 +197,9 @@
     isolation: isolate;
   }
   #cells { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  /* такой же фон из светящихся клеток в других блоках: канвас кладется первым в секцию, содержимое поднимается над ним */
+  canvas.cells-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  #results > .wrap, #gallery > .wrap { position: relative; z-index: 1; }
   .hero-inner {
     position: relative; z-index: 2;
     display: grid;
@@ -444,13 +447,18 @@
 
   /* ---------- ИТОГИ В ЦИФРАХ ---------- */
   #results {
+    --hg: 78px;
     position: relative; overflow: hidden; color: var(--text-light);
-    padding: 76px 0 84px;
-    /* свечение не касается верхней и нижней границ блока, поэтому стыки с соседними блоками без полос */
+    padding: 77px 0 84px; margin-top: -1px;   /* минус 1px: на дробных размерах экрана на стыке не проглядывает светлая полоса */
+    /* слева вверху продолжается фиолетовое свечение из нижней части первого экрана (там такое же, центр на --hg выше стыка),
+       поэтому первый экран переходит в итоги без ступеньки; справа свечение не касается границ блока */
     background:
+      radial-gradient(900px 640px at 8% calc(var(--hg) * -1), rgba(75,29,110,0.55), transparent 62%),
       radial-gradient(640px 300px at 88% 50%, rgba(232,75,156,0.14), transparent 62%),
       linear-gradient(180deg, #12071f 0%, #1a0a30 100%);
   }
+  @media (max-width: 900px) { #results { --hg: 120px; } }
+  @media (max-width: 520px) { #results { --hg: 130px; } }
   #results .sec-head { margin-bottom: 40px; max-width: 760px; }
   #results .sec-head .eyebrow { color: var(--pink-2); }
   #results h2 { color: #fff; }
@@ -484,7 +492,7 @@
   /* ---------- ФОТООТЧЕТ: «колония клеток» ---------- */
   #gallery {
     position: relative; overflow: hidden; color: var(--text-light);
-    padding: 92px 0 84px;
+    padding: 93px 0 84px; margin-top: -1px;
     background:
       radial-gradient(900px 520px at 90% 30%, rgba(232,75,156,0.18), transparent 62%),
       radial-gradient(800px 560px at 0% 70%, rgba(75,29,110,0.55), transparent 62%),
@@ -1243,6 +1251,7 @@
 </header>
 
 <section id="results" aria-labelledby="resTitle">
+  <canvas class="cells-bg" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow" data-en="Results">Итоги</span>
@@ -1261,6 +1270,7 @@
 </section>
 
 <section id="gallery" aria-labelledby="galTitle">
+  <canvas class="cells-bg" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="g-head">
       <div class="sec-head">
@@ -3219,6 +3229,131 @@ var PROGRAM_SNAPSHOT = 'program-snapshot.csv';
   } else {
     start();
   }
+})();
+</script>
+
+<script>
+/* ======================================================================
+   ФОН ИЗ СВЕТЯЩИХСЯ КЛЕТОК В БЛОКАХ «ИТОГИ» И «ФОТООТЧЕТ»
+   ----------------------------------------------------------------------
+   Те же клетки, что плывут вверх на первом экране (скрипт выше): такие же
+   цвета, размеры и скорость. Чтобы включить такой фон в другом блоке,
+   добавьте первой строкой внутрь секции
+   <canvas class="cells-bg" aria-hidden="true"></canvas>
+   и сделайте секции position: relative; overflow: hidden - остальное сделает скрипт.
+   Анимация идет, только пока блок виден на экране. Если в системе включено
+   «уменьшение движения», остаются неподвижные точки.
+   ====================================================================== */
+(function sectionCells() {
+  var canvases = document.querySelectorAll('canvas.cells-bg');
+  if (!canvases.length) return;
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var COLORS = [[232, 75, 156], [255, 119, 184], [194, 37, 143], [155, 90, 200]];   // те же четыре цвета, что в hero
+  var TAU = Math.PI * 2;
+
+  // свечение каждого цвета рисуем один раз, дальше только масштабируем
+  var sprites = COLORS.map(function (c) {
+    var s = document.createElement('canvas');
+    s.width = s.height = 64;
+    var g = s.getContext('2d');
+    var gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, 'rgba(' + c.join(',') + ',1)');
+    gr.addColorStop(1, 'rgba(' + c.join(',') + ',0)');
+    g.fillStyle = gr;
+    g.fillRect(0, 0, 64, 64);
+    return s;
+  });
+
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function particle(W, H) {
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      r: rnd(0.8, 3.4), c: (Math.random() * COLORS.length) | 0, a: rnd(0.12, 0.62),
+      vy: rnd(0.05, 0.30), vx: rnd(-0.09, 0.09), sw: Math.random() * TAU
+    };
+  }
+
+  function Field(cv) {
+    this.cv = cv; this.host = cv.parentElement; this.ctx = cv.getContext('2d');
+    this.W = 0; this.H = 0; this.p = []; this.on = false;
+  }
+  // подгоняет канвас под размер блока; клетки остаются на своих местах (масштабируются), число подбирается по площади
+  Field.prototype.fit = function () {
+    var W = this.host.offsetWidth, H = this.host.offsetHeight;
+    if (!W || !H || (W === this.W && H === this.H)) return;
+    var kx = this.W ? W / this.W : 1, ky = this.H ? H / this.H : 1;
+    this.W = W; this.H = H;
+    this.cv.width = W; this.cv.height = H;
+    this.cv.style.width = W + 'px'; this.cv.style.height = H + 'px';
+    var n = Math.max(14, Math.min(110, Math.round(W * H / (W < 700 ? 26000 : 17000))));
+    var p = this.p, i;
+    for (i = 0; i < p.length; i++) { p[i].x *= kx; p[i].y *= ky; }
+    while (p.length < n) p.push(particle(W, H));
+    if (p.length > n) p.length = n;
+    this.paint(reduce);
+  };
+  Field.prototype.paint = function (still) {
+    var ctx = this.ctx, p = this.p;
+    ctx.clearRect(0, 0, this.W, this.H);
+    for (var i = 0; i < p.length; i++) {
+      var q = p[i];
+      if (still) {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = 'rgba(' + COLORS[q.c].join(',') + ',' + q.a + ')';
+        ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, TAU); ctx.fill();
+      } else {
+        var R = q.r * 4;
+        ctx.globalAlpha = q.a;
+        ctx.drawImage(sprites[q.c], q.x - R, q.y - R, R * 2, R * 2);
+      }
+    }
+    ctx.globalAlpha = 1;
+  };
+  Field.prototype.step = function () {
+    var p = this.p, W = this.W, H = this.H;
+    for (var i = 0; i < p.length; i++) {
+      var q = p[i];
+      q.sw += 0.01;
+      q.y -= q.vy;
+      q.x += q.vx + Math.sin(q.sw) * 0.15;
+      if (q.y < -10) { q.y = H + 10; q.x = Math.random() * W; }
+      if (q.x < -10) q.x = W + 10;
+      if (q.x > W + 10) q.x = -10;
+    }
+  };
+
+  var fields = [], raf = 0;
+  function frame() {
+    raf = 0;
+    var live = false;
+    for (var i = 0; i < fields.length; i++) {
+      var f = fields[i];
+      if (!f.on) continue;
+      f.step(); f.paint(false); live = true;
+    }
+    if (live) raf = requestAnimationFrame(frame);
+  }
+  function wake() { if (!raf && !reduce) raf = requestAnimationFrame(frame); }
+
+  Array.prototype.forEach.call(canvases, function (cv) {
+    var ctx = null;
+    try { ctx = cv.getContext && cv.getContext('2d'); } catch (e) { ctx = null; }
+    if (!ctx) return;
+    var f = new Field(cv);
+    fields.push(f);
+    f.fit();
+    if (window.ResizeObserver) new ResizeObserver(function () { f.fit(); }).observe(f.host);
+    if (reduce) return;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        f.on = es[0].isIntersecting;
+        if (f.on) wake();
+      }, { rootMargin: '80px 0px' }).observe(f.host);
+    } else {
+      f.on = true; wake();
+    }
+  });
+  window.addEventListener('resize', function () { fields.forEach(function (f) { f.fit(); }); });
 })();
 </script>
 
