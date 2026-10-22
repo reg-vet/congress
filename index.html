@@ -463,30 +463,38 @@
   #results .sec-head .eyebrow { color: var(--pink-2); }
   #results h2 { color: #fff; }
   #results .sec-head p { color: var(--muted-light); text-wrap: balance; }
-  .res-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  /* сетка рассчитана на 6 карточек: в один ряд на широком экране, по три на планшете, по две на телефоне;
+     если карточек станет другое число, поправьте grid-template-columns, иначе в последнем ряду останется пустое место */
+  .res-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
   .res-card {
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; gap: 12px;
-    padding: 28px 22px 24px; border-radius: 22px;
+    padding: 26px 20px 22px; border-radius: 22px;
     background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
     border: 1px solid rgba(255,255,255,0.10);
   }
   .res-card::before {
-    content: ""; position: absolute; right: -28px; top: -28px; width: 96px; height: 96px; border-radius: 50%;
+    content: ""; position: absolute; right: -26px; top: -26px; width: 84px; height: 84px; border-radius: 50%;
     background: radial-gradient(circle at 35% 30%, rgba(255,119,184,0.50), rgba(194,37,143,0.14) 62%, transparent 70%);
   }
   .res-num {
-    font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 3.6vw, 2.9rem);
+    position: relative; z-index: 1;   /* число и подпись поверх декоративного круга в углу карточки */
+    font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 3.4vw, 2.7rem);
     line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
     background: linear-gradient(90deg, #ffb0d6, #ff77b8 45%, #d24a9e);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .res-lbl { font-size: 0.92rem; color: var(--muted-light); line-height: 1.35; }
-  @media (max-width: 900px) { .res-grid { grid-template-columns: repeat(3, 1fr); } }
+  .res-lbl { position: relative; z-index: 1; font-size: 0.9rem; color: var(--muted-light); line-height: 1.35; }
+  @media (max-width: 1099px) {
+    .res-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .res-card { padding: 28px 22px 24px; }
+    .res-card::before { right: -28px; top: -28px; width: 96px; height: 96px; }
+    .res-num { font-size: clamp(2.2rem, 5vw, 2.9rem); }
+    .res-lbl { font-size: 0.92rem; }
+  }
   @media (max-width: 600px) {
     .res-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .res-card { padding: 22px 18px 20px; }
-    .res-card:last-child { grid-column: 1 / -1; }
   }
 
   /* ---------- ФОТООТЧЕТ: «колония клеток» ---------- */
@@ -1256,15 +1264,16 @@
     <div class="sec-head">
       <span class="eyebrow" data-en="Results">Итоги</span>
       <h2 id="resTitle" data-en="The congress in numbers">Конгресс в цифрах</h2>
-      <p data-en="All the scheduled talks took place. Participants joined from all over Russia, in person and online.">Все заявленные доклады состоялись. Участники присоединились со всей России, очно и онлайн.</p>
+      <p data-en="All the scheduled talks took place. Participants joined from all over Russia and from other countries, in person and online.">Все заявленные доклады состоялись. Участники присоединились со всей России и из других стран, очно и онлайн.</p>
     </div>
     <!-- Числа считаются от нуля, когда блок попадает в экран. Меняйте data-to (число) и data-suffix (например +) -->
     <div class="res-grid">
       <div class="res-card"><b class="res-num" data-to="34">34</b><span class="res-lbl" data-en="speakers">спикера</span></div>
       <div class="res-card"><b class="res-num" data-to="30">30</b><span class="res-lbl" data-en="talks">докладов</span></div>
-      <div class="res-card"><b class="res-num" data-to="30" data-suffix="+">30+</b><span class="res-lbl" data-en="regions of Russia">регионов России</span></div>
-      <div class="res-card"><b class="res-num" data-to="10" data-suffix="+">10+</b><span class="res-lbl" data-en="universities">вузов</span></div>
-      <div class="res-card"><b class="res-num" data-to="15" data-suffix="+">15+</b><span class="res-lbl" data-en="veterinary authorities and clinics">ветуправлений и ветеринарных клиник</span></div>
+      <div class="res-card"><b class="res-num" data-to="35" data-suffix="+">35+</b><span class="res-lbl" data-en="regions of Russia">регионов России</span></div>
+      <div class="res-card"><b class="res-num" data-to="15" data-suffix="+">15+</b><span class="res-lbl" data-en="universities">вузов</span></div>
+      <div class="res-card"><b class="res-num" data-to="40" data-suffix="+">40+</b><span class="res-lbl" data-en="veterinary authorities and clinics">ветуправлений и ветклиник</span></div>
+      <div class="res-card"><b class="res-num" data-to="5">5</b><span class="res-lbl" data-en="countries">стран</span></div>
     </div>
   </div>
 </section>
